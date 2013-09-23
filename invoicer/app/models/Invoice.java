@@ -26,11 +26,15 @@ public class Invoice extends Model {
 	
 	public boolean isPaid = false;
 	
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	public User owner;
+	
 	// Finder object
 	public static Model.Finder<Long, Invoice> find = new Model.Finder<Long, Invoice>(Long.class, Invoice.class);
 	
-	public Invoice(String title) {
+	public Invoice(String title, User owner) {
 		this.title = title;
+		this.owner = owner;
 	}
 	
 	public static List<Invoice> all() {
