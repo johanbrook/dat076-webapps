@@ -1,7 +1,15 @@
-@(message: String)
+@(invoices: List[Invoice])
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
+@main("Invoices") {
+
+	<h1>@invoices.size() invoices</h1>
+	
+	<ul>
+		@for(invoice <- invoices) {
+			<li>
+				@invoice.id
+			</li>
+		}
+	</ul>
     
 }
