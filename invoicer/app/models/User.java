@@ -12,6 +12,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.avaje.ebean.annotation.PrivateOwned;
+
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import scala.collection.parallel.ParIterableLike.Find;
@@ -26,7 +28,8 @@ public class User extends Model {
 	@Required
 	public String password;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy="owner")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner", orphanRemoval=true)
+	@PrivateOwned // Needed for real orphan removal to work
 	public List<Invoice> invoices = new ArrayList<Invoice>();
 	
 	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
@@ -42,10 +45,6 @@ public class User extends Model {
 	
 	public static void create(User user) {
 		user.save();
-	}
-	
-	public static void delete(Long id) {
-		find.ref(id).delete();
 	}
 	
 	public static void update(Long id, User user) {

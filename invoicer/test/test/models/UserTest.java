@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import models.Invoice;
 import models.User;
 
 import org.junit.*;
@@ -24,19 +25,22 @@ import play.test.WithApplication;
 import static play.test.Helpers.*;
 
 public class UserTest extends WithApplication {
+	
+	private User user;
 
 	@Before
 	public void setUp() throws Exception {
 		start(fakeApplication(inMemoryDatabase()));
 		Ebean.save((List) Yaml.load("test-data.yml"));
+		
+		this.user = User.find.where().eq("login", "johndoe").findUnique();
 	}
 	
 
 	@Test
 	public void testRetrieveUser() {
-		User john = User.find.where().eq("login", "johndoe").findUnique();
-		assertNotNull(john);
-		assertEquals("johndoe", john.login);
+		assertNotNull(this.user);
+		assertEquals("johndoe", this.user.login);
 	}
 	
 	@Test
@@ -49,11 +53,29 @@ public class UserTest extends WithApplication {
 	
 	@Test
 	public void testDeleteUser() {
-		Long id = User.find.where().eq("login", "johndoe").findUnique().id;
-		User.delete(id);
+		this.user.delete();
 		
 		User john = User.find.where().eq("login", "johndoe").findUnique();
 		assertNull(john);
+	}
+	
+	@Test
+	public void testUserHasInvoice() {
+		assertNotNull(this.user.invoices);
+		assertEquals(1, this.user.invoices.size());
+		assertEquals("Test invoice", this.user.invoices.get(0).title);
+	}
+	
+	/**
+	 * Deleting a User should also delete the User's Invoices.
+	 */
+	@Test
+	public void testDeleteUserShouldDeleteInvoices() {
+		this.user.delete();
+		
+		assertNull( Invoice.find.where().eq("title", "Test invoice").findUnique() );
+		assertNull( Invoice.find.where().eq("owner_id", this.user.id).findUnique() );
+		
 	}
 	
 	@Test
