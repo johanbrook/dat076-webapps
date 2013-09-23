@@ -1,0 +1,22 @@
+@(invoices: List[Invoice], addForm: Form[Invoice])
+@import helper._
+
+@main("Invoices") {
+
+	<h1>@invoices.size() invoices</h1>
+	
+	<ul>
+		@for(invoice <- invoices) {
+			<li>
+				@invoice.title
+			</li>
+		}
+	</ul>
+	
+	@form(routes.Invoices.create()) {
+		@inputText(addForm("title"))
+		
+		<input type="submit" value="Create invoice" />
+	}
+    
+}
