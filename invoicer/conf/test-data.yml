@@ -1,0 +1,12 @@
+# Users
+
+- &john !!models.User
+  login: johndoe
+  password: secret
+
+# Invoices
+
+- !!models.Invoice
+    title: Test invoice
+    owner: *john
+    dueDate: 2013-09-30
