@@ -1,0 +1,6 @@
+# Invoices
+
+- !!models.Invoice
+    title: Johan
+- !!models.Invoice
+    title: Anders
