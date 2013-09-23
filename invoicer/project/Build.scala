@@ -5,7 +5,7 @@ import play.Project._
 object ApplicationBuild extends Build {
 
   val appName         = "invoicer"
-  val appVersion      = "1.0-SNAPSHOT"
+  val appVersion      = "0.1"
 
   val appDependencies = Seq(
     // Add your project dependencies here,
@@ -15,7 +15,8 @@ object ApplicationBuild extends Build {
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+    // Add your own project settings here
+    ebeanEnabled := true
   )
 
 }
