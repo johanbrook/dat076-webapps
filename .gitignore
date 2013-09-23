@@ -1,0 +1,11 @@
+invoicer/.target
+invoicer/target
+invoicer/logs
+invoicer/tmp
+invoicer/project/project
+invoicer/project/target
+
+.DS_Store
+.sass-cache
+
+*.class
