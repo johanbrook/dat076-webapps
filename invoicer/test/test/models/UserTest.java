@@ -45,9 +45,10 @@ public class UserTest extends WithApplication {
 	
 	@Test
 	public void testCreateUser() {
-		User.create(new User("johandoe", "secret"));
-		User johan = User.find.where().eq("login", "johandoe").findUnique();
+		User johan = User.create(new User("johandoe", "secret"));
+		
 		assertNotNull(johan);
+		assertNotNull(johan.id);
 		assertEquals("johandoe", johan.login);
 	}
 	

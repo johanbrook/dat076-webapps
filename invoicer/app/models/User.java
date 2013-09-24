@@ -43,8 +43,9 @@ public class User extends Model {
 		return find.all();
 	}
 	
-	public static void create(User user) {
+	public static User create(User user) {
 		user.save();
+		return user;
 	}
 	
 	public static void update(Long id, User user) {
