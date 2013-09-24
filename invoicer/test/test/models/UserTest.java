@@ -24,15 +24,13 @@ import play.libs.Yaml;
 import play.test.WithApplication;
 import static play.test.Helpers.*;
 
-public class UserTest extends WithApplication {
+public class UserTest extends BaseModelTest {
 	
 	private User user;
 
 	@Before
 	public void setUp() throws Exception {
-		start(fakeApplication(inMemoryDatabase()));
-		Ebean.save((List) Yaml.load("test-data.yml"));
-		
+		 
 		this.user = User.find.where().eq("login", "johndoe").findUnique();
 	}
 	
