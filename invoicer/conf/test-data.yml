@@ -10,3 +10,14 @@
     title: Test invoice
     owner: *john
     dueDate: 2013-09-30
+    
+- !!models.Invoice
+   title: Invoice was paid on time
+   dueDate: 2013-09-30
+   datePaid: 2013-09-28
+   
+- !!models.Invoice
+   title: Invoice was not paid on time
+   owner: *john
+   dueDate: 2013-09-30
+   datePaid: 2013-10-02

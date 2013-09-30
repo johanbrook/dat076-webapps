@@ -6,10 +6,9 @@
 create table invoice (
   id                        bigint not null,
   title                     varchar(255),
-  invoice_date              timestamp,
+  invoice_date              timestamp not null,
   due_date                  timestamp,
   date_paid                 timestamp,
-  is_paid                   boolean,
   owner_id                  bigint,
   constraint pk_invoice primary key (id))
 ;
