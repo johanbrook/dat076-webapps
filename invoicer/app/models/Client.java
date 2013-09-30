@@ -1,12 +1,21 @@
+/**
+*	Client.java
+*
+*	@author Andreas Rolén
+*	@copyright (c) 2013 Andreas Rolén
+*	@license MIT
+*/
+
 package models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
-
+@Entity
 public class Client extends Model {
 	
 	@Id
