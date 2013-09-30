@@ -5,7 +5,7 @@
 
 	<h1>@invoices.size() invoices</h1>
 	
-	<table border=1>
+	<table id="invoiceTable" class="tablesorter" border=1>
 	<thead>
 		<tr>
 				<th>Invoice title(what exactly is an invoice title btw?)</th> <th>Invoice date</th> <th>Due date</th>
@@ -14,7 +14,7 @@
 	<tbody>
 		@for(invoice <- invoices) {
 			<tr>
-				<th>@invoice.title</th> <th>(@invoice.invoiceDate.format("d MMMM, YYYY"))</th> <th>(@invoice.dueDate.format("d MMMM, YYYY"))</th>
+				<td>@invoice.title</td> <td>(@invoice.invoiceDate.format("d MMMM, YYYY"))</td> <td>(@invoice.dueDate.format("d MMMM, YYYY"))</td>
 			</tr>
 		}
 	</tbody>
