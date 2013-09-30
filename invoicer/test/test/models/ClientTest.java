@@ -1,5 +1,5 @@
 /**
-*	UserTest.java
+*	ClientTest.java
 *
 *	@author Andreas Rolén
 *	@copyright (c) 2013 Andreas Rolén
