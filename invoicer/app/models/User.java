@@ -28,6 +28,11 @@ public class User extends Model {
 	@Required
 	public String password;
 	
+	public String address;
+	public String postalCode;
+	public String Country;
+	public String organizationNumber;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner", orphanRemoval=true)
 	@PrivateOwned // Needed for real orphan removal to work
 	public List<Invoice> invoices = new ArrayList<Invoice>();
@@ -43,7 +48,7 @@ public class User extends Model {
 		return find.all();
 	}
 	
-	public static  User create(String login, String password) {
+	public static User create(String login, String password) {
 		return create(new User(login, password));
 	}
 	

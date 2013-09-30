@@ -17,6 +17,10 @@ create table user (
   id                        bigint not null,
   login                     varchar(255),
   password                  varchar(255),
+  address                   varchar(255),
+  postal_code               varchar(255),
+  country                   varchar(255),
+  organization_number       varchar(255),
   constraint uq_user_login unique (login),
   constraint pk_user primary key (id))
 ;
