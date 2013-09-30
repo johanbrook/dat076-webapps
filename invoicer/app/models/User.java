@@ -43,21 +43,4 @@ public class User extends Model {
 		this.login = login;
 		this.password = password;
 	}
-	
-	public static List<User> all() {
-		return find.all();
-	}
-	
-	public static User create(String login, String password) {
-		return create(new User(login, password));
-	}
-	
-	public static User create(User user) {
-		user.save();
-		return user;
-	}
-	
-	public static void update(Long id, User user) {
-		find.ref(id).update(user);
-	}
 }
