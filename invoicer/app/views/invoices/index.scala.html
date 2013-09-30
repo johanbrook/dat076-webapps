@@ -8,7 +8,7 @@
 	<ul>
 		@for(invoice <- invoices) {
 			<li>
-				
+				@invoice.title (@invoice.invoiceDate.format("d MMMM, YYYY"))
 			</li>
 		}
 	</ul>
