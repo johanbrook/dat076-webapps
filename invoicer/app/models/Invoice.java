@@ -38,7 +38,6 @@ public class Invoice extends Model {
 	@Formats.DateTime(pattern="yyyy-MM-dd")
 	public Date datePaid;
 	
-	@Required
 	@Column(nullable=false)
 	@ManyToOne(cascade = CascadeType.ALL)
 	public User owner;
@@ -66,14 +65,6 @@ public class Invoice extends Model {
 		this(new Date(), owner, client);
 	}
 	
-	public static List<Invoice> all() {
-		return find.all();
-	}
-	
-	public static Invoice create(Invoice invoice) {
-		invoice.save();
-		return invoice;
-	}
 	
 	public boolean wasPaidOnTime() {
 		return this.isPaid() && (this.datePaid.compareTo(this.dueDate) <= 0);

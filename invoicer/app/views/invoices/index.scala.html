@@ -6,20 +6,42 @@
 	<h1>@invoices.size() invoices</h1>
 	
 	<table id="invoiceTable" class="tablesorter" border=1>
+
 	<thead>
 		<tr>
-				<th>Invoice title(what exactly is an invoice title btw?)</th> <th>Invoice date</th> <th>Due date</th>
+				<th>Invoice title
+				<th>Invoice date</th><th>Due date</th>
+				<th>Owner</th>
 		</tr>
 	</thead>
 	<tbody>
 		@for(invoice <- invoices) {
 			<tr>
-				<td>@invoice.title</td> <td>(@invoice.invoiceDate.format("d MMMM, YYYY"))</td> <td>(@invoice.dueDate.format("d MMMM, YYYY"))</td>
+
+				<td>@invoice.title</td>
+				<td>@invoice.invoiceDate.format("d MMMM, YYYY")</td>
+				<td>@invoice.dueDate.format("d MMMM, YYYY")</td>
+				<td>@invoice.owner.login</td>
+
 			</tr>
 		}
 	</tbody>
 	
 	</table>
+	
+	@if(addForm.hasErrors()){
+	<h3>Errors</h3>
+	<ul class="negative">
+		@addForm.errors().map { 
+			case (prop, errors) => {
+			
+			@for(error <- errors) {
+				<li>@prop: @error.message()</li>
+			}
+			}
+		}
+	</ul>
+	}
 	
 	@form(routes.Invoices.create()) {
 		<input type="text" name="title" />
