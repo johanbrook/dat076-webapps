@@ -5,13 +5,21 @@
 
 	<h1>@invoices.size() invoices</h1>
 	
-	<ul>
+	<table border=1>
+	<thead>
+		<tr>
+				<th>Invoice title(what exactly is an invoice title btw?)</th> <th>Invoice date</th> <th>Due date</th>
+		</tr>
+	</thead>
+	<tbody>
 		@for(invoice <- invoices) {
-			<li>
-				@invoice.title (@invoice.invoiceDate.format("d MMMM, YYYY"))
-			</li>
+			<tr>
+				<th>@invoice.title</th> <th>(@invoice.invoiceDate.format("d MMMM, YYYY"))</th> <th>(@invoice.dueDate.format("d MMMM, YYYY"))</th>
+			</tr>
 		}
-	</ul>
+	</tbody>
+	
+	</table>
 	
 	@form(routes.Invoices.create()) {
 		<input type="text" name="title" />
