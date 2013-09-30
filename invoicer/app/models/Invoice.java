@@ -60,10 +60,6 @@ public class Invoice extends Model {
 		this(new Date(), owner);
 	}
 	
-	public static List<Invoice> all() {
-		return find.all();
-	}
-	
 	public static Invoice create(Invoice invoice) {
 		invoice.save();
 		return invoice;
