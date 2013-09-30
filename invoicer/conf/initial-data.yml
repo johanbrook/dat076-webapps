@@ -1,3 +1,21 @@
+# Clients
+
+- &chalmers !!models.Client
+  name: chalmers
+  address: teknologgarden 2
+  postalCode: 41258
+  country: sweden
+  orgNumber: 556479-5598
+  contactPerson: karin markides
+  
+- &pripps !!models.Client
+  name: pripps
+  address: ohldrickargatan 3
+  postalCode: 41337
+  country: sweden
+  orgNumber: 556002-4795
+  contactPerson: johan albrecht pripp
+
 # Users
 
 - &henke !!models.User

@@ -25,6 +25,9 @@ public class Client extends Model {
 	public String name;
 	@Required
 	@Column(nullable=false)
+	public String address;
+	@Required
+	@Column(nullable=false)
 	public String postalCode;
 	@Required
 	@Column(nullable=false)
@@ -36,7 +39,7 @@ public class Client extends Model {
 	@Column(nullable=false)
 	public String contactPerson;
 	
-	public Client(String name, String postalCode, String country, String orgNumber, String contactPerson) {
+	public Client(String name, String address, String postalCode, String country, String orgNumber, String contactPerson) {
 		this.name = name;
 		this.postalCode = postalCode;
 		this.country = country;
@@ -44,8 +47,8 @@ public class Client extends Model {
 		this.contactPerson = contactPerson;
 	}
 	
-	public static Client create(String name, String postalCode, String country, String orgNumber, String contactPerson) {
-		return create(new Client(name, postalCode, country, orgNumber, contactPerson));
+	public static Client create(String name, String address, String postalCode, String country, String orgNumber, String contactPerson) {
+		return create(new Client(name, address, postalCode, country, orgNumber, contactPerson));
 		
 	}
 	
