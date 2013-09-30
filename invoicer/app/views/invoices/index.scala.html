@@ -14,7 +14,9 @@
 	</ul>
 	
 	@form(routes.Invoices.create()) {
-		@inputText(addForm("title"))
+		<input type="text" name="title" />
+		<input type="date" name="invoiceDate" />
+		<input type="date" name="dueDate" />
 		
 		<input type="submit" value="Create invoice" />
 	}
