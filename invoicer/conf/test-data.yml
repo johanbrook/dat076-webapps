@@ -1,3 +1,13 @@
+# Clients
+
+- &chalmers !!models.Client
+  name: chalmers
+  address: teknologgarden 2
+  postalCode: 41258
+  country: sweden
+  orgNumber: 556479-5598
+  contactPerson: karin markides
+
 # Users
 
 - &john !!models.User
