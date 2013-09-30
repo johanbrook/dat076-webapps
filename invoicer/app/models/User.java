@@ -43,7 +43,7 @@ public class User extends Model {
 		return find.all();
 	}
 	
-	public static  User create(String login, String password) {
+	public static User create(String login, String password) {
 		return create(new User(login, password));
 	}
 	
