@@ -30,7 +30,7 @@ public class User extends Model {
 	
 	public String address;
 	public String postalCode;
-	public String Country;
+	public String country;
 	public String organizationNumber;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner", orphanRemoval=true)

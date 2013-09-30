@@ -43,12 +43,35 @@ public class UserTest extends BaseModelTest {
 	}
 	
 	@Test
-	public void testCreateUser() {
-		User johan = User.create(new User("johandoe", "secret"));
+	public void testCreateSimpleUser() {
+		(new User("johandoe", "secret")).save();
+		
+		User johan = User.find.where().eq("login", "johandoe").findUnique();
 		
 		assertNotNull(johan);
 		assertNotNull(johan.id);
 		assertEquals("johandoe", johan.login);
+	}
+	
+	@Test
+	public void testCreateUser() {
+		User johan = new User("johandoe", "secret");
+		johan.address = "Doe Street 43";
+		johan.postalCode = "999999";
+		johan.country = "Sweden";
+		johan.organizationNumber = "999999-9999";
+		johan.save();
+		
+		User dbJohan = User.find.where().eq("login", "johandoe").findUnique(); 
+		
+		assertNotNull(dbJohan);
+		assertNotNull(dbJohan.id);
+		assertEquals(dbJohan.login, "johandoe");
+		assertEquals(dbJohan.address, "Doe Street 43");
+		assertEquals(dbJohan.postalCode, "999999");
+		assertEquals(dbJohan.country, "Sweden");
+		assertEquals(dbJohan.organizationNumber, "999999-9999");
+		
 	}
 	
 	@Test
@@ -61,7 +84,8 @@ public class UserTest extends BaseModelTest {
 	
 	@Test
 	public void testUserHasInvoice() {
-		User userWithOneInvoice = User.create("johnny", "password");
+		User userWithOneInvoice = new User("johnny", "password");
+		userWithOneInvoice.save();
 		Invoice i = Invoice.create(new Invoice());
 		userWithOneInvoice.invoices.add(i);
 		userWithOneInvoice.save();
