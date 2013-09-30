@@ -42,6 +42,11 @@ public class Invoice extends Model {
 	@ManyToOne(cascade = CascadeType.ALL)
 	public User owner;
 	
+	@Required
+	@Column(nullable=false)
+	@ManyToOne(cascade= CascadeType.ALL)
+	public Client client;
+	
 	// Finder object
 	public static Model.Finder<Long, Invoice> find = new Model.Finder<Long, Invoice>(Long.class, Invoice.class);
 	
@@ -50,13 +55,14 @@ public class Invoice extends Model {
 		this.invoiceDate = new Date();
 	}
 	
-	public Invoice(Date invoiceDate, User owner) {
+	public Invoice(Date invoiceDate, User owner, Client client) {
 		this.invoiceDate = invoiceDate;
 		this.owner = owner;
+		this.client = client;
 	}
 
-	public Invoice(User owner) {
-		this(new Date(), owner);
+	public Invoice(User owner, Client client) {
+		this(new Date(), owner, client);
 	}
 	
 	

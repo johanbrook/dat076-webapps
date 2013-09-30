@@ -5,13 +5,26 @@
 
 	<h1>@invoices.size() invoices</h1>
 	
-	<ul>
+	<table>
+	<thead>
+		<tr>
+				<th>Invoice title
+				<th>Invoice date</th><th>Due date</th>
+				<th>Owner</th>
+		</tr>
+	</thead>
+	<tbody>
 		@for(invoice <- invoices) {
-			<li>
-				@invoice.title (@invoice.invoiceDate.format("d MMMM, YYYY"), @invoice.owner.login)
-			</li>
+			<tr>
+				<td>@invoice.title</td>
+				<td>@invoice.invoiceDate.format("d MMMM, YYYY")</td>
+				<td>@invoice.dueDate.format("d MMMM, YYYY")</td>
+				<td>@invoice.owner.login</td>
+			</tr>
 		}
-	</ul>
+	</tbody>
+	
+	</table>
 	
 	@if(addForm.hasErrors()){
 	<h3>Errors</h3>
