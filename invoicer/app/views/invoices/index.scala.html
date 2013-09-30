@@ -11,6 +11,7 @@
 				<th>Invoice title
 				<th>Invoice date</th><th>Due date</th>
 				<th>Owner</th>
+				<th>Client</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -20,6 +21,7 @@
 				<td>@invoice.invoiceDate.format("d MMMM, YYYY")</td>
 				<td>@invoice.dueDate.format("d MMMM, YYYY")</td>
 				<td>@invoice.owner.login</td>
+				<td>@invoice.client.name</td>
 			</tr>
 		}
 	</tbody>
