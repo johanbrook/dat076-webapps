@@ -39,16 +39,13 @@ public class Client extends Model {
 	@Column(nullable=false)
 	public String contactPerson;
 	
-	public Client(String name, String address, String postalCode, String country, String orgNumber, String contactPerson) {
+	public Client(String name, String orgNumber) {
 		this.name = name;
-		this.postalCode = postalCode;
-		this.country = country;
 		this.orgNumber = orgNumber;
-		this.contactPerson = contactPerson;
 	}
 	
-	public static Client create(String name, String address, String postalCode, String country, String orgNumber, String contactPerson) {
-		return create(new Client(name, address, postalCode, country, orgNumber, contactPerson));
+	public static Client create(String name, String orgNumber) {
+		return create(new Client(name, orgNumber));
 		
 	}
 	
