@@ -60,10 +60,6 @@ public class Invoice extends Model {
 		this(new Date(), owner);
 	}
 	
-	public static Invoice create(Invoice invoice) {
-		invoice.save();
-		return invoice;
-	}
 	
 	public boolean wasPaidOnTime() {
 		return this.isPaid() && (this.datePaid.compareTo(this.dueDate) <= 0);
