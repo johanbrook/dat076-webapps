@@ -10,6 +10,7 @@ package test.models;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
 
 import models.Invoice;
@@ -60,9 +61,13 @@ public class UserTest extends BaseModelTest {
 	
 	@Test
 	public void testUserHasInvoice() {
-		assertNotNull(this.user.invoices);
-		assertEquals(1, this.user.invoices.size());
-		assertEquals("Test invoice", this.user.invoices.get(0).title);
+		User userWithOneInvoice = User.create("johnny", "password");
+		Invoice i = Invoice.create(new Invoice());
+		userWithOneInvoice.invoices.add(i);
+		userWithOneInvoice.save();
+		
+		assertNotNull(userWithOneInvoice.invoices);
+		assertEquals(1, userWithOneInvoice.invoices.size());
 	}
 	
 	/**
