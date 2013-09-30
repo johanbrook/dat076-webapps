@@ -67,6 +67,8 @@ public class UserTest extends BaseModelTest {
 		userWithOneInvoice.save();
 		
 		assertNotNull(userWithOneInvoice.invoices);
+		assertNotNull(i.owner);
+		assertEquals(userWithOneInvoice, i.owner);
 		assertEquals(1, userWithOneInvoice.invoices.size());
 	}
 	
