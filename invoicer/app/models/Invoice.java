@@ -38,7 +38,6 @@ public class Invoice extends Model {
 	@Formats.DateTime(pattern="yyyy-MM-dd")
 	public Date datePaid;
 	
-	@Required
 	@Column(nullable=false)
 	@ManyToOne(cascade = CascadeType.ALL)
 	public User owner;
