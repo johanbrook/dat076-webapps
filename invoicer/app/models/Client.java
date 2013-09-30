@@ -25,7 +25,7 @@ public class Client extends Model {
 	private long id;
 	
 	@Required
-	@Column(nullable=false) // Should this use unique=true?
+	@Column(nullable=false) //TODO Should this use unique=true?
 	public String name;
 	
 	@Required

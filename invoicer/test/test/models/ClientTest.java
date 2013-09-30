@@ -1,3 +1,11 @@
+/**
+*	UserTest.java
+*
+*	@author Andreas Rolén
+*	@copyright (c) 2013 Andreas Rolén
+*	@license MIT
+*/
+
 package test.models;
 
 import static org.junit.Assert.*;
@@ -7,13 +15,14 @@ import models.Client;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClientTest {
+
+public class ClientTest extends BaseModelTest {
 
 	private Client client;
 	
 	@Before
 	public void setUp() throws Exception {
-		client = this.client.find.where().eq("orgNumber", "556479-5598").findUnique();
+		client = Client.find.where().eq("orgNumber", "556479-5598").findUnique();
 	}
 
 	@Test
