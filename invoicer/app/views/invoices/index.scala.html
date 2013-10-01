@@ -43,9 +43,16 @@
 	}
 	
 	@form(routes.Invoices.create()) {
-		<input type="text" name="title" />
-		<input type="date" name="invoiceDate" />
-		<input type="date" name="dueDate" />
+		<p><input type="text" name="title" /></p>
+		<p><input type="date" name="invoiceDate" /></p>
+		<p><input type="date" name="dueDate" /></p>
+		
+		@helper.select(
+			addForm("client.id"), 
+			options = Client.find.all().map { c => c.id.toString() -> c.name.toString()},
+			'_label -> "Client" 
+		)
+		
 		
 		<input type="submit" value="Create invoice" />
 	}
