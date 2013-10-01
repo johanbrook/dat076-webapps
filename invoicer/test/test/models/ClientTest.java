@@ -25,6 +25,7 @@ public class ClientTest extends BaseModelTest {
 	@Test
 	public void testCreateClient() {
 		Client carlsberg = new Client("carlsberg", "559823-5523");
+		carlsberg.save();
 		
 		assertNotNull(carlsberg);
 		assertNotNull(carlsberg.id);
