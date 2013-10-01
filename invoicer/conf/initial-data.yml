@@ -1,19 +1,19 @@
 # Users
 
 - &henke !!models.User
-  login: henke
+  username: henke
   password: secret
 
 - &johan !!models.User
-  login: johan
+  username: johan
   password: secret
 
 - &robin !!models.User
-  login: robin
+  username: robin
   password: secret
 
 - &rolen !!models.User
-  login: rolen
+  username: rolen
   password: secret
 
 # Invoices

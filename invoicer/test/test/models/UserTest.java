@@ -39,7 +39,7 @@ public class UserTest extends BaseModelTest {
 	@Test
 	public void testRetrieveUser() {
 		assertNotNull(this.user);
-		assertEquals("johndoe", this.user.login);
+		assertEquals("johndoe", this.user.username);
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class UserTest extends BaseModelTest {
 		
 		assertNotNull(johan);
 		assertNotNull(johan.id);
-		assertEquals("johandoe", johan.login);
+		assertEquals("johandoe", johan.username);
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class UserTest extends BaseModelTest {
 		assertNotNull(dbJohan);
 		assertNotNull(dbJohan.id);
 		assertEquals(dbJohan.name, "Johan Doe");
-		assertEquals(dbJohan.login, "johandoe");
+		assertEquals(dbJohan.username, "johandoe");
 		assertEquals(dbJohan.address, "Doe Street 43");
 		assertEquals(dbJohan.postalCode, "999999");
 		assertEquals(dbJohan.country, "Sweden");

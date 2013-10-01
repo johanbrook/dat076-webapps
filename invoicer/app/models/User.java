@@ -26,7 +26,7 @@ public class User extends Model {
 	@Id
 	public Long id;
 	@Required @Column(unique=true) @NotNull
-	public String login;
+	public String username;
 	@Required @NotNull
 	public String password;
 	
