@@ -14,13 +14,10 @@ import javax.persistence.*;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
-import play.db.ebean.Model;
 
 @Entity
-public class Invoice extends Model {
+public class Invoice extends AbstractModel {
 	
-	@Id
-	public Long id;
 	public String title;
 	
 	@Required
@@ -48,7 +45,7 @@ public class Invoice extends Model {
 	public Client client;
 	
 	// Finder object
-	public static Model.Finder<Long, Invoice> find = new Model.Finder<Long, Invoice>(Long.class, Invoice.class);
+	public static Finder<Long, Invoice> find = new Finder<Long, Invoice>(Long.class, Invoice.class);
 	
 	public Invoice() {
 		// Default constructor

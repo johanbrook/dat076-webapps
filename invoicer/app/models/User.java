@@ -13,16 +13,11 @@ import java.util.*;
 import javax.persistence.*;
 
 import com.avaje.ebean.annotation.PrivateOwned;
-
 import play.data.validation.Constraints.Required;
-import play.db.ebean.Model;
-import scala.collection.parallel.ParIterableLike.Find;
 
 @Entity
-public class User extends Model {
+public class User extends AbstractModel {
 	
-	@Id
-	public Long id;
 	@Required @Column(unique=true)
 	public String login;
 	@Required

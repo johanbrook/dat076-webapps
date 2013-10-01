@@ -8,21 +8,14 @@
 
 package models;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
-import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
 @Entity
-public class Client extends Model {
-	
-	@Id
-	private long id;
+public class Client extends AbstractModel {
 	
 	@Required
 	@Column(nullable=false) //TODO Should this use unique=true?
@@ -49,15 +42,10 @@ public class Client extends Model {
 	public String contactPerson;
 	
 	public static Finder<Long, Client> find = new Finder<Long, Client>(Long.class, Client.class);
-
 	
 	public Client(String name, String orgNumber) {
 		this.name = name;
 		this.orgNumber = orgNumber;
-	}
-	
-	public Long getId() {
-		return this.id;
 	}
 
 }
