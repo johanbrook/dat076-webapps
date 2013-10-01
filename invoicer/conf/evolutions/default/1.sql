@@ -15,8 +15,8 @@ create table invoice (
 
 create table user (
   id                        bigint not null,
-  login                     varchar(255),
-  password                  varchar(255),
+  login                     varchar(255) not null,
+  password                  varchar(255) not null,
   name                      varchar(255),
   address                   varchar(255),
   postal_code               varchar(255),
