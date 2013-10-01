@@ -17,6 +17,7 @@ create table user (
   id                        bigint not null,
   login                     varchar(255),
   password                  varchar(255),
+  name                      varchar(255),
   address                   varchar(255),
   postal_code               varchar(255),
   country                   varchar(255),

@@ -13,7 +13,9 @@ import java.util.*;
 import javax.persistence.*;
 
 import com.avaje.ebean.annotation.PrivateOwned;
+import com.avaje.ebean.validation.NotNull;
 
+import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import scala.collection.parallel.ParIterableLike.Find;
@@ -23,14 +25,17 @@ public class User extends Model {
 	
 	@Id
 	public Long id;
-	@Required @Column(unique=true)
+	@Required @Column(unique=true) @NotNull
 	public String login;
-	@Required
+	@Required @NotNull
 	public String password;
 	
+	public String name;
 	public String address;
 	public String postalCode;
 	public String country;
+	
+	@Pattern(value = "^[0-9]{6}-[0-9]{4}$")	//TODO: Verify that constraint works
 	public String organizationNumber;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner", orphanRemoval=true)

@@ -56,6 +56,7 @@ public class UserTest extends BaseModelTest {
 	@Test
 	public void testCreateUser() {
 		User johan = new User("johandoe", "secret");
+		johan.name = "Johan Doe";
 		johan.address = "Doe Street 43";
 		johan.postalCode = "999999";
 		johan.country = "Sweden";
@@ -66,6 +67,7 @@ public class UserTest extends BaseModelTest {
 		
 		assertNotNull(dbJohan);
 		assertNotNull(dbJohan.id);
+		assertEquals(dbJohan.name, "Johan Doe");
 		assertEquals(dbJohan.login, "johandoe");
 		assertEquals(dbJohan.address, "Doe Street 43");
 		assertEquals(dbJohan.postalCode, "999999");
