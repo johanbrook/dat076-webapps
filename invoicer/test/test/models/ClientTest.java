@@ -7,7 +7,7 @@ import models.Client;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClientTest {
+public class ClientTest extends BaseModelTest {
 
 	private Client client;
 	
