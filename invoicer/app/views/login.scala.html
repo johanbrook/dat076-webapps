@@ -4,6 +4,12 @@
 
 @helper.form(routes.Application.authenticate) {
     <h1>Sign in</h1>
+    
+    @if(form.hasGlobalErrors) {
+    <p class="error">
+        @form.globalError.message
+    </p>
+}
 
     <p>
         <input type="username" name="username" placeholder="Username" value="@form("username").value">
