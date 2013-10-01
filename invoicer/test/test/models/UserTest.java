@@ -112,7 +112,7 @@ public class UserTest extends BaseModelTest {
 	
 	@Test
 	public void authenticateUser() {
-		
+		//TODO: write test
 	}
 
 }

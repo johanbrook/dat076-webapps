@@ -1,5 +1,6 @@
 package controllers;
 
+import models.User;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
@@ -16,13 +17,33 @@ public class Application extends Controller {
     
     public static Result authenticate() {
     	Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
-    	return ok();
+    	if(loginForm.hasErrors()) {
+    		return badRequest(views.html.login.render(loginForm));
+    	}
+    	session().clear();
+    	session("user", loginForm.get().username);
+    	return index();
     }
     
-    
+    /**
+     * Inner class for handling user login
+     * 
+     * @author Robin
+     */
     public static class Login {
     	public String username;
     	public String password;
     	
+    	/**
+    	 * Validates the username and password against existing users in database
+    	 * @return Error message if username or password didn't match, else null
+    	 */
+    	public String validate() {
+    		if(User.authenticateUser(username, password) == null) {
+    			return "Wrong username or password";
+    		}
+    		
+    		return null;
+    	}
     }
 }

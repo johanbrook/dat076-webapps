@@ -44,8 +44,20 @@ public class User extends Model {
 	
 	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 	
-	public User(String login, String password) {
-		this.login = login;
+	public User(String username, String password) {
+		this.username = username;
 		this.password = password;
+	}
+	
+	/**
+	 * Authenticate username and password
+	 * @param username The user's username
+	 * @param password The user's password
+	 * @return A User object matching the username and password, else null
+	 */
+	public static User authenticateUser(String username, String password) {
+		return find.where().eq("username", username).
+				eq("password", password).findUnique();
+		
 	}
 }
