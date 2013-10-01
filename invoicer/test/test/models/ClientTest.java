@@ -13,7 +13,7 @@ public class ClientTest extends BaseModelTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		client = this.client.find.where().eq("orgNumber", "556479-5598").findUnique();
+		client = Client.find.where().eq("orgNumber", "556479-5598").findUnique();
 	}
 
 	@Test
