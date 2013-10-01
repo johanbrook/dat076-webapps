@@ -22,7 +22,7 @@ import play.db.ebean.Model.Finder;
 public class Client extends Model {
 	
 	@Id
-	private long id;
+	public long id;
 	
 	@Required
 	@Column(nullable=false) // Should this use unique=true?
@@ -54,10 +54,6 @@ public class Client extends Model {
 	public Client(String name, String orgNumber) {
 		this.name = name;
 		this.orgNumber = orgNumber;
-	}
-	
-	public Long getId() {
-		return this.id;
 	}
 
 }

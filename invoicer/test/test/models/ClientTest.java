@@ -27,7 +27,7 @@ public class ClientTest {
 		Client carlsberg = new Client("carlsberg", "559823-5523");
 		
 		assertNotNull(carlsberg);
-		assertNotNull(carlsberg.getId());
+		assertNotNull(carlsberg.id);
 		assertEquals("559823-5523", carlsberg.orgNumber);
 	}
 	
