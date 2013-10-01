@@ -21,25 +21,18 @@ public class Client extends AbstractModel {
 	@Column(nullable=false) // Should this use unique=true?
 	public String name;
 	
-	@Required
-	@Column(nullable=false)
 	public String address;
 	
-	@Required
-	@Column(nullable=false)
 	public String postalCode;
 	
-	@Required
-	@Column(nullable=false)
 	public String country;
 	
 	@Required
 	@Column(nullable=false, unique=true)
 	public String orgNumber;
 	
-	@Required
-	@Column(nullable=false)
 	public String contactPerson;
+	
 	
 	public static Finder<Long, Client> find = new Finder<Long, Client>(Long.class, Client.class);
 	

@@ -6,11 +6,11 @@
 create table client (
   id                        bigint not null,
   name                      varchar(255) not null,
-  address                   varchar(255) not null,
-  postal_code               varchar(255) not null,
-  country                   varchar(255) not null,
+  address                   varchar(255),
+  postal_code               varchar(255),
+  country                   varchar(255),
   org_number                varchar(255) not null,
-  contact_person            varchar(255) not null,
+  contact_person            varchar(255),
   constraint uq_client_org_number unique (org_number),
   constraint pk_client primary key (id))
 ;
