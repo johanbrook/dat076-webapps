@@ -1,7 +1,7 @@
 # Users
 
 - &john !!models.User
-  login: johndoe
+  username: johndoe
   password: secret
 
 # Invoices

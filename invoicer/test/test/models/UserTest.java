@@ -32,7 +32,7 @@ public class UserTest extends BaseModelTest {
 	@Before
 	public void setUp() throws Exception {
 		 
-		this.user = User.find.where().eq("login", "johndoe").findUnique();
+		this.user = User.find.where().eq("username", "johndoe").findUnique();
 	}
 	
 
@@ -46,7 +46,7 @@ public class UserTest extends BaseModelTest {
 	public void testCreateSimpleUser() {
 		(new User("johandoe", "secret")).save();
 		
-		User johan = User.find.where().eq("login", "johandoe").findUnique();
+		User johan = User.find.where().eq("username", "johandoe").findUnique();
 		
 		assertNotNull(johan);
 		assertNotNull(johan.id);
@@ -63,7 +63,7 @@ public class UserTest extends BaseModelTest {
 		johan.organizationNumber = "999999-9999";
 		johan.save();
 		
-		User dbJohan = User.find.where().eq("login", "johandoe").findUnique(); 
+		User dbJohan = User.find.where().eq("username", "johandoe").findUnique(); 
 		
 		assertNotNull(dbJohan);
 		assertNotNull(dbJohan.id);
@@ -80,7 +80,7 @@ public class UserTest extends BaseModelTest {
 	public void testDeleteUser() {
 		this.user.delete();
 		
-		User john = User.find.where().eq("login", "johndoe").findUnique();
+		User john = User.find.where().eq("username", "johndoe").findUnique();
 		assertNull(john);
 	}
 	
@@ -112,7 +112,18 @@ public class UserTest extends BaseModelTest {
 	
 	@Test
 	public void authenticateUser() {
-		//TODO: write test
+		
+		User user = new User("Robin", "password");
+		user.save();
+		
+		User dbUser = User.authenticateUser("Robin", "password");
+		User wrongDBUser = User.authenticateUser("Robin", "wrongpassword");
+		
+		// TODO: Better testing?
+		
+		assertNotNull(dbUser);
+		assertNull(wrongDBUser);
+		
 	}
 
 }
