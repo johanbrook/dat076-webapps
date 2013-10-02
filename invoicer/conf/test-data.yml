@@ -3,21 +3,43 @@
 - &john !!models.User
   username: johndoe
   password: secret
+  
+- &robin !!models.User
+  username: robindough
+  password: secret
 
 # Invoices
 
 - !!models.Invoice
-    title: Test invoice
-    owner: *john
-    dueDate: 2013-09-30
+  title: Test invoice
+  owner: *john
+  dueDate: 2013-09-30
     
 - !!models.Invoice
-   title: Invoice was paid on time
-   dueDate: 2013-09-30
-   datePaid: 2013-09-28
+  title: Invoice was paid on time
+  owner: *john
+  dueDate: 2013-09-30
+  datePaid: 2013-09-28
    
 - !!models.Invoice
-   title: Invoice was not paid on time
-   owner: *john
-   dueDate: 2013-09-30
-   datePaid: 2013-10-02
+  title: Invoice was not paid on time
+  owner: *john
+  dueDate: 2013-09-30
+  datePaid: 2013-10-02
+
+- !!models.Invoice
+  title: Test invoice 2
+  owner: *robin
+  dueDate: 2013-09-30
+
+- !!models.Invoice
+  title: Invoice was paid on time 2
+  owner: *robin
+  dueDate: 2013-09-30
+  datePaid: 2013-09-28
+
+- !!models.Invoice
+  title: Invoice was not paid on time 2
+  owner: *robin
+  dueDate: 2013-09-30
+  datePaid: 2013-10-02
