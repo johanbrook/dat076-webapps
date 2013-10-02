@@ -22,7 +22,6 @@ create table invoice (
   due_date                  timestamp,
   date_paid                 timestamp,
   owner_id                  bigint,
-  client_id                 bigint,
   constraint pk_invoice primary key (id))
 ;
 
@@ -42,8 +41,6 @@ create sequence user_seq;
 
 alter table invoice add constraint fk_invoice_owner_1 foreign key (owner_id) references user (id) on delete restrict on update restrict;
 create index ix_invoice_owner_1 on invoice (owner_id);
-alter table invoice add constraint fk_invoice_client_2 foreign key (client_id) references client (id) on delete restrict on update restrict;
-create index ix_invoice_client_2 on invoice (client_id);
 
 
 
