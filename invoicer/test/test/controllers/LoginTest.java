@@ -1,7 +1,7 @@
 /**
  * 
  */
-package controllers;
+package test.controllers;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +26,7 @@ public class LoginTest {
 	}
 	
 	@Test
-	public void authenticateSuccess() {
+	public void testLoginSuccess() {
 		
 	    Result result = callAction(				// Call the following action
 		        controllers.routes.ref.			// Get reference to action ('Reverse router')
@@ -40,11 +40,10 @@ public class LoginTest {
 	    
 	    assertEquals(303, status(result));
 	    assertEquals("robindough", session(result).get("username"));
-	    
 	}
 	
 	@Test
-	public void authenticateFailure() {
+	public void testLoginFailure() {
 		
 	    Result result = callAction(
 	        controllers.routes.ref.Application.authenticate(),
@@ -56,5 +55,29 @@ public class LoginTest {
 	    assertEquals(400, status(result));
 	    assertNull(session(result).get("username"));
 	}
+	
+	@Test
+	public void testSessionAuthenticationSuccess() {
+	    Result result = callAction(
+	        controllers.routes.ref.Application.index(),
+	        fakeRequest().withSession("username", "robindough")
+	    );
+	    assertEquals(303, status(result));
+	    assertEquals("/invoices", header("Location", result));
+	}
+	
+	
+	
+	@Test
+	public void testSessionAuthenticationFailure() {
+	    Result result = callAction(
+	        controllers.routes.ref.Application.index(),
+	        fakeRequest()
+	    );
+	    
+	    assertEquals(303, status(result));
+	    assertEquals("/login", header("Location", result));
+	}
+	
 	
 }
