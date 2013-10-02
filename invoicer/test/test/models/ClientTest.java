@@ -1,11 +1,3 @@
-/**
-*	UserTest.java
-*
-*	@author Andreas Rolén
-*	@copyright (c) 2013 Andreas Rolén
-*	@license MIT
-*/
-
 package test.models;
 
 import static org.junit.Assert.*;
@@ -15,6 +7,7 @@ import models.Client;
 import org.junit.Before;
 import org.junit.Test;
 
+public class ClientTest extends BaseModelTest {
 
 public class ClientTest extends BaseModelTest {
 
@@ -34,9 +27,10 @@ public class ClientTest extends BaseModelTest {
 	@Test
 	public void testCreateClient() {
 		Client carlsberg = new Client("carlsberg", "559823-5523");
+		carlsberg.save();
 		
 		assertNotNull(carlsberg);
-		assertNotNull(carlsberg.getId());
+		assertNotNull(carlsberg.id);
 		assertEquals("559823-5523", carlsberg.orgNumber);
 	}
 	

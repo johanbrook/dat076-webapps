@@ -39,17 +39,20 @@
 - !!models.Invoice
   title: Test invoice
   owner: *johan
+  client: *chalmers
   dueDate: 2013-09-30
   invoiceDate: 2013-09-01
 
 - !!models.Invoice
   title: Test invoice 2
   owner: *henke
+  client: *chalmers
   dueDate: 2013-10-30
 
 - !!models.Invoice
   title: Test invoice 3
   owner: *johan
+  client: *chalmers
   invoiceDate: 2013-08-01
   dueDate: 2013-08-31
   datePaid: 2013-08-25
