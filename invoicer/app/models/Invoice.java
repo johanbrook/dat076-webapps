@@ -35,13 +35,13 @@ public class Invoice extends AbstractModel {
 	@Formats.DateTime(pattern="yyyy-MM-dd")
 	public Date datePaid;
 	
+	@Required
 	@Column(nullable=false)
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	public User owner;
 	
 	@Required
-	@Column(nullable=false)
-	@ManyToOne(cascade= CascadeType.ALL)
+	@ManyToMany(cascade={CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
 	
 	// Finder object
