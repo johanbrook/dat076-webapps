@@ -1,12 +1,12 @@
 @(form: Form[Application.LoginForm])
 
-@main("Login") {
+@header("Login")
 
-	@*************************************
- 	* Tell Play where to send the form  *
- 	*************************************@
-	@helper.form(routes.Application.authenticate) {
-    
+@*************************************
+* Tell Play where to send the form  *
+*************************************@
+@helper.form(routes.Application.authenticate) {
+
     <h1>Sign in</h1>
     
     
@@ -35,6 +35,7 @@
     <p>
         <button type="submit">Login</button>
     </p>
-    }
-	
-}
+
+	}
+
+@footer()
