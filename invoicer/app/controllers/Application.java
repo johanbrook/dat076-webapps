@@ -48,6 +48,17 @@ public class Application extends Controller {
     }
     
     /**
+     * Logs the user out by clearing the session, passing a logout success-message
+     * through a flash message and redirecting to login page
+     * @return
+     */
+    public static Result logout() {
+    	session().clear();
+    	flash("success", "You have successfully logged out");
+    	return redirect(controllers.routes.Application.login());
+    }
+    
+    /**
      * Inner class for handling user login (sent as parameter to the login form)
      * 
      * @author Robin
@@ -62,6 +73,7 @@ public class Application extends Controller {
     	 */
     	public String validate() {
     		
+    		//TODO: Hash password
     		// Call the User objects authentication
     		if(User.authenticateUser(username, password) == null) {
     			return "Wrong username or password";

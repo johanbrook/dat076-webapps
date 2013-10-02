@@ -12,11 +12,13 @@ import models.Invoice;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 public class Invoices extends Controller {
 	
 	public static Form<Invoice> newForm = Form.form(Invoice.class);
 
+	@Security.Authenticated(Secured.class)	
 	public static Result index() {
     	return ok(views.html.invoices.index.render(Invoice.all(), newForm));
     }

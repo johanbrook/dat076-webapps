@@ -18,7 +18,13 @@
     <p class="error">
         @form.globalError.message
     </p>
-}
+	}
+	
+	@if(flash.contains("success")) {
+	    <p class="success">
+	        @flash.get("success")
+	    </p>
+	}
 
     <p>
         <input type="username" name="username" placeholder="Username" value="@form("username").value">

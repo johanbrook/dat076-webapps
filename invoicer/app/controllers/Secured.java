@@ -3,6 +3,7 @@
  */
 package controllers;
 
+import play.Logger;
 import play.mvc.*;
 import play.mvc.Http.*;
 import play.mvc.Security.Authenticator;
@@ -20,6 +21,7 @@ public class Secured extends Authenticator {
 	 */
 	@Override
     public String getUsername(Context ctx) {
+		Logger.info("User: " + ctx.session().get("username"));
         return ctx.session().get("username");
     }
 	
