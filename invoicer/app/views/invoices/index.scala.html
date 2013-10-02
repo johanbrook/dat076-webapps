@@ -12,17 +12,17 @@
 				<th>Invoice title
 				<th>Invoice date</th><th>Due date</th>
 				<th>Owner</th>
+				<th>Client</th>
 		</tr>
 	</thead>
 	<tbody>
 		@for(invoice <- invoices) {
 			<tr>
-
 				<td>@invoice.title</td>
 				<td>@invoice.invoiceDate.format("d MMMM, YYYY")</td>
 				<td>@invoice.dueDate.format("d MMMM, YYYY")</td>
 				<td>@invoice.owner.login</td>
-
+				<td>@invoice.client</td>
 			</tr>
 		}
 	</tbody>
@@ -44,9 +44,16 @@
 	}
 	
 	@form(routes.Invoices.create()) {
-		<input type="text" name="title" />
-		<input type="date" name="invoiceDate" />
-		<input type="date" name="dueDate" />
+		<p><input type="text" name="title" /></p>
+		<p><input type="date" name="invoiceDate" /></p>
+		<p><input type="date" name="dueDate" /></p>
+		
+		@helper.select(
+			addForm("client.id"), 
+			options = Client.find.all().map { c => c.id.toString() -> c.name.toString()},
+			'_label -> "Client" 
+		)
+		
 		
 		<input type="submit" value="Create invoice" />
 	}

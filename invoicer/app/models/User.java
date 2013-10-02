@@ -23,9 +23,8 @@ public class User extends AbstractModel {
 	@Required
 	public String password;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="owner", orphanRemoval=true)
-	@PrivateOwned // Needed for real orphan removal to work
-	public List<Invoice> invoices = new ArrayList<Invoice>();
+	@OneToMany(orphanRemoval=true, mappedBy="owner", cascade=CascadeType.ALL)
+	public List<Invoice> invoices;
 	
 	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 	
