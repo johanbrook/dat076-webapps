@@ -62,9 +62,8 @@ public class UserTest extends BaseModelTest {
 	@Test
 	public void testUserHasInvoice() {
 		User userWithOneInvoice = User.create("johnny", "password");
+
 		Invoice i = new Invoice();
-		i.save();
-		
 		userWithOneInvoice.invoices.add(i);
 		userWithOneInvoice.save();
 		
