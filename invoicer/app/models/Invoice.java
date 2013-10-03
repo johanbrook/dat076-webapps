@@ -42,7 +42,7 @@ public class Invoice extends AbstractModel {
 	public User owner;
 	
 	@Required
-	@ManyToMany(cascade={CascadeType.REFRESH, CascadeType.MERGE})
+	@ManyToOne(cascade={CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
 	
 	// Finder object

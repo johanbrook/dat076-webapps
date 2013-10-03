@@ -41,7 +41,7 @@ public class ClientTest extends BaseModelTest {
 		assertEquals("559823-5523", carlsberg.orgNumber);
 	}
 	
-	@Test
+	@Test(expected = javax.persistence.PersistenceException.class)
 	public void testDeleteClient() {
 		this.client.delete();
 		
