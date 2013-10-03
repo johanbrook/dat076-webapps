@@ -55,8 +55,10 @@ public class Session extends Controller {
      * @return
      */
     public static Result logout() {
+    	Logger.info("*** User '" + session().get("username") + "' logged out ***");
     	session().clear();
     	flash("success", "You have successfully logged out");
+    	
     	return redirect(controllers.routes.Session.login());
     }
     

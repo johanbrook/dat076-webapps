@@ -21,7 +21,7 @@ public class Secured extends Authenticator {
 	 */
 	@Override
     public String getUsername(Context ctx) {
-		Logger.info("User: " + ctx.session().get("username"));
+		Logger.info("*** User '" + ctx.session().get("username") + "' logged in ***");
         return ctx.session().get("username");
     }
 	
