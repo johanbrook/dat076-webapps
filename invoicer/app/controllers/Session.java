@@ -4,6 +4,7 @@
 package controllers;
 
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,7 +23,7 @@ public class Session extends Controller {
     public static Result login() {
     	
     	// Send the LoginForm class to the form
-    	return ok(views.html.login.render(Form.form(LoginForm.class)));
+    	return ok(views.html.session.index.render(Form.form(LoginForm.class)));
     }
     
     /**
@@ -38,7 +39,7 @@ public class Session extends Controller {
     	Form<LoginForm> loginForm = Form.form(LoginForm.class).bindFromRequest();
     	
     	if(loginForm.hasErrors()) {
-    		return badRequest(views.html.login.render(loginForm));
+    		return badRequest(views.html.session.index.render(loginForm));
     	}
     	
     	// Clear existing session and add logged in user's username
