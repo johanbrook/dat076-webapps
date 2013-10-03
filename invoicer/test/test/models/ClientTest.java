@@ -1,3 +1,11 @@
+/**
+*	ClientTest.java
+*
+*	@author Andreas Rolén
+*	@copyright (c) 2013 Andreas Rolén
+*	@license MIT
+*/
+
 package test.models;
 
 import static org.junit.Assert.*;
