@@ -17,6 +17,10 @@ GET     /                           controllers.Application.index()
 GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
 
+# Bank Accounts
+
+GET    /bankaccount      			controllers.BankAccounts.index()
+
 # Clients
 
 GET		/clients					controllers.Clients.index()
