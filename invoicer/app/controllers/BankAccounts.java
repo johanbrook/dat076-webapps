@@ -1,0 +1,21 @@
+package controllers;
+import models.Invoice;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.helper.form;
+import models.BankAccount;
+
+public class BankAccounts extends Controller{
+
+	public BankAccounts() {
+	}
+	
+	public static Result index() {
+		return ok("hej");
+    	
+		//return ok(views.html.bankaccounts.index.render(BankAcccount.find.all()));
+		// Returns a Result
+    }
+
+}
