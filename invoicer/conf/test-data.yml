@@ -34,3 +34,10 @@
    client: *chalmers
    dueDate: 2013-09-30
    datePaid: 2013-10-02
+
+# BankAccounts
+
+- !!models.BankAccount
+    accountNumber: 1234-5678
+    bank: Swedbank
+    accountType: BG

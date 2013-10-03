@@ -1,15 +1,13 @@
 package models;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Entity;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
-public class BankAccount extends Model {
-
-	@Id
-	public Long id;
+@Entity
+public class BankAccount extends AbstractModel {
 
 	@Required
 	@Column(nullable=false)

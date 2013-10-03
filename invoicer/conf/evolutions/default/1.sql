@@ -3,6 +3,17 @@
 
 # --- !Ups
 
+create table bank_account (
+  id                        bigint not null,
+  account_number            varchar(255) not null,
+  bank                      varchar(255),
+  iban                      varchar(255),
+  bic                       varchar(255),
+  account_type              integer not null,
+  constraint ck_bank_account_account_type check (account_type in (0,1,2)),
+  constraint pk_bank_account primary key (id))
+;
+
 create table client (
   id                        bigint not null,
   name                      varchar(255) not null,
@@ -33,6 +44,8 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
+create sequence bank_account_seq;
+
 create sequence client_seq;
 
 create sequence invoice_seq;
@@ -48,6 +61,8 @@ create index ix_invoice_owner_1 on invoice (owner_id);
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists bank_account;
+
 drop table if exists client;
 
 drop table if exists invoice;
@@ -55,6 +70,8 @@ drop table if exists invoice;
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists bank_account_seq;
 
 drop sequence if exists client_seq;
 
