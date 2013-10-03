@@ -3,11 +3,11 @@
 # ~~~~
 
 # Login page
-GET     /login                      controllers.Session.login()
-POST    /login                      controllers.Session.authenticate()
+GET     /login                      controllers.Session.newSession()
+POST    /login                      controllers.Session.createSession()
 
 # Logout
-GET     /logout                     controllers.Session.logout()
+GET     /logout                     controllers.Session.destroy()
 
 # Home page
 GET     /                           controllers.Application.index()

@@ -17,10 +17,11 @@ public class Session extends Controller {
 	
 	/**
 	 * (Action called from GET to /login)
+	 * 
 	 * Render the login screen
 	 * @return A 200 OK simple result
 	 */
-    public static Result login() {
+    public static Result newSession() {
     	
     	// Send the LoginForm class to the form
     	return ok(views.html.session.index.render(Form.form(LoginForm.class)));
@@ -28,12 +29,12 @@ public class Session extends Controller {
     
     /**
      * (Action called from POST to /login)
-     * Authenticates the login request. Sets the Session attribute 'username'.  
      * 
+     * Authenticates the login request. Sets the Session attribute 'username'.
      * @return Call to index method,
      * else badRequest status code and rerendering of the login form
      */
-    public static Result authenticate() {
+    public static Result createSession() {
     	
     	// The login form wraps the Login class (inner class below)
     	Form<LoginForm> loginForm = Form.form(LoginForm.class).bindFromRequest();
@@ -46,20 +47,25 @@ public class Session extends Controller {
     	session().clear();
     	session("username", loginForm.get().username);
     	
+    	Logger.info("*** User '" + session().get("username") + "' logged in ***");
+    	
     	return redirect(controllers.routes.Invoices.index());
     }
     
     /**
-     * Logs the user out by clearing the session, passing a logout success-message
-     * through a flash message and redirecting to login page
+     * (Action called from GET to /logout)
+     * 
+     * Logs the user out by clearing the session
      * @return
      */
-    public static Result logout() {
+    public static Result destroy() {
+    	
     	Logger.info("*** User '" + session().get("username") + "' logged out ***");
     	session().clear();
+    	
     	flash("success", "You have successfully logged out");
     	
-    	return redirect(controllers.routes.Session.login());
+    	return redirect(controllers.routes.Session.newSession());
     }
     
     /**

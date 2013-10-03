@@ -9,6 +9,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
 
+import play.Logger;
 import play.mvc.*;
 import play.libs.*;
 import play.test.*;
@@ -17,7 +18,7 @@ import com.avaje.ebean.Ebean;
 import com.google.common.collect.ImmutableMap;
 
 
-public class LoginTest {
+public class SessionTest {
 	
 	@Before
 	public void createCleanDb() {
@@ -58,6 +59,7 @@ public class LoginTest {
 	
 	@Test
 	public void testSessionAuthenticationSuccess() {
+		
 	    Result result = callAction(
 	        controllers.routes.ref.Application.index(),
 	        fakeRequest().withSession("username", "robindough")
@@ -66,10 +68,9 @@ public class LoginTest {
 	    assertEquals("/invoices", header("Location", result));
 	}
 	
-	
-	
 	@Test
 	public void testSessionAuthenticationFailure() {
+		
 	    Result result = callAction(
 	        controllers.routes.ref.Application.index(),
 	        fakeRequest()
