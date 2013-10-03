@@ -2,6 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Login page
+GET     /login                      controllers.Session.login()
+POST    /login                      controllers.Session.authenticate()
+
+# Logout
+GET     /logout                     controllers.Session.logout()
+
 # Home page
 GET     /                           controllers.Application.index()
 
