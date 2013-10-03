@@ -26,12 +26,16 @@ public class BankAccountTest extends BaseModelTest{
 	
 	@Test
 	public void testCreateBankAccount() {
-		BankAccount ba = new BankAccount("112233-4", AccountType.PG);
+		BankAccount ba = new BankAccount("112233-4", AccountType.PG, "Swedbank", "SE0004563215864902", "SWEDSESS");
 		ba.save();
 		
 		assertNotNull(ba);
 		assertNotNull(ba.id);
+		assertEquals("112233-4", ba.accountNumber);
 		assertEquals(AccountType.PG, ba.accountType);
+		assertEquals("Swedbank", ba.bank);
+		assertEquals("SE0004563215864902", ba.iban);
+		assertEquals("SWEDSESS", ba.bic);
 	}
 	
 	@Test
