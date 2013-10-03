@@ -35,7 +35,8 @@ public class Invoice extends AbstractModel {
 	@Formats.DateTime(pattern="yyyy-MM-dd")
 	public Date datePaid;
 	
-	@Required
+	// @Required
+	// TODO: should be required, but deactivate for now due to controller problems
 	@Column(nullable=false)
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	public User owner;
