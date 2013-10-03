@@ -2,6 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Login page
+GET     /login                      controllers.Session.login()
+POST    /login                      controllers.Session.authenticate()
+
+# Logout
+GET     /logout                     controllers.Session.logout()
+
 # Home page
 GET     /                           controllers.Application.index()
 
@@ -13,6 +20,11 @@ POST	/invoices					controllers.Invoices.create()
 # Bank Accounts
 
 GET    /bankaccount      			controllers.BankAccounts.index()
+
+# Clients
+
+GET		/clients					controllers.Clients.index()
+POST	/clients					controllers.Clients.create()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

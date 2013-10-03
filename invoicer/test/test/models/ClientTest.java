@@ -1,3 +1,11 @@
+/**
+*	ClientTest.java
+*
+*	@author Andreas Rolén
+*	@copyright (c) 2013 Andreas Rolén
+*	@license MIT
+*/
+
 package test.models;
 
 import static org.junit.Assert.*;
@@ -33,7 +41,7 @@ public class ClientTest extends BaseModelTest {
 		assertEquals("559823-5523", carlsberg.orgNumber);
 	}
 	
-	@Test
+	@Test(expected = javax.persistence.PersistenceException.class)
 	public void testDeleteClient() {
 		this.client.delete();
 		
