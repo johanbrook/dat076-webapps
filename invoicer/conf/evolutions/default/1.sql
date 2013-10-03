@@ -38,9 +38,14 @@ create table invoice (
 
 create table user (
   id                        bigint not null,
-  login                     varchar(255),
+  username                  varchar(255),
   password                  varchar(255),
-  constraint uq_user_login unique (login),
+  name                      varchar(255),
+  address                   varchar(255),
+  postal_code               varchar(255),
+  country                   varchar(255),
+  organization_number       varchar(255),
+  constraint uq_user_username unique (username),
   constraint pk_user primary key (id))
 ;
 

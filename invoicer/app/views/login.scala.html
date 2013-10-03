@@ -1,0 +1,41 @@
+@(form: Form[Application.LoginForm])
+
+@header("Login")
+
+@*************************************
+* Tell Play where to send the form  *
+*************************************@
+@helper.form(routes.Application.authenticate) {
+
+    <h1>Sign in</h1>
+    
+    
+    @*************************************
+	 * Display error message if login   *
+	 * failed                           *
+ 	*************************************@
+    @if(form.hasGlobalErrors) {
+    <p class="error">
+        @form.globalError.message
+    </p>
+	}
+	
+	@if(flash.contains("success")) {
+	    <p class="success">
+	        @flash.get("success")
+	    </p>
+	}
+
+    <p>
+        <input type="username" name="username" placeholder="Username" value="@form("username").value">
+    </p>
+    <p>
+        <input type="password" name="password" placeholder="Password">
+    </p>
+    <p>
+        <button type="submit">Login</button>
+    </p>
+
+	}
+
+@footer()
