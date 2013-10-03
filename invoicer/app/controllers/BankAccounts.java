@@ -12,9 +12,9 @@ public class BankAccounts extends Controller{
 	}
 	
 	public static Result index() {
-		return ok("hej");
+		//return ok("hej");
     	
-		//return ok(views.html.bankaccounts.index.render(BankAcccount.find.all()));
+		return ok(views.html.bankaccounts.index.render(BankAccount.find.all()));
 		// Returns a Result
     }
 
