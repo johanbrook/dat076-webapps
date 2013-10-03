@@ -35,7 +35,6 @@ public class UserTest extends BaseModelTest {
 		this.user = User.find.where().eq("username", "johndoe").findUnique();
 	}
 	
-
 	@Test
 	public void testRetrieveUser() {
 		assertNotNull(this.user);

@@ -27,11 +27,11 @@ public class SessionTest {
 	}
 	
 	@Test
-	public void testLoginSuccess() {
+	public void testCreateSessionSuccess() {
 		
 	    Result result = callAction(				// Call the following action
 		        controllers.routes.ref.			// Get reference to action ('Reverse router')
-		        Session.authenticate(),		// The action to get a reference to
+		        Session.createSession(),		// The action to get a reference to
 		        fakeRequest().					// Create a fake request..
 		        	withFormUrlEncodedBody(		// ..with a form body..
 		        			ImmutableMap.of(	// ..with username and password
@@ -44,10 +44,10 @@ public class SessionTest {
 	}
 	
 	@Test
-	public void testLoginFailure() {
+	public void testCreateSessionFailure() {
 		
 	    Result result = callAction(
-	        controllers.routes.ref.Session.authenticate(),
+	        controllers.routes.ref.Session.createSession(),
 	        fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
 	            "username", "robindough",
 	            "password", "notsecret"))
