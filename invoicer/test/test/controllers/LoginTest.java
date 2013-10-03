@@ -30,7 +30,7 @@ public class LoginTest {
 		
 	    Result result = callAction(				// Call the following action
 		        controllers.routes.ref.			// Get reference to action ('Reverse router')
-		        Application.authenticate(),		// The action to get a reference to
+		        Session.authenticate(),		// The action to get a reference to
 		        fakeRequest().					// Create a fake request..
 		        	withFormUrlEncodedBody(		// ..with a form body..
 		        			ImmutableMap.of(	// ..with username and password
@@ -46,7 +46,7 @@ public class LoginTest {
 	public void testLoginFailure() {
 		
 	    Result result = callAction(
-	        controllers.routes.ref.Application.authenticate(),
+	        controllers.routes.ref.Session.authenticate(),
 	        fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
 	            "username", "robindough",
 	            "password", "notsecret"))

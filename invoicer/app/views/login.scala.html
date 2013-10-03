@@ -1,11 +1,11 @@
-@(form: Form[Application.LoginForm])
+@(form: Form[Session.LoginForm])
 
 @header("Login")
 
 @*************************************
 * Tell Play where to send the form  *
 *************************************@
-@helper.form(routes.Application.authenticate) {
+@helper.form(routes.Session.authenticate) {
 
     <h1>Sign in</h1>
     
