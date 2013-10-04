@@ -14,6 +14,7 @@ import java.util.Date;
 
 import models.Invoice;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,10 +23,12 @@ import test.BaseTest;
 public class InvoiceTest extends BaseTest {
 	
 	private Invoice invoice;
+	private Invoice newInvoice;
 
 	@Before
 	public void setUp() throws Exception {
 		this.invoice = Invoice.find.where().eq("title", "Test invoice").findUnique();
+		this.newInvoice = new Invoice();
 	}
 
 	@Test
@@ -85,6 +88,23 @@ public class InvoiceTest extends BaseTest {
 		
 		assertTrue(i2.isPaid());
 		assertFalse(i2.wasPaidOnTime());
+		
+		newInvoice.dueDate = DateTime.now().plusMonths(1).toDate();
+		newInvoice.datePaid = DateTime.now().plusMonths(2).toDate();
+		
+		assertTrue(newInvoice.isPaid());
+		assertFalse(newInvoice.wasPaidOnTime());
+	}
+	
+	@Test
+	public void testInvoiceSetPaid() {
+		newInvoice.dueDate = DateTime.now().plusMonths(1).toDate();
+		newInvoice.setPaid();
+		
+		assertNotNull(newInvoice.datePaid);
+		
+		assertTrue(newInvoice.isPaid());
+		assertTrue(newInvoice.wasPaidOnTime());
 	}
 
 }

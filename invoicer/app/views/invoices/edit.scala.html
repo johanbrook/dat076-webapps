@@ -1,0 +1,41 @@
+@( invoice: Invoice, editForm: Form[Invoice] )
+@import helper._
+
+@main("Edit invoice") {
+	<h1>Editing @invoice.title</h1>
+	
+	@if(editForm.hasErrors()){
+	<h3>Errors</h3>
+	<ul class="negative">
+		@editForm.errors().map { 
+			case (prop, errors) => {
+			
+			@for(error <- errors) {
+				<li>@prop: @error.message()</li>
+			}
+			}
+		}
+	</ul>
+	}	
+	
+	@form(routes.Invoices.update(invoice.id)) {
+		<input type="hidden" name="_method" value="PUT" />
+		
+		<p><input type="text" name="title" value="@editForm("title").value" /></p>
+		<p><input type="date" name="dueDate" value="@editForm("dueDate").value" /></p>
+		
+		@helper.select(
+			editForm("client.id"), 
+			options = Client.find.all().map { c => c.id.toString() -> c.name.toString()},
+			'_label -> "Client" 
+		)
+		
+		<p>
+			<label><input type="checkbox" name="ispaid" @if(invoice.isPaid()) { checked } /> Is paid?</label>
+		</p>
+		
+		<p>
+			<input type="submit" value="Update" />
+		</p>
+	}
+}
