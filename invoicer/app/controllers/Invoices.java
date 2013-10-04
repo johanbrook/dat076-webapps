@@ -28,7 +28,10 @@ public class Invoices extends Controller {
 
 	@Security.Authenticated(Secured.class)	
 	public static Result index() {
-    	return ok(views.html.invoices.index.render(Invoice.find.all(), form));
+		List<Invoice> list = Invoice.find.where().like
+				("owner", String.valueOf(Session.getCurrentUser().id)).findList();
+		
+    	return ok(views.html.invoices.index.render(list, newForm));
     }
 	
 	public static Result show(Long id) {
@@ -40,7 +43,8 @@ public class Invoices extends Controller {
 		
 		if(filledForm.hasErrors()) {
 			flash("error", "There were errors in your form.");
-			return badRequest(views.html.invoices.index.render(Invoice.find.all(), filledForm));
+			return badRequest(views.html.invoices.index.
+					render(Invoice.find.all(), filledForm));
 		}
 		else {
 			Invoice in = filledForm.get();
