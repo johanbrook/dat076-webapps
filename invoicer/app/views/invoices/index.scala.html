@@ -1,5 +1,6 @@
 @(invoices: List[Invoice], addForm: Form[Invoice])
 @import helper._
+@import com.github.nscala_time.time.Imports._
 
 @main("Invoices") {
 
@@ -45,8 +46,8 @@
 	
 	@form(routes.Invoices.create()) {
 		<p><input type="text" name="title" /></p>
-		<p><input type="date" name="invoiceDate" /></p>
-		<p><input type="date" name="dueDate" /></p>
+		<p><input type="date" name="invoiceDate" value="@{DateTime.now.toString("yyyy-MM-dd")}" /></p>
+		<p><input type="date" name="dueDate" value="@{ (DateTime.now + 2.months).toString("yyyy-MM-dd") }" /></p>
 		
 		@helper.select(
 			addForm("client.id"), 
