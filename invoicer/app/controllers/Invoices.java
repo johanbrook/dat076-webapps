@@ -34,6 +34,7 @@ public class Invoices extends Controller {
 		Form<Invoice> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
+			flash("error", "There were errors in your form.");
 			return badRequest(views.html.invoices.index.render(Invoice.find.all(), filledForm));
 		}
 		else {
@@ -41,6 +42,8 @@ public class Invoices extends Controller {
 			//TODO @Robin: replace with currentUser later when auth works
 			in.owner = User.find.all().get(0);
 			in.save();
+			
+			flash("success", "Invoice was created!");
 			return goHome();
 		}
 		
