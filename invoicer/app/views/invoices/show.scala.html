@@ -1,0 +1,23 @@
+@( invoice: Invoice )
+@import helper._
+
+@main(invoice.title) {
+	<h1>@invoice.title</h1>
+	
+	<dl>
+		<dt>Invoice date</dt>
+		<dd>@invoice.invoiceDate.format("yyyy-MM-dd")</dd>
+		
+		<dt>Due date</dt>
+		<dd>@invoice.dueDate.format("yyyy-MM-dd")</dd>
+		
+		<dt>Paid?</dt>
+		<dd>@{ if(invoice.isPaid()) "Yes (on "+invoice.datePaid.format("yyyy-MM-dd")+")" else "No" }</dd>
+		
+		<dt>Client</dt>
+		<dd>
+			<a href="@routes.Clients.show(invoice.client.id)">@invoice.client.name</a>
+		</dd>
+	
+	</dl>
+}

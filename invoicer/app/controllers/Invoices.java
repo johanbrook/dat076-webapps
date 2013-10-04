@@ -27,7 +27,7 @@ public class Invoices extends Controller {
     }
 	
 	public static Result show(Long id) {
-		return ok();
+		return ok(views.html.invoices.show.render(Invoice.find.byId(id)));
 	}
 	
 	public static Result create() {
@@ -41,6 +41,7 @@ public class Invoices extends Controller {
 			Invoice in = filledForm.get();
 			//TODO @Robin: replace with currentUser later when auth works
 			in.owner = User.find.all().get(0);
+			in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
 			in.save();
 			
 			flash("success", "Invoice was created!");
