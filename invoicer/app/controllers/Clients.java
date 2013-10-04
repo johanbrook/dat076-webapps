@@ -23,6 +23,9 @@ public class Clients extends Controller {
 		return ok(views.html.clients.index.render(Client.find.all(), newForm));
 	}
 	
+	public static Result show(Long id) {
+		return ok();
+	}
 
 	public static Result create() {
 		Form<Client> filledForm = newForm.bindFromRequest();
