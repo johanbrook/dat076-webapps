@@ -3,11 +3,18 @@
 # ~~~~
 
 # Login page
+
 GET     /login                      controllers.Session.newSession()
 POST    /login                      controllers.Session.createSession()
 
-# Logout
+# Logout page
+
 GET     /logout                     controllers.Session.destroy()
+
+# Create user page
+
+GET     /createuser                 controllers.Users.index()
+POST    /createuser                 controllers.Users.create()
 
 # Home page
 GET     /                           controllers.Application.index()
@@ -33,3 +40,5 @@ GET		/clients/:id				controllers.Clients.show(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+

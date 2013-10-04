@@ -25,7 +25,7 @@ public class Users extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		return null;
+		return ok(views.html.users.index.render(form));
 	}
 	
 	/**
