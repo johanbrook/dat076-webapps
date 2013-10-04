@@ -45,9 +45,12 @@ public class Session extends Controller {
     	
     	// Clear existing session and add logged in user's username
     	session().clear();
-    	session("username", loginForm.get().username);
     	
-    	Logger.info("*** User '" + session().get("username") + "' logged in ***");
+    	User user = User.find.where().eq("username", loginForm.get().username).findUnique();
+    	
+    	session("userId", String.valueOf(user.id));
+    	
+    	Logger.info("*** User '" + user.username + "' logged in ***");
     	
     	return redirect(controllers.routes.Invoices.index());
     }
@@ -60,12 +63,20 @@ public class Session extends Controller {
      */
     public static Result destroy() {
     	
-    	Logger.info("*** User '" + session().get("username") + "' logged out ***");
+    	Logger.info("*** User '" + getCurrentUser().username + "' logged out ***");
     	session().clear();
     	
     	flash("success", "You have successfully logged out");
     	
     	return redirect(controllers.routes.Session.newSession());
+    }
+    
+    /**
+     * Returns the user based of the session's userId attribute
+     * @return The User instance with the session's Id attribute
+     */
+    public static User getCurrentUser() {
+    	return User.find.where().eq("id", session().get("userId")).findUnique();
     }
     
     /**

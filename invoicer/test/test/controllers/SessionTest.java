@@ -5,6 +5,8 @@ package test.controllers;
 
 import static org.junit.Assert.*;
 
+import models.User;
+
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
@@ -17,6 +19,8 @@ import test.BaseTest;
 import static play.test.Helpers.*;
 import com.avaje.ebean.Ebean;
 import com.google.common.collect.ImmutableMap;
+
+import controllers.Session;
 
 
 public class SessionTest extends BaseTest {
@@ -34,8 +38,11 @@ public class SessionTest extends BaseTest {
 		            "password", "secret"))
 		    );
 	    
+	    String userId = Helpers.session(result).get("userId");
+	    User user = User.find.byId(Long.parseLong(userId));
+	    
 	    assertEquals(303, status(result));
-	    assertEquals("robindough", session(result).get("username"));
+	    assertEquals("robindough", user.username);
 	}
 	
 	@Test
