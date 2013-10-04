@@ -15,10 +15,14 @@ import static play.test.Helpers.status;
 
 import java.util.List;
 
+import models.User;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.avaje.ebean.Ebean;
+
+import controllers.Session;
 
 import play.libs.Yaml;
 import play.mvc.Result;
@@ -37,10 +41,13 @@ public class SecuredTest extends BaseTest {
 	@Test
 	public void testGetUsername() {
 		
+		
+		User user = User.find.where().like("username", "robindough").findUnique();
+		
 		// Calls the main page with Session attribute set
 	    Result result = callAction(
 	        controllers.routes.ref.Application.index(),
-	        fakeRequest().withSession("username", "robindough")
+	        fakeRequest().withSession("userId", String.valueOf(user.id))
 	    );
 	    assertEquals(303, status(result));
 	    assertEquals("/invoices", header("Location", result));
