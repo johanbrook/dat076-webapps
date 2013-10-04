@@ -10,11 +10,7 @@ package test.controllers;
 
 import static org.junit.Assert.*;
 
-import javax.annotation.concurrent.Immutable;
-
 import models.Invoice;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -27,6 +23,7 @@ import test.BaseTest;
 
 public class InvoicesTest extends BaseTest {
 
+	
 	@Test
 	public void testIndex() {
 		Result index = callAction(controllers.routes.ref.Invoices.index());
@@ -39,7 +36,8 @@ public class InvoicesTest extends BaseTest {
 		Long existingId = Invoice.find.all().get(0).id;
 		
 		Result show = callAction(controllers.routes.ref.Invoices.show(existingId));
-		assertEquals(200, status(show));
+		
+		assertEquals(303, status(show));
 	}
 	
 	@Test
@@ -47,7 +45,9 @@ public class InvoicesTest extends BaseTest {
 		
 		Result create = callAction(
 				controllers.routes.ref.Invoices.create(),
-				fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
+				fakeRequest()
+				.withSession("userId", "1")
+				.withFormUrlEncodedBody(ImmutableMap.of(
 						"title", "Test",
 						"invoiceDate", "2013-10-10",
 						"dueDate", "2013-11-30",
@@ -72,7 +72,10 @@ public class InvoicesTest extends BaseTest {
 	@Test
 	public void testDestroy() {
 		Long existingId = Invoice.find.all().get(0).id;
-		Result destroy = callAction(controllers.routes.ref.Invoices.destroy(existingId));
+		Result destroy = callAction(
+			controllers.routes.ref.Invoices.destroy(existingId),
+			fakeRequest().withSession("userId", "1")
+		);
 		
 		assertEquals(303, status(destroy));
 		assertEquals("/invoices", header("Location", destroy));

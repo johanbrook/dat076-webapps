@@ -32,10 +32,12 @@ public class Invoices extends Controller {
     	return ok(views.html.invoices.index.render(list, form));
     }
 	
+	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return ok(views.html.invoices.show.render(Invoice.find.byId(id)));
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		Form<Invoice> filledForm = form.bindFromRequest();
 		
@@ -57,6 +59,7 @@ public class Invoices extends Controller {
 		
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> editForm = form.fill(invoice);
@@ -64,6 +67,7 @@ public class Invoices extends Controller {
 		return ok(views.html.invoices.edit.render(invoice, editForm));
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> filledForm = form.bindFromRequest();
@@ -93,6 +97,8 @@ public class Invoices extends Controller {
 		return goHome();
 	}
 	
+	
+	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		
