@@ -57,28 +57,4 @@ public class SessionTest {
 	    assertNull(session(result).get("username"));
 	}
 	
-	@Test
-	public void testSessionAuthenticationSuccess() {
-		
-	    Result result = callAction(
-	        controllers.routes.ref.Application.index(),
-	        fakeRequest().withSession("username", "robindough")
-	    );
-	    assertEquals(303, status(result));
-	    assertEquals("/invoices", header("Location", result));
-	}
-	
-	@Test
-	public void testSessionAuthenticationFailure() {
-		
-	    Result result = callAction(
-	        controllers.routes.ref.Application.index(),
-	        fakeRequest()
-	    );
-	    
-	    assertEquals(303, status(result));
-	    assertEquals("/login", header("Location", result));
-	}
-	
-	
 }

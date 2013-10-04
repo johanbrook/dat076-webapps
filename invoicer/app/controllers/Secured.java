@@ -29,6 +29,8 @@ public class Secured extends Authenticator {
 	 */
     @Override
     public Result onUnauthorized(Context ctx) {
+    	
+    	//TODO: return unauthorized status code instead?
         return redirect(routes.Session.newSession());
     }
 
