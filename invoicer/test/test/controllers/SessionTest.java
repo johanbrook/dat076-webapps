@@ -13,18 +13,13 @@ import play.Logger;
 import play.mvc.*;
 import play.libs.*;
 import play.test.*;
+import test.BaseTest;
 import static play.test.Helpers.*;
 import com.avaje.ebean.Ebean;
 import com.google.common.collect.ImmutableMap;
 
 
-public class SessionTest {
-	
-	@Before
-	public void createCleanDb() {
-		start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
-		Ebean.save((List) Yaml.load("test-data.yml"));
-	}
+public class SessionTest extends BaseTest {
 	
 	@Test
 	public void testCreateSessionSuccess() {

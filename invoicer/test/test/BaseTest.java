@@ -1,12 +1,4 @@
-/**
-*	BaseModelTest.java
-*
-*	@author Johan Brook
-*	@copyright (c) 2013 Johan Brook
-*	@license MIT
-*/
-
-package test.models;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +17,7 @@ import play.libs.Yaml;
 import play.test.FakeApplication;
 import play.test.Helpers;
 
-public class BaseModelTest {
+public class BaseTest {
 	
 	public static FakeApplication app;
 	public static String createDdl = "";

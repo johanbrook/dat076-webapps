@@ -22,18 +22,13 @@ import com.avaje.ebean.Ebean;
 
 import play.libs.Yaml;
 import play.mvc.Result;
+import test.BaseTest;
 
 /**
  * @author Robin
  *
  */
-public class SecuredTest {
-	
-	@Before
-	public void createCleanDb() {
-		start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
-		Ebean.save((List) Yaml.load("test-data.yml"));
-	}
+public class SecuredTest extends BaseTest {
 	
 	/*
 	 * Tests so that the Secured class lets the request continue

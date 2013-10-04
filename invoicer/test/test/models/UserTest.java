@@ -23,9 +23,10 @@ import com.avaje.ebean.Ebean;
 import play.Logger;
 import play.libs.Yaml;
 import play.test.WithApplication;
+import test.BaseTest;
 import static play.test.Helpers.*;
 
-public class UserTest extends BaseModelTest {
+public class UserTest extends BaseTest {
 	
 	private User user;
 

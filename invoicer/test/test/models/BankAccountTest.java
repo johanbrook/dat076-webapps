@@ -3,12 +3,15 @@ package test.models;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import test.BaseTest;
 import models.BankAccount;
 import models.BankAccount.AccountType;
 
-public class BankAccountTest extends BaseModelTest{
+public class BankAccountTest extends BaseTest{
 	
 	private BankAccount bankAccount;
 	

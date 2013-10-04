@@ -17,7 +17,9 @@ import models.Invoice;
 import org.junit.Before;
 import org.junit.Test;
 
-public class InvoiceTest extends BaseModelTest {
+import test.BaseTest;
+
+public class InvoiceTest extends BaseTest {
 	
 	private Invoice invoice;
 
