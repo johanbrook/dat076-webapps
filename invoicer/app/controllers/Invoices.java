@@ -31,7 +31,7 @@ public class Invoices extends Controller {
 		List<Invoice> list = Invoice.find.where().like
 				("owner", String.valueOf(Session.getCurrentUser().id)).findList();
 		
-    	return ok(views.html.invoices.index.render(list, newForm));
+    	return ok(views.html.invoices.index.render(list, form));
     }
 	
 	public static Result show(Long id) {
