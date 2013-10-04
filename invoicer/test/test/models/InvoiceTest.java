@@ -11,8 +11,10 @@ package test.models;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.List;
 
 import models.Invoice;
+import models.User;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -105,6 +107,18 @@ public class InvoiceTest extends BaseTest {
 		
 		assertTrue(newInvoice.isPaid());
 		assertTrue(newInvoice.wasPaidOnTime());
+	}
+	
+	@Test
+	public void testInvoicesOfUser() {
+		User user = User.find.where().eq("username", "johndoe").findUnique();
+		
+		List<Invoice> invoices = Invoice.invoicesOfUser(user.id);
+		Invoice testInvoice = Invoice.find.where().eq("title", "Test invoice").findUnique();
+		
+		assertNotNull(invoices);
+		assertTrue(invoices.contains(testInvoice));
+		assertTrue(invoices.get(0).owner.equals(user));
 	}
 
 }

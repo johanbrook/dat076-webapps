@@ -65,6 +65,9 @@ public class Invoice extends AbstractModel {
 		this(new Date(), owner, client);
 	}
 	
+	public static List<Invoice> invoicesOfUser(Long userId) {
+		return find.where().like("owner", String.valueOf(userId)).findList();
+	}
 	
 	public boolean wasPaidOnTime() {
 		return this.isPaid() && (this.datePaid.compareTo(this.dueDate) <= 0);

@@ -28,9 +28,7 @@ public class Invoices extends Controller {
 
 	@Security.Authenticated(Secured.class)	
 	public static Result index() {
-		List<Invoice> list = Invoice.find.where().like
-				("owner", String.valueOf(Session.getCurrentUser().id)).findList();
-		
+		List<Invoice> list = Invoice.invoicesOfUser(Session.getCurrentUser().id);
     	return ok(views.html.invoices.index.render(list, form));
     }
 	
