@@ -9,8 +9,13 @@
 package controllers;
 
 import models.Client;
+import java.util.List;
+
+import com.avaje.ebean.ExpressionList;
+
 import models.Invoice;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Transactional;
 import play.mvc.Controller;
