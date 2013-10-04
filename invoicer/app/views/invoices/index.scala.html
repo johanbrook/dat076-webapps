@@ -6,6 +6,8 @@
 
 	<h1>@invoices.size() invoices</h1>
 	
+	@flash.get("success")
+	
 	<table id="invoiceTable" class="tablesorter" border=1>
 
 	<thead>
@@ -14,6 +16,7 @@
 				<th>Invoice date</th><th>Due date</th>
 				<th>Owner</th>
 				<th>Client</th>
+				<th>Date paid</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,7 +26,13 @@
 				<td>@invoice.invoiceDate.format("d MMMM, YYYY")</td>
 				<td>@invoice.dueDate.format("d MMMM, YYYY")</td>
 				<td>@invoice.owner.username</td>
-				<td>@invoice.client</td>
+				<td>@invoice.client.name</td>
+				<td>
+				@if(invoice.isPaid()) {
+					@invoice.datePaid.format("d MMMM, YYYY")
+				}
+				</td>
+				<td><a href="@routes.Invoices.edit(invoice.id)">Edit</a></td>
 			</tr>
 		}
 	</tbody>

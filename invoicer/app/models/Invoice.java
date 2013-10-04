@@ -12,6 +12,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.joda.time.DateTime;
+
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
 
@@ -42,7 +44,7 @@ public class Invoice extends AbstractModel {
 	public User owner;
 	
 	@Required
-	@ManyToOne(cascade={CascadeType.REFRESH, CascadeType.MERGE})
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
 	
 	// Finder object
@@ -70,5 +72,13 @@ public class Invoice extends AbstractModel {
 	
 	public boolean isPaid() {
 		return (this.datePaid != null);
+	}
+	
+	public void setPaid() {
+		this.setPaid(true);
+	}
+	
+	public void setPaid(boolean paid) {
+		this.datePaid = paid ? DateTime.now().toDate() : null;
 	}
 }
