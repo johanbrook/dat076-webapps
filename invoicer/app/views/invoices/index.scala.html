@@ -58,12 +58,13 @@
 		<p><input type="date" name="invoiceDate" value="@{DateTime.now.toString("yyyy-MM-dd")}" /></p>
 		<p><input type="date" name="dueDate" value="@{ (DateTime.now + 2.months).toString("yyyy-MM-dd") }" /></p>
 		
-		@helper.select(
-			addForm("client.id"), 
-			options = Client.find.all().map { c => c.id.toString() -> c.name.toString()},
-			'_label -> "Client" 
-		)
-		
+		<p>
+			<select name="client.id">
+			@for(client <- Client.find.all()) {
+			<option value="@client.id">@client.name</option>	
+			}
+			</select>
+		</p>
 		
 		<input type="submit" value="Create invoice" />
 	}
