@@ -71,6 +71,12 @@ public class InvoicesTest extends BaseTest {
 	
 	@Test
 	public void testDestroy() {
+		Long existingId = Invoice.find.all().get(0).id;
+		Result destroy = callAction(controllers.routes.ref.Invoices.destroy(existingId));
 		
+		assertEquals(303, status(destroy));
+		assertEquals("/invoices", header("Location", destroy));
+		
+		assertNull(Invoice.find.byId(existingId));
 	}
 }

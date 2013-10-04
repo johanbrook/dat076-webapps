@@ -93,6 +93,20 @@ public class Invoices extends Controller {
 		return goHome();
 	}
 	
+	public static Result destroy(Long id) {
+		Invoice invoice = Invoice.find.byId(id);
+		
+		if(invoice != null) {
+			invoice.delete();
+			flash("success", "The invoice was deleted.");
+			return goHome();
+		}
+		else {
+			return badRequest(views.html.invoices.index.render(Invoice.invoicesOfUser(Session.getCurrentUser().id), form));
+		}
+	}
+	
+	
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());
 	}
