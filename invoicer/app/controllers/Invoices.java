@@ -48,8 +48,8 @@ public class Invoices extends Controller {
 		}
 		else {
 			Invoice in = filledForm.get();
-			//TODO @Robin: replace with currentUser later when auth works
-			in.owner = User.find.all().get(0);
+			
+			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
 			in.save();
 			
