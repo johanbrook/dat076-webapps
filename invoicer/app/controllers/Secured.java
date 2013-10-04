@@ -21,7 +21,6 @@ public class Secured extends Authenticator {
 	 */
 	@Override
     public String getUsername(Context ctx) {
-		Logger.info("*** User '" + ctx.session().get("username") + "' logged in ***");
         return ctx.session().get("username");
     }
 	
@@ -30,7 +29,9 @@ public class Secured extends Authenticator {
 	 */
     @Override
     public Result onUnauthorized(Context ctx) {
-        return redirect(routes.Session.login());
+    	
+    	//TODO: return unauthorized status code instead?
+        return redirect(routes.Session.newSession());
     }
 
 }
