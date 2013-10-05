@@ -54,4 +54,49 @@ public class User extends AbstractModel {
 		return find.where().eq("username", username).
 				eq("password", password).findUnique();
 	}
+	
+	
+	// TODO: Handle countries better?
+	/**
+	 * (Used in views.users to display list of available countries)
+	 * Returns a list of available countries
+	 * @return A list of available countries
+	 */
+	public static List<String> getCountries() {
+		// This is done because we don't want the countries to persist
+		List<String> countries = new ArrayList<String>();
+        countries.add("France");
+        countries.add("Austria");
+        countries.add("Belgium");
+        countries.add("Bulgaria");
+        countries.add("Cyprus");
+        countries.add("Czech Republic");
+        countries.add("Denmark");
+        countries.add("Estonia");
+        countries.add("Finland");
+        countries.add("French Guiana");
+        countries.add("Germany");
+        countries.add("Gibraltar");
+        countries.add("Greece");
+        countries.add("Guadeloupe");
+        countries.add("Hungary");
+        countries.add("Ireland");
+        countries.add("Italy");
+        countries.add("Latvia");
+        countries.add("Lithuania");
+        countries.add("Luxembourg");
+        countries.add("Malta");
+        countries.add("Martinique");
+        countries.add("Netherlands");
+        countries.add("Poland");
+        countries.add("Portugal");
+        countries.add("Reunion");
+        countries.add("Romania");
+        countries.add("Slovak (Republic)");
+        countries.add("Slovenia");
+        countries.add("Spain");
+        countries.add("Sweden");
+        countries.add("United Kingdom");
+        return countries;
+	}
 }
