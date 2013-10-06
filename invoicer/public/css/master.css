@@ -740,3 +740,44 @@ th {
   text-decoration: none;
   color: #4a4f52;
 }
+
+/* =LOGIN VIEW
+--------------------------------------------- */
+body.login {
+  width: 400px;
+  text-align: center;
+}
+body.login main {
+  width: 100%;
+  float: none;
+}
+body.login form .fields p {
+  margin: 0;
+}
+body.login form .fields input {
+  border-color: #bbb;
+  width: 100%;
+  background-color: #fcfcfc;
+}
+body.login form .fields input:focus {
+  background-color: #fff;
+}
+body.login form .fields input[name="username"] {
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -ms-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+body.login form .fields input[name="password"] {
+  border-top: 0;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  -ms-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+body.login form input[type="text"],
+body.login form input[type="password"] {
+  font-size: 1.125em;
+}
