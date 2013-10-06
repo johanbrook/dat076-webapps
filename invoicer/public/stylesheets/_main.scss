@@ -1,0 +1,46 @@
+/*	=MAIN SITE STYLES
+----------------------------------------------------------------------*/
+
+html {
+	background-color: $background-color;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	-webkit-tap-highlight-color: #fff;
+	font: normal #{$fontsize}/#{($leading/$base-size)} $sans;
+	color: $text-color;
+	background-color: #fff;
+	border: 1px solid #adb8be;
+
+	width: $page-width;
+	margin: $lineheight*3 auto;
+	padding: $lineheight / 2 2% $lineheight;
+	@include box-shadow(rgba(#000, .2) 0 2px 4px);
+	@include clearfix;
+}
+
+main, 
+.sidebar {
+	float: left;
+}
+
+main {
+	width: to_percent($page-width - $sidebar-width) - 2%;
+}
+
+// ELEMENTS
+// Include stuff like headings, links, buttons, forms, element styling ..
+
+@import "common/*";
+
+
+// PARTIALS
+// Different areas of the site layout, ex. header, sidebars.
+
+@import "partials/*";
+
+// VIEWS
+// Different views, ex. home, profile page, etc.
+
+@import "views/*";

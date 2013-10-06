@@ -1,0 +1,35 @@
+// Colors
+
+$accent:							#1b6c9f;
+$grey:								#8c9aa2;
+$grey-light: 					lighten($grey, 30%);
+$text-color: 					#4a4f52;
+$background-color: 		#dfeaf0;
+
+$btn-color:						blue;
+$btn-color-dangerous:	red;
+$btn-color-accent:		green;
+
+$link-color: 					$accent;
+
+
+// Typography
+
+$sans:								"Helvetica Neue", Helvetica, Arial, sans-serif;
+$serif: 							Bitter, Cambria, Georgia, serif;
+
+$base-size:						16;
+$leading:							24;
+
+$fontsize:						$base-size/16 * 1em;
+$lineheight:					($leading/$base-size) * 1em;
+
+// Grid
+
+$page-width:					800px;
+$sidebar-width: 			200px;
+
+// Viewports
+
+$medium-screen: 			940px;
+$small-screen: 				560px;

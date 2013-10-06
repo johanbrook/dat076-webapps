@@ -1,0 +1,13 @@
+/* =TABLE STYLING
+------------------------------------------ */
+
+table {
+	border: 0;
+	width: 100%;
+	text-align: left;
+}
+
+th {
+	color: $grey;
+	font-size: to_em(13);
+}

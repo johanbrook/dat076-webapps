@@ -1,0 +1,39 @@
+/* =BUTTONS
+------------------------- */
+
+.btn,
+button,
+input[type="button"],
+input[type="submit"]{
+	$color: lighten($accent, 5%);
+	@include transition(none);
+	-webkit-font-smoothing: antialiased;
+	text-decoration: none;
+	display: inline-block;
+	padding: .2em .5em;
+	background-color: #fff;
+	
+	border: 1px solid lighten($color, 10%);
+	color: $color;
+	@include border-radius(3px);
+	font-weight: bold;
+
+	&:hover {
+		color: #333;
+		border-color: #333;
+	}
+}
+
+.btn-accent,
+input[type="submit"]{
+	$color: green;
+
+	padding: .5em 1em;
+	color: $color;
+	border-color: $color;
+}
+
+.btn-cancel {
+	color: $grey;
+	@include transition(none);
+}

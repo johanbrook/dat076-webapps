@@ -1,0 +1,21 @@
+/*	=HEADINGS
+----------------------------------------------------------------------*/
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: $serif;
+	margin: 0 0 $lineheight;
+
+	.bubble {
+		font-size: .8em;
+		font-family: $sans;
+	}
+}
+
+h1 {
+	font-size: to_em(25);
+}
+
+h2 {
+	font-size: to_em(20);
+}

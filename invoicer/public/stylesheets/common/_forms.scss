@@ -1,0 +1,41 @@
+/* =FORM STYLING
+------------------------------------ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="date"],
+textarea {
+	-webkit-appearance: none;
+	-webkit-font-smoothing: antialiased;
+	font-size: 99%;
+	border: 1px solid #ddd;
+	padding: .5em;
+	color: lighten($text-color, 10%);
+	@include transition(border-color .2s ease-out);
+
+	&:focus {
+		outline: 0;
+		border-color: #bbb;
+		color: $text-color;
+	}
+}
+
+label {
+	font-size: to_em(13);
+	font-weight: bold;
+	color: #6c7276;
+
+	&[for] {
+		cursor: pointer;
+		display: block;
+	}
+}
+
+.create-form {
+	#title {
+		width: 100%;
+		font-size: 1.2em;
+	}
+}

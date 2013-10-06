@@ -1,0 +1,28 @@
+/*	=HEADER
+----------------------------------------------------------------------*/
+
+
+[role="banner"] {
+	margin-bottom: $lineheight;
+	@include clearfix;
+
+	h1, 
+	div {
+		float: left;
+	}
+
+	.user-controls {
+		float: right;
+	}
+
+	h1 {
+		width: to_percent($sidebar-width);
+		margin: 0;
+		font-size: to_em(20);
+
+		a {
+			color: $grey; 
+			text-decoration: none;
+		}
+	}	
+}
