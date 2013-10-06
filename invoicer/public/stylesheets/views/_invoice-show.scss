@@ -1,0 +1,14 @@
+/* =SINGLE INVOICE
+------------------------------------------------------- */
+
+.invoice {
+	position: relative;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	@include box-shadow(rgba(#000, .2) 0 2px 5px);
+	padding: 20px;
+}
+
+.back-invoices {
+	margin-top: -$lineheight;
+}

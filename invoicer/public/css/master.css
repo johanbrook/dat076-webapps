@@ -411,6 +411,10 @@ table {
   display: table-cell;
 }
 
+.back {
+  font-size: 0.875em;
+}
+
 .right {
   text-align: right;
 }
@@ -698,6 +702,22 @@ th {
 
 /*	=FRONT PAGE
 ----------------------------------------------------------------------*/
+/* =SINGLE INVOICE
+------------------------------------------------------- */
+.invoice {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
+  padding: 20px;
+}
+
+.back-invoices {
+  margin-top: -1.5em;
+}
+
 /* List invoices */
 .invoice-list {
   list-style: none;
