@@ -13,28 +13,22 @@
 
 	<br class="clear" />
 	
-	<table id="invoice-table" border="0">
-		<thead>
-			<tr>
-					<th>Title</th>
-					<th>Client</th>
-					<th>Invoice date</th>
-					<th>Due date</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for(invoice <- invoices) {
-				<tr @if(invoice.isPaid()) { "class='invoice-paid'" }>
-					<td><a href="@routes.Invoices.show(invoice.id)">@invoice.title</a></td>
-					<td><a href="@routes.Clients.show(invoice.client.id)">@invoice.client.name</a></td>
-					<td><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time></td>
-					<td><time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time></td>
-				</tr>
-			}
-		</tbody>
-	
-	</table>
-	
-	
+	@if(invoices != null && !invoices.isEmpty()) {
+	<ol class="invoice-list">
+		@for(invoice <- invoices) {
+		
+		<li @if(invoice.isPaid()) {class="invoice-paid"}>
+			<a href="@routes.Invoices.show(invoice.id)">
+				<strong class="invoice-title">@invoice.title</strong>
+				
+				<label>Client</label>@invoice.client.name
+				<label>Invoice date</label><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
+				<label>Due date</label>
+				<time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time>
+			</a>
+		</li>
+		}
+	</ol>
+	}	
     
 }

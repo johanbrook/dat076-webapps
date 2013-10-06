@@ -1,0 +1,41 @@
+/* List invoices */
+
+.invoice-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		margin-bottom: $lineheight / 2;
+		border: 1px solid #ccc;
+		@include border-radius(5px);
+		@include box-shadow(rgba(#000, .2) 0 1px 3px);
+
+		&:hover {
+			@include box-shadow(rgba(#000, .3) 0 1px 3px);
+			border-color: #aaa;
+		}
+	}
+
+	.invoice-title {
+		display: block;
+		font-size: 1.2em;
+		font-weight: normal;
+		color: $link-color;
+	}
+
+	label {
+		margin: 0 5px 0 15px;
+	}
+
+	li label:first-of-type {
+		margin-left: 0;
+	}
+
+	li > a {
+		padding: 10px;
+		display: block;
+		text-decoration: none;
+		color: $text-color;
+	}
+}

@@ -610,6 +610,7 @@ h1 .bubble, h2 .bubble, h3 .bubble, h4 .bubble, h5 .bubble, h6 .bubble {
 
 h1 {
   font-size: 1.5625em;
+  margin-bottom: 0.5em;
 }
 
 h2 {
@@ -697,3 +698,45 @@ th {
 
 /*	=FRONT PAGE
 ----------------------------------------------------------------------*/
+/* List invoices */
+.invoice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.invoice-list li {
+  margin-bottom: 0.75em;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+}
+.invoice-list li:hover {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+  border-color: #aaa;
+}
+.invoice-list .invoice-title {
+  display: block;
+  font-size: 1.2em;
+  font-weight: normal;
+  color: #1b6c9f;
+}
+.invoice-list label {
+  margin: 0 5px 0 15px;
+}
+.invoice-list li label:first-of-type {
+  margin-left: 0;
+}
+.invoice-list li > a {
+  padding: 10px;
+  display: block;
+  text-decoration: none;
+  color: #4a4f52;
+}
