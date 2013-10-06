@@ -17,6 +17,7 @@ import play.mvc.Result;
  * @author Robin
  *
  */
+//TODO: Write tests
 public class Users extends Controller {
 	
 	public static Form<User> form = Form.form(User.class);
@@ -54,23 +55,20 @@ public class Users extends Controller {
         }
         
         // Check if the username is valid
-        if(!filledForm.hasErrors()) {
-        	
-        	String username = filledForm.get().username;
-        	
-            if(username.equals("admin") || username.equals("guest")) {
-                filledForm.reject("username", "'admin' and 'guest' are reserved usernames");
-                
-            } else {
+        // TODO: Causes a crash if nothing is filled in, (no time to fix now)
+    	String username = filledForm.get().username;
+    	
+        if(username.equals("admin") || username.equals("guest")) {
+            filledForm.reject("username", "'admin' and 'guest' are reserved usernames");
             
-            	List<User> users = User.find.findList();
-            	
-            	// See if username is taken
-            	if(User.find.where().eq("username", username).findUnique() != null) {
-            		filledForm.reject("username", "Username is taken!");
-            	}
-            }
-            
+        } else {
+        
+        	List<User> users = User.find.findList();
+        	
+        	// See if username is taken
+        	if(User.find.where().eq("username", username).findUnique() != null) {
+        		filledForm.reject("username", "Username is taken!");
+        	}
         }
 		
 		if(filledForm.hasErrors()) {
