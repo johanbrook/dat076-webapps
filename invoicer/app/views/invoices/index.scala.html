@@ -1,72 +1,40 @@
 @(invoices: List[Invoice], addForm: Form[Invoice])
 @import helper._
-@import com.github.nscala_time.time.Imports._
 
 @main("Invoices") {
 
-	<h1>@invoices.size() invoices</h1>
-	
-	@flash.get("success")
-	
-	<table id="invoiceTable" class="tablesorter" border=1>
+	<div class="form-container" hidden>
+		@create_form(addForm)
+	</div>
 
-	<thead>
-		<tr>
-				<th>Invoice title
-				<th>Invoice date</th><th>Due date</th>
-				<th>Owner</th>
-				<th>Client</th>
-				<th>Date paid</td>
-		</tr>
-	</thead>
-	<tbody>
-		@for(invoice <- invoices) {
+	<h2 class="alignleft">Invoices <span class="bubble">@invoices.size()</span></h2>
+
+	<a class="alignright btn" href="#" id="add-invoice-btn">Add invoice</a>
+
+	<br class="clear" />
+	
+	<table id="invoice-table" border="0">
+		<thead>
 			<tr>
-				<td>@invoice.title</td>
-				<td>@invoice.invoiceDate.format("d MMMM, YYYY")</td>
-				<td>@invoice.dueDate.format("d MMMM, YYYY")</td>
-				<td>@invoice.owner.username</td>
-				<td>@invoice.client.name</td>
-				<td>
-				@if(invoice.isPaid()) {
-					@invoice.datePaid.format("d MMMM, YYYY")
-				}
-				</td>
-				<td><a href="@routes.Invoices.edit(invoice.id)">Edit</a></td>
+					<th>Title</th>
+					<th>Client</th>
+					<th>Invoice date</th>
+					<th>Due date</th>
 			</tr>
-		}
-	</tbody>
+		</thead>
+		<tbody>
+			@for(invoice <- invoices) {
+				<tr @if(invoice.isPaid()) { "class='invoice-paid'" }>
+					<td><a href="@routes.Invoices.show(invoice.id)">@invoice.title</a></td>
+					<td><a href="@routes.Clients.show(invoice.client.id)">@invoice.client.name</a></td>
+					<td><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time></td>
+					<td><time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time></td>
+				</tr>
+			}
+		</tbody>
 	
 	</table>
 	
-	@if(addForm.hasErrors()){
-	<h3>Errors</h3>
-	<ul class="negative">
-		@addForm.errors().map { 
-			case (prop, errors) => {
-			
-			@for(error <- errors) {
-				<li>@prop: @error.message()</li>
-			}
-			}
-		}
-	</ul>
-	}
 	
-	@form(routes.Invoices.create()) {
-		<p><input type="text" name="title" /></p>
-		<p><input type="date" name="invoiceDate" value="@{DateTime.now.toString("yyyy-MM-dd")}" /></p>
-		<p><input type="date" name="dueDate" value="@{ (DateTime.now + 2.months).toString("yyyy-MM-dd") }" /></p>
-		
-		<p>
-			<select name="client.id">
-			@for(client <- Client.find.all()) {
-			<option value="@client.id">@client.name</option>	
-			}
-			</select>
-		</p>
-		
-		<input type="submit" value="Create invoice" />
-	}
     
 }

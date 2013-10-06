@@ -15,7 +15,7 @@
 	 * failed                           *
  	*************************************@
     @if(form.hasGlobalErrors) {
-    <p class="error">
+    <p class="negative">
         @form.globalError.message
     </p>
 	}
@@ -27,13 +27,13 @@
 	}
 
     <p>
-        <input type="username" name="username" placeholder="Username" value="@form("username").value">
+        <input type="text" name="username" placeholder="Your username" value="@form("username").value">
     </p>
     <p>
-        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="password" placeholder="Your password">
     </p>
     <p>
-        <button type="submit">Login</button>
+        <input type="submit" value="Sign in" />
     </p>
 
 	}
