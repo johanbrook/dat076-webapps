@@ -2,14 +2,13 @@
 
 @login("Login") {
 
+<h1>Sign in</h1>
+
 @*************************************
 * Tell Play where to send the form  *
 *************************************@
 @helper.form(routes.Session.createSession) {
 
-    <h1>Sign in</h1>
-    
-    
     @*************************************
 	 * Display error message if login   *
 	 * failed                           *
@@ -40,6 +39,9 @@
         <input type="submit" value="Sign in" />
     </p>
 
-	}
+}
+	
+<h2>Not a user?</h2>
+	<a href="@routes.Users.index">Create user</a>
 
 }
