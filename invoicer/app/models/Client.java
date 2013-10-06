@@ -29,6 +29,9 @@ public class Client extends AbstractModel {
 	
 	@Required
 	@Column(nullable=false, unique=true)
+	//TODO: @rolen - should validate format of org.nr. string as well
+	// try using regular expressions to validate a string on format "XXXXXX-XXXX"
+	// where the Xes are numbers.
 	public String orgNumber;
 	
 	public String contactPerson;
