@@ -10,7 +10,7 @@
 
 				@if(Session.getCurrentUser() != null) {
 		    <div class="user-controls">
-		    	Hi @Session.getCurrentUser().username!
+		    	<span class="greeting">Hi @Session.getCurrentUser().username!</span>
 		    	<a href="@routes.Session.destroy()">Sign out</a>
 		    </div>
 		    }
@@ -22,7 +22,7 @@
 	
 		<main role="main">
 			@if(flash.contains("success")) {
-			    <p class="success">
+			    <p class="positive">
 			        @flash.get("success")
 			    </p>
 			}
