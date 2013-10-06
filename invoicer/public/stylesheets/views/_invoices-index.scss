@@ -15,6 +15,23 @@
 			@include box-shadow(rgba(#000, .3) 0 1px 3px);
 			border-color: #aaa;
 		}
+
+		&.invoice-paid {
+			position: relative;
+			overflow: hidden;
+			border-color: lighten(green, 10%);
+
+			&::before {
+				content: "";
+				display: block;
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				width: 3px;
+				background-color: lighten(green, 10%);
+			}
+		}
 	}
 
 	.invoice-title {
