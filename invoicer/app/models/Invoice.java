@@ -72,6 +72,10 @@ public class Invoice extends AbstractModel {
 	public static List<Invoice> getPaid() {
 		return find.where().isNotNull("datePaid").findList();
 	}
+
+	public static List<Invoice> getOverdue() {
+		return find.where().isNull("datePaid").lt("dueDate", DateTime.now()).findList();
+	}
 	
 	public boolean wasPaidOnTime() {
 		return this.isPaid() && (this.datePaid.compareTo(this.dueDate) <= 0);

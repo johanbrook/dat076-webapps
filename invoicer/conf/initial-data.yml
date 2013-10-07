@@ -57,6 +57,14 @@
   dueDate: 2013-08-31
   datePaid: 2013-08-25
 
+- !!models.Invoice
+  title: Test invoice 4
+  owner: *johan
+  client: *pripps
+  invoiceDate: 2013-10-01
+  dueDate: 2013-10-30
+  datePaid: 2013-11-02
+
 # BankAccounts
 
 - !!models.BankAccount

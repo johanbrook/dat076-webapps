@@ -131,4 +131,12 @@ public class InvoiceTest extends BaseTest {
 		assertTrue(invoices.contains(testInvoice));
 	}
 
+	@Test
+	public void testOverdueInvoices() {
+		List<Invoice> invoices = Invoice.getOverdue();
+		Invoice testInvoice = Invoice.find.where().eq("title", "Invoice was not paid on time").findUnique();
+
+		assertEquals(2, invoices.size());
+	}
+
 }
