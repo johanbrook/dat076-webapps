@@ -61,8 +61,12 @@
         </fieldset>
 	    
 	    <p><button type="submit">Signup</button></p>
+<<<<<<< HEAD
 	    <p><a href="/">Cancel</a></p>
 	    
 	
+=======
+	    <p><a href="@routes.Application.index">Cancel</a></p>
+>>>>>>> a1813b1d7d659e9374d5b3a89980e9e14f41c70d
 	}
 }

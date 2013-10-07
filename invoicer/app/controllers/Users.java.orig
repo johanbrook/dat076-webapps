@@ -77,7 +77,11 @@ public class Users extends Application {
 		if(filledForm.hasErrors()) {
 			
 			Logger.info("Form errors " + filledForm.errors());
-			return badRequest(index.render(filledForm));
+<<<<<<< HEAD
+			return badRequest(index.render(form));
+=======
+			return badRequest(views.html.users.index.render(filledForm));
+>>>>>>> a1813b1d7d659e9374d5b3a89980e9e14f41c70d
 		}
 		
 		User user = filledForm.get();
