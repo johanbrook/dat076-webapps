@@ -37,7 +37,7 @@ public class ClientsTest extends BaseTest {
 	public void testIndex() {
 		Result index = callAction(controllers.routes.ref.Clients.index());
 
-		assertEquals(OK, status(index));
+		assertEquals(303, status(index));
 	}
 
 	@Test
