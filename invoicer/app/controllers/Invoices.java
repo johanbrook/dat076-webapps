@@ -46,11 +46,11 @@ public class Invoices extends Application {
     }
 	
 	public static Result show(Long id) {
-		return ok(views.html.invoices.show.render(Invoice.find.byId(id)));
+		return respondTo(Invoice.find.byId(id), show.ref());
 	}
 	
 	public static Result create() {
-		Form<Invoice> filledForm = form.bindFromRequest();
+		final Form<Invoice> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
 			flash("error", "There were errors in your form.");
@@ -74,7 +74,7 @@ public class Invoices extends Application {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> editForm = form.fill(invoice);
 		
-		return ok(views.html.invoices.edit.render(invoice, editForm));
+		return ok(edit.render(invoice, editForm));
 	}
 	
 	public static Result update(Long id) {
@@ -118,7 +118,7 @@ public class Invoices extends Application {
 			return goHome();
 		}
 		else {
-			return badRequest(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
+			return notFound(show.render(invoice));
 		}
 	}
 	

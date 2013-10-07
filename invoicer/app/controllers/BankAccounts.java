@@ -1,11 +1,10 @@
 package controllers;
-import models.Invoice;
 import play.data.Form;
-import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.helper.form;
 import models.BankAccount;
 import play.mvc.Security;
+
+import views.html.bankaccounts.*;
 
 @Security.Authenticated(Secured.class)
 public class BankAccounts extends Application {
@@ -18,14 +17,14 @@ public class BankAccounts extends Application {
 	public static Result index() {
 		
     	
-		return ok(views.html.bankaccounts.index.render(BankAccount.find.all(), form));
+		return ok(index.render(BankAccount.find.all(), form));
 		
     }
 	
 	public static Result show(Long id) {
 		
     	
-		return ok(views.html.bankaccounts.show.render(BankAccount.find.byId(id)));
+		return ok(show.render(BankAccount.find.byId(id)));
 		
     }
 	
@@ -33,7 +32,7 @@ public class BankAccounts extends Application {
 		BankAccount bankAccount = BankAccount.find.byId(id);
 		Form<BankAccount> editForm = form.fill(bankAccount);
 		
-		return ok(views.html.bankaccounts.edit.render(bankAccount, editForm));
+		return ok(edit.render(bankAccount, editForm));
 	}
 	
 	public static Result update(Long id) {
@@ -41,7 +40,7 @@ public class BankAccounts extends Application {
 		Form<BankAccount> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
-			return badRequest(views.html.bankaccounts.edit.render(bankAccount, filledForm));
+			return badRequest(edit.render(bankAccount, filledForm));
 		}
 		
 		bankAccount.accountNumber = filledForm.get().accountNumber;

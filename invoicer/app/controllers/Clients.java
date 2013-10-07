@@ -14,12 +14,11 @@ import com.avaje.ebean.Ebean;
 
 import models.Client;
 import models.Invoice;
-import models.User;
 import play.Logger;
 import play.data.Form;
-import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import views.html.clients.*;
 
 @Security.Authenticated(Secured.class)
 public class Clients extends Application {
@@ -27,14 +26,14 @@ public class Clients extends Application {
 	public static Form<Client> newForm = Form.form(Client.class);
 
 	public static Result index() {
-		return ok(views.html.clients.index.render(Client.find.all(), newForm));
+		return ok(index.render(Client.find.all(), newForm));
 	}
 
 	public static Result create() {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			Result tmp = badRequest(views.html.clients.index.render(
+			Result tmp = badRequest(index.render(
 					Client.find.all(), filledForm));
 			if(tmp == null) {
 				Logger.info("asdf");
@@ -49,14 +48,14 @@ public class Clients extends Application {
 	}
 
 	public static Result show(Long id) {
-		return ok(views.html.clients.show.render(Client.find.byId(id)));
+		return ok(show.render(Client.find.byId(id)));
 	}
 
 	public static Result edit(Long id) {
 		Client client = Client.find.byId(id);
 		Form<Client> form = newForm.fill(client);
 
-		return ok(views.html.clients.edit.render(client, form));
+		return ok(edit.render(client, form));
 	}
 
 	public static Result update(Long id) {
@@ -65,7 +64,7 @@ public class Clients extends Application {
 
 		if (form.hasErrors()) {
 			flash("fail", "The form has errors.");
-			return badRequest(views.html.clients.index.render(Client.find.all(), newForm));
+			return badRequest(index.render(Client.find.all(), newForm));
 		} else {
 			client.name = form.get().name;
 			client.address = form.get().address;
@@ -97,7 +96,7 @@ public class Clients extends Application {
 			flash("success", "The Client was successfully deleted.");
 			return goHome();
 		} else {
-			return badRequest(views.html.clients.index.render(
+			return badRequest(index.render(
 					Client.find.all(), newForm));
 		}
 

@@ -14,6 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import org.mindrot.jbcrypt.BCrypt;
+import views.html.users.*;
 
 /**
  * @author Robin
@@ -31,7 +32,7 @@ public class Users extends Application {
 	 * @return
 	 */
 	public static Result index() {
-		return ok(views.html.users.index.render(form));
+		return ok(index.render(form));
 	}
 	
 	/**
@@ -76,7 +77,7 @@ public class Users extends Application {
 		if(filledForm.hasErrors()) {
 			
 			Logger.info("Form errors " + filledForm.errors());
-			return badRequest(views.html.users.index.render(form));
+			return badRequest(index.render(form));
 		}
 		
 		User user = filledForm.get();
