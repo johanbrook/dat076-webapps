@@ -43,12 +43,11 @@ public class Session extends Controller {
     		return badRequest(views.html.session.index.render(loginForm));
     	}
     	
-    	// Clear existing session and add logged in user's username
-    	session().clear();
-    	
     	User user = User.find.where().eq("username", loginForm.get().username).findUnique();
     	
-    	login(user);
+    	// Clear existing session and add logged in user's username
+    	session().clear();
+    	session("userId", String.valueOf(user.id));
     	
     	Logger.info("*** User '" + user.username + "' logged in ***");
     	
@@ -65,7 +64,7 @@ public class Session extends Controller {
     public static Result destroy() {
     	
     	Logger.info("*** User '" + getCurrentUser().username + "' logged out ***");
-    	logout();
+    	session().clear();
     	
     	flash("success", "You have successfully logged out");
     	
@@ -79,20 +78,6 @@ public class Session extends Controller {
     public static User getCurrentUser() {
     	return User.find.where().eq("id", session().get("userId")).findUnique();
     }
-    
-    public static boolean login(User user) {
-    	if(User.authenticateUser(user.username, user.password) == null) {
-    		return false;
-    	}
-    	
-    	session("userId", String.valueOf(user.id));
-    	return true;
-    }
-    
-    public static void logout() {
-    	session().clear();
-    }
-    
     
     /**
      * Inner class for handling user login (sent as parameter to the login form)
