@@ -20,6 +20,8 @@ import org.junit.*;
 
 import com.avaje.ebean.Ebean;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import play.Logger;
 import play.libs.Yaml;
 import play.test.WithApplication;
@@ -113,7 +115,7 @@ public class UserTest extends BaseTest {
 	@Test
 	public void authenticateUser() {
 		
-		User user = new User("Robin", "password");
+		User user = new User("Robin", BCrypt.hashpw("password", BCrypt.gensalt()));
 		user.save();
 		
 		User dbUser = User.authenticateUser("Robin", "password");

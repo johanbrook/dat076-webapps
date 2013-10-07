@@ -13,8 +13,12 @@ import java.util.*;
 import javax.persistence.*;
 
 import com.avaje.ebean.annotation.PrivateOwned;
+
+import play.Logger;
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 public class User extends AbstractModel {
@@ -51,8 +55,15 @@ public class User extends AbstractModel {
 	 * @return A User object matching the username and password, else null
 	 */
 	public static User authenticateUser(String username, String password) {
-		return find.where().eq("username", username).
-				eq("password", password).findUnique();
+		
+		User user = find.where().eq("username", username).findUnique();
+		
+		// Check the entered password against the hashed password stored in DB
+		if(user != null && BCrypt.checkpw(password, user.password)){
+			return user;
+		}
+		
+		return null;
 	}
 	
 	

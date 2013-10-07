@@ -1,10 +1,10 @@
 /**
-*	ClientsTest.java
-*
-*	@author Andreas Rolén
-*	@copyright (c) 2013 Andreas Rolén
-*	@license MIT
-*/
+ *	ClientsTest.java
+ *
+ *	@author Andreas Rolén
+ *	@copyright (c) 2013 Andreas Rolén
+ *	@license MIT
+ */
 
 package test.controllers;
 
@@ -49,6 +49,16 @@ public class ClientsTest extends BaseTest {
 						.withFormUrlEncodedBody(
 								(ImmutableMap.of("name", "testName",
 										"orgNumber", "666666-6666"))));
+
+		Result badResult = callAction(
+				controllers.routes.ref.Clients.create(),
+				fakeRequest().withSession("userId", "1")
+						.withFormUrlEncodedBody(
+								(ImmutableMap.of("name", "badInput",
+										"orgNumber", "444-444"))));
+		
+		assertEquals(BAD_REQUEST, status(badResult));
+
 		assertEquals(303, status(result));
 		assertEquals("/clients", header("Location", result));
 
@@ -70,26 +80,40 @@ public class ClientsTest extends BaseTest {
 						.withFormUrlEncodedBody(
 								(ImmutableMap.of("name", "newName",
 										"orgNumber", "777777-7777"))));
-		
+
 		assertEquals(303, status(result));
 		assertEquals("/clients", header("Location", result));
-		
+
 		Client newClient = Client.find.byId(oldClient.id);
-		
+
 		assertEquals("newName", newClient.name);
 		assertEquals("777777-7777", newClient.orgNumber);
 	}
 
 	@Test
 	public void testDestroy() {
-		Long id = Client.find.where().eq("name", "client Without Invoice").findUnique().id;
-		Result result = callAction(controllers.routes.ref.Clients.destroy(id),
+		Long id = Client.find.where().eq("name", "client Without Invoice")
+				.findUnique().id;
+		Result resultWithoutInvoice = callAction(
+				controllers.routes.ref.Clients.destroy(id), fakeRequest()
+						.withSession("userId", "1"));
+
+		Long invoiceId = Invoice.find.where()
+				.eq("title", "Test client destroy").findUnique().id;
+		Result resultWithInvoice = callAction(
+				controllers.routes.ref.Invoices.destroy(invoiceId),
 				fakeRequest().withSession("userId", "1"));
 
-		assertEquals(303, status(result));
-		assertEquals("/clients", header("Location", result));
+		Invoice tmpInvoice = Invoice.find.where()
+				.eq("title", "Test client destroy").findUnique();
+
+		assertEquals(303, status(resultWithoutInvoice));
+		assertEquals("/clients", header("Location", resultWithoutInvoice));
 
 		assertNull(Client.find.byId(id));
+
+		assertNull(Client.find.byId(invoiceId));
+		assertNull(tmpInvoice);
 	}
 
 }

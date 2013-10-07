@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.List;
 
+import models.User;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,6 +14,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.avaje.ebean.Ebean;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import play.libs.Yaml;
 import play.test.FakeApplication;
@@ -46,6 +50,16 @@ public class BaseTest {
 		Ebean.execute(Ebean.createCallableSql(createDdl));
 		
 		Ebean.save((List) Yaml.load("test-data.yml"));
+		
+		
+		// TODO: Write the hashed password directly in yaml file?
+		// hash passwords
+		List<User> users = User.find.all();
+		for(User user : users) {
+			user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+			user.update();
+		}
+		
 	}
 
 }
