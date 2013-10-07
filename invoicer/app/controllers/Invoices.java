@@ -24,7 +24,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
-public class Invoices extends Controller {
+public class Invoices extends Application {
 	
 	public static Form<Invoice> form = Form.form(Invoice.class);
 

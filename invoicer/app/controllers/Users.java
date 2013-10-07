@@ -19,7 +19,7 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author Robin
  *
  */
-public class Users extends Controller {
+public class Users extends Application {
 	
 	public static Form<User> form = Form.form(User.class);
 	

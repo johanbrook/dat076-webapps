@@ -22,7 +22,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
-public class Clients extends Controller {
+public class Clients extends Application {
 
 	public static Form<Client> newForm = Form.form(Client.class);
 

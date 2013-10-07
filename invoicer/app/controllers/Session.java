@@ -13,7 +13,7 @@ import play.mvc.Result;
  * @author Robin
  *
  */
-public class Session extends Controller {
+public class Session extends Application {
 	
 	/**
 	 * (Action called from GET to /login)
