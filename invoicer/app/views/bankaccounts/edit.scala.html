@@ -18,11 +18,17 @@
 	</ul>
 	}	
 	
-	@form(routes.BankAccounts.edit(bankAccount.id)) {  
+	@form(routes.BankAccounts.update(bankAccount.id)) {  
 		<input type="hidden" name="_method" value="PUT" />
 		
 		<p><input type="text" name="accountNumber" value="@editForm("accountNumber").value" /></p>
 		<p><input type="text" name="bank" value="@editForm("bank").value" /></p>
+		
+		@helper.select(
+			editForm("accountType"), 
+			options = models.BankAccount.AccountType.values.toSeq.map {c => c.toString -> c.getName()},
+			'_label -> "Account type" 
+		)
 		
 		
 		<p>
