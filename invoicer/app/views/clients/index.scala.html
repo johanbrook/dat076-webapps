@@ -3,8 +3,17 @@
 
 @main("Clients") {
 
-	<h1>@clients.size() clients</h1>
-	
+	<div class="form-container" hidden>
+		@create_form(addForm)
+	</div>
+
+	<header class="invoices-header">
+		<h1>@clients.size() clients</h1>
+		<a class="alignright btn" href="#" id="add-client-btn">Add client</a>
+		<br class="clear" />
+
+	</header>
+
 	<table id="clientTable" class="tablesorter" border=1>
 
 	<thead>
@@ -38,13 +47,5 @@
 			}
 		}
 	</ul>
-	}
-	
-	@form(routes.Clients.create()) {
-		<input type="text" name="name" />
-		<input type="text" name="orgNumber" />
-		
-		<input type="submit" value="Create Client" />
-	}
-    
+	}    
 }

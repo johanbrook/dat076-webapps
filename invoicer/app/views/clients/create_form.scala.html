@@ -1,0 +1,32 @@
+@(addForm: Form[Client])
+@import helper._
+@import com.github.nscala_time.time.Imports._
+
+@if(addForm.hasErrors()){
+<h3>Errors</h3>
+<ul class="negative">
+	@addForm.errors().map { 
+		case (prop, errors) => {
+		
+		@for(error <- errors) {
+			<li>@prop: @error.message()</li>
+		}
+		}
+	}
+</ul>
+}
+
+@form(routes.Clients.create(), 'class -> "create-form") {
+	<p>
+		<label for="title">Client name</label>
+		<input type="text" id="name" name="name" /></p>
+
+	<p>
+		<label for="title">Client orgNumber</label>
+		<input type="text" id="orgNumber" name="orgNumber" /><p>
+	
+	<p class="right">
+		<input type="submit" value="Add client" />
+		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
+	</p>
+}
