@@ -1,0 +1,32 @@
+@( invoice: Client, editForm: Form[Client] )
+@import helper._
+
+@main("Edit client") {
+	<h1>Editing @client.name</h1>
+	
+	@if(editForm.hasErrors()){
+	<h3>Errors</h3>
+	<ul class="negative">
+		@editForm.errors().map { 
+			case (prop, errors) => {
+			
+			@for(error <- errors) {
+				<li>@prop: @error.message()</li>
+			}
+			}
+		}
+	</ul>
+	}	
+	
+	@form(routes.Clients.update(client.id)) {
+		<input type="hidden" name="_method" value="PUT" />
+		
+		<p><input type="text" name="name" value="@editForm("name").value" /></p>
+		<p><input type="text" name="orgNumber" value="@editForm("orgNumber").value" /></p>
+		
+		
+		<p>
+			<input type="submit" value="Update" />
+		</p>
+	}
+}
