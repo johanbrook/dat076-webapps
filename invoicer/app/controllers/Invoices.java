@@ -85,7 +85,6 @@ public class Invoices extends Controller {
 			return badRequest(views.html.invoices.edit.render(invoice, filledForm));
 		}
 		
-		invoice.title = filledForm.get().title;
 		/*
 		 * TODO: this doesn't work for now.
 		 * 
@@ -94,16 +93,20 @@ public class Invoices extends Controller {
 		
 //		invoice.client.id = filledForm.get().client.id;
 		
-		invoice.title = filledForm.get().title;
-		invoice.dueDate = filledForm.get().dueDate;
+		if(filledForm.get().title != null)	
+			invoice.title = filledForm.get().title;
 		
-		invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
+		if(filledForm.get().dueDate != null)
+			invoice.dueDate = filledForm.get().dueDate;
+		
+		if(Form.form().bindFromRequest().get("ispaid") != null)
+			invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
 		
 		invoice.update(id);
 
 		flash("success", "Invoice " + invoice.title + " was updated!");
 		
-		return goHome();
+		return redirect(controllers.routes.Invoices.show(id));
 	}
 	
 	public static Result destroy(Long id) {
