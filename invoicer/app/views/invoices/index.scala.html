@@ -18,7 +18,9 @@
 		<br class="clear" />
 
 		<p class="subheading">
-			<strong id="invoices-total">@invoices.size()</strong> invoices, <strong id="invoices-paid">@Invoice.getPaid().size()</strong> paid
+			<strong id="invoices-total">@invoices.size()</strong> invoices
+			(<strong id="invoices-paid">@paidInvoices.size()</strong> paid
+			@if(!overdueInvoices.isEmpty()) {, <strong id="invoices-overdue">@overdueInvoices.size()</strong> overdue})
 		</p>
 	</header>
 	
@@ -26,7 +28,12 @@
 	<ol class="invoice-list">
 		@for(invoice <- invoices) {
 		
-		<li @if(invoice.isPaid()) {class="invoice-paid"}>
+		<li class="@if(invoice.wasPaidOnTime()) {	invoice-paid
+			} else {
+				@if(invoice.isOverdue()) {	invoice-overdue
+			} else {
+				@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
+			}}}">
 			<a href="@routes.Invoices.show(invoice.id)">
 				<strong class="invoice-title">@invoice.title</strong>
 				

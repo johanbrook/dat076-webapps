@@ -793,6 +793,10 @@ th {
 }
 .invoice-list li.invoice-paid {
   border-color: #00b300;
+  opacity: .8;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .invoice-list li.invoice-paid::before {
   background-color: #00b300;

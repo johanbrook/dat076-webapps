@@ -43,6 +43,8 @@
 
 		&.invoice-paid {
 			border-color: lighten(green, 10%);
+			opacity: .8;
+			@include box-shadow(none);
 
 			&::before {
 				background-color: lighten(green, 10%);
