@@ -7,6 +7,15 @@
   country: sweden
   orgNumber: 556479-5598
   contactPerson: karin markides
+  
+- &noInvoiceClient !!models.Client
+  name: client Without Invoice
+  address: teknologgarden 2
+  postalCode: 41258
+  country: sweden
+  orgNumber: 111111-1111
+  contactPerson: karin markides
+  
 
 # Users
 

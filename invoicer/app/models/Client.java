@@ -11,6 +11,7 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model.Finder;
 
@@ -29,9 +30,7 @@ public class Client extends AbstractModel {
 	
 	@Required
 	@Column(nullable=false, unique=true)
-	//TODO: @rolen - should validate format of org.nr. string as well
-	// try using regular expressions to validate a string on format "XXXXXX-XXXX"
-	// where the Xes are numbers.
+	@Pattern(value = "^[0-9]{6}-[0-9]{4}$")
 	public String orgNumber;
 	
 	public String contactPerson;

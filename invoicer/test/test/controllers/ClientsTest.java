@@ -37,7 +37,7 @@ public class ClientsTest extends BaseTest {
 	public void testIndex() {
 		Result index = callAction(controllers.routes.ref.Clients.index());
 
-		assertEquals(303, status(index));
+		assertEquals(OK, status(index));
 	}
 
 	@Test
@@ -50,8 +50,6 @@ public class ClientsTest extends BaseTest {
 								(ImmutableMap.of("name", "testName",
 										"orgNumber", "666666-6666"))));
 		assertEquals(303, status(result));
-		assertEquals("text/html", contentType(result));
-		assertEquals("utf-8", charset(result));
 		assertEquals("/clients", header("Location", result));
 
 		Client newClient = Client.find.where().eq("name", "testName")
@@ -74,24 +72,22 @@ public class ClientsTest extends BaseTest {
 										"orgNumber", "777777-7777"))));
 		
 		assertEquals(303, status(result));
-		assertEquals("text/html", contentType(result));
-		assertEquals("utf-8", charset(result));
 		assertEquals("/clients", header("Location", result));
 		
 		Client newClient = Client.find.byId(oldClient.id);
 		
 		assertEquals("newName", newClient.name);
-		assertEquals("777777-7777", newClient.id);
+		assertEquals("777777-7777", newClient.orgNumber);
 	}
 
 	@Test
 	public void testDestroy() {
-		Long id = Client.find.all().get(0).id;
+		Long id = Client.find.where().eq("name", "client Without Invoice").findUnique().id;
 		Result result = callAction(controllers.routes.ref.Clients.destroy(id),
 				fakeRequest().withSession("userId", "1"));
 
 		assertEquals(303, status(result));
-		assertEquals("/clients", header("Location", destroy));
+		assertEquals("/clients", header("Location", result));
 
 		assertNull(Client.find.byId(id));
 	}
