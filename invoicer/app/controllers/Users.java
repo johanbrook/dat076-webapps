@@ -19,7 +19,6 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author Robin
  *
  */
-//TODO: Write tests
 public class Users extends Controller {
 	
 	public static Form<User> form = Form.form(User.class);
@@ -89,7 +88,7 @@ public class Users extends Controller {
 		session("userId", String.valueOf(user.id));
 		Logger.info("*** User '" + user.username + "' created ***");
 		
-		return Application.index();
+		return redirect(controllers.routes.Invoices.index());
 		
 	}
 
