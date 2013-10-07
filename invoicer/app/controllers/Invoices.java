@@ -8,18 +8,16 @@
 
 package controllers;
 
+import views.html.invoices.*;
 import models.Client;
 import java.util.List;
 
-import com.avaje.ebean.ExpressionList;
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import models.Invoice;
-import models.User;
-import play.Logger;
+import play.api.templates.Html;
 import play.data.Form;
-import play.db.ebean.Transactional;
-import play.mvc.Controller;
+import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Security;
 
@@ -42,7 +40,19 @@ public class Invoices extends Application {
 	}
 
 	public static Result index() {
-    	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
+    	
+    	return respondTo(new Responder() {
+			
+			@Override
+			public Result json() {
+				return ok(Json.toJson(Invoice.find.all()));
+			}
+			
+			@Override
+			public Result html() {
+				return ok(index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
+			}
+		});
     }
 	
 	public static Result show(Long id) {
@@ -53,19 +63,43 @@ public class Invoices extends Application {
 		final Form<Invoice> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
-			flash("error", "There were errors in your form.");
-			return badRequest(views.html.invoices.index.
-					render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
+			
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+				
+				@Override
+				public Result html() {
+					flash("error", "There were errors in your form.");
+					return badRequest(index.
+							render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
+				}
+			});
 		}
 		else {
-			Invoice in = filledForm.get();
+			final Invoice in = filledForm.get();
 			
 			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
 			in.save();
 			
-			flash("success", "Invoice was created!");
-			return goHome();
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result json() {
+					setLocationHeader(in);
+					return created(Json.toJson(in));
+				}
+				
+				@Override
+				public Result html() {
+					flash("success", "Invoice was created!");
+					return goHome();
+				}
+			});
 		}
 		
 	}
