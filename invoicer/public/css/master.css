@@ -392,6 +392,10 @@ table {
   color: green;
 }
 
+.subtle {
+  color: #8c9aa2;
+}
+
 .bubble {
   display: inline-block;
   background-color: #e1e4e6;
@@ -556,6 +560,10 @@ nav ul {
   padding: 0;
 }
 
+p {
+  margin: 0.75em 0 1.5em;
+}
+
 /* =FORM STYLING
 ------------------------------------ */
 input[type="text"],
@@ -610,6 +618,11 @@ h1, h2, h3, h4, h5, h6 {
 h1 .bubble, h2 .bubble, h3 .bubble, h4 .bubble, h5 .bubble, h6 .bubble {
   font-size: .8em;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.subheading {
+  color: #8c9aa2;
+  margin: 0;
 }
 
 h1 {
@@ -719,6 +732,13 @@ th {
 }
 
 /* List invoices */
+.invoices-header {
+  margin-bottom: 1.5em;
+}
+.invoices-header h2 {
+  margin-bottom: 0.5em;
+}
+
 .invoice-list {
   list-style: none;
   padding: 0;

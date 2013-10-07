@@ -1,5 +1,13 @@
 /* List invoices */
 
+.invoices-header {
+	margin-bottom: $lineheight;
+	
+	h2 {
+		margin-bottom: $lineheight / 3;
+	}
+}
+
 .invoice-list {
 	list-style: none;
 	padding: 0;

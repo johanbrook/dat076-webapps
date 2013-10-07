@@ -7,11 +7,15 @@
 		@create_form(addForm)
 	</div>
 
-	<h2 class="alignleft">Invoices <span class="bubble">@invoices.size()</span></h2>
+	<header class="invoices-header">
+		<h2 class="alignleft">Invoices</h2>
+		<a class="alignright btn" href="#" id="add-invoice-btn">Add invoice</a>
+		<br class="clear" />
 
-	<a class="alignright btn" href="#" id="add-invoice-btn">Add invoice</a>
-
-	<br class="clear" />
+		<p class="subheading">
+			<strong id="invoices-total">@invoices.size()</strong> invoices, <strong id="invoices-paid">@Invoice.getPaid().size()</strong> paid
+		</p>
+	</header>
 	
 	@if(invoices != null && !invoices.isEmpty()) {
 	<ol class="invoice-list">
