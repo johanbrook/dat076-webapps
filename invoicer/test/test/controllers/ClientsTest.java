@@ -1,3 +1,11 @@
+/**
+*	ClientsTest.java
+*
+*	@author Andreas Rolén
+*	@copyright (c) 2013 Andreas Rolén
+*	@license MIT
+*/
+
 package test.controllers;
 
 import static org.junit.Assert.*;
@@ -7,43 +15,85 @@ import java.util.List;
 import java.util.Map;
 
 import models.Client;
+import models.Invoice;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.avaje.ebean.Ebean;
+import com.google.common.collect.ImmutableMap;
 
 import play.data.Form;
 import play.libs.Yaml;
 import play.mvc.Result;
-import play.test.Helpers;
+import static play.test.Helpers.*;
+import test.BaseTest;
 
+public class ClientsTest extends BaseTest {
 
-public class ClientsTest extends Helpers {
-	
 	public static Form<Client> newForm;
-
-	@Before
-	public void setUp() throws Exception {
-		start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
-		Ebean.save((List) Yaml.load("test-data.yml"));
-	}
 
 	@Test
 	public void testIndex() {
-		Map<String,String> data = new HashMap<String,String>();
-		data.put("name", "testName");
-		data.put("orgNumber", "666666-6666");
-		
-		Result result = callAction(controllers.routes.ref.Clients.index(), fakeRequest().withFormUrlEncodedBody(data));
-			    assertEquals(status(result), OK);
-			    assertEquals(contentType(result), "text/html");
-			    assertEquals(charset(result), "utf-8");
+		Result index = callAction(controllers.routes.ref.Clients.index());
+
+		assertEquals(303, status(index));
 	}
 
 	@Test
 	public void testCreate() {
-		fail("Not yet implemented");
+
+		Result result = callAction(
+				controllers.routes.ref.Clients.create(),
+				fakeRequest().withSession("userId", "1")
+						.withFormUrlEncodedBody(
+								(ImmutableMap.of("name", "testName",
+										"orgNumber", "666666-6666"))));
+		assertEquals(303, status(result));
+		assertEquals("text/html", contentType(result));
+		assertEquals("utf-8", charset(result));
+		assertEquals("/clients", header("Location", result));
+
+		Client newClient = Client.find.where().eq("name", "testName")
+				.findUnique();
+
+		assertNotNull(newClient);
+	}
+
+	@Test
+	public void testUpdate() {
+		Client oldClient = Client.find.all().get(0);
+		String oldName = oldClient.name;
+		String orgNumber = oldClient.orgNumber;
+
+		Result result = callAction(
+				controllers.routes.ref.Clients.update(oldClient.id),
+				fakeRequest().withSession("userId", "1")
+						.withFormUrlEncodedBody(
+								(ImmutableMap.of("name", "newName",
+										"orgNumber", "777777-7777"))));
+		
+		assertEquals(303, status(result));
+		assertEquals("text/html", contentType(result));
+		assertEquals("utf-8", charset(result));
+		assertEquals("/clients", header("Location", result));
+		
+		Client newClient = Client.find.byId(oldClient.id);
+		
+		assertEquals("newName", newClient.name);
+		assertEquals("777777-7777", newClient.id);
+	}
+
+	@Test
+	public void testDestroy() {
+		Long id = Client.find.all().get(0).id;
+		Result result = callAction(controllers.routes.ref.Clients.destroy(id),
+				fakeRequest().withSession("userId", "1"));
+
+		assertEquals(303, status(result));
+		assertEquals("/clients", header("Location", destroy));
+
+		assertNull(Client.find.byId(id));
 	}
 
 }

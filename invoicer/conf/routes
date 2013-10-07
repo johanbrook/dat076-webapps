@@ -36,7 +36,9 @@ GET    /bankaccount      			controllers.BankAccounts.index()
 
 GET		/clients					controllers.Clients.index()
 POST	/clients					controllers.Clients.create()
-GET		/clients/:id				controllers.Clients.show(id: Long)
+GET		/clients/:id				controllers.Clients.edit(id: Long)
+POST	/clients/:id				controllers.Clients.update(id: Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
