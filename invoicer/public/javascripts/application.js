@@ -11,6 +11,19 @@ function updateNewInvoiceTitle() {
 	$("#title").val(autoGenerateInvoiceTitle(data));
 }
 
+Util = (function(util) {
+	var exports = util || {};
+	var methods = {
+		template: function t(tmpl, data){
+			for(var p in data)
+				tmpl = tmpl.replace(new RegExp('{{'+p+'}}','g'), data[p]);
+			return tmpl;
+		}
+	};
+
+	return exports = methods;
+})(window.Util);
+
 // DOM Ready
 
 $(function() {
@@ -27,4 +40,21 @@ $(function() {
 	updateNewInvoiceTitle();
 
 	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
+
+	$(".create-form").on("submit", function(evt) {
+		evt.preventDefault();
+		var data = {
+			title: $("#title").val(),
+			"client.id": $("#client-dropdown").val(),
+			invoiceDate: $("#invoice-date").val(),
+			dueDate: $("#due-date").val()
+		};
+
+		$.post("/invoices", data, function(result){
+			var rendered = Util.template($("#invoice-template").html(), result);
+
+			$(".invoice-list").prepend(rendered);
+		}, "json");
+	});
 });
+
