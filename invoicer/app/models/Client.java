@@ -35,6 +35,9 @@ public class Client extends AbstractModel {
 	
 	public String contactPerson;
 	
+	@Pattern(value = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
+	public String email;
+	
 	
 	public static Finder<Long, Client> find = new Finder<Long, Client>(Long.class, Client.class);
 	

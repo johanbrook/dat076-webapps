@@ -36,7 +36,7 @@ public class Clients extends Controller {
 		if (filledForm.hasErrors()) {
 			Result tmp = badRequest(views.html.clients.index.render(
 					Client.find.all(), filledForm));
-			if(tmp == null) {
+			if (tmp == null) {
 				Logger.info("asdf");
 			}
 			return tmp;
@@ -65,7 +65,8 @@ public class Clients extends Controller {
 
 		if (form.hasErrors()) {
 			flash("fail", "The form has errors.");
-			return badRequest(views.html.clients.index.render(Client.find.all(), newForm));
+			return badRequest(views.html.clients.index.render(
+					Client.find.all(), newForm));
 		} else {
 			client.name = form.get().name;
 			client.address = form.get().address;
@@ -73,6 +74,7 @@ public class Clients extends Controller {
 			client.postalCode = form.get().postalCode;
 			client.orgNumber = form.get().orgNumber;
 			client.contactPerson = form.get().contactPerson;
+			client.email = form.get().email;
 
 			client.update(id);
 
@@ -94,7 +96,23 @@ public class Clients extends Controller {
 		}
 		if (tmpClient != null) {
 			tmpClient.delete();
-			flash("success", "The Client was successfully deleted.");
+			flash("success", "The client: " + tmpClient.name
+					+ " was successfully deleted.");
+			return goHome();
+		} else {
+			return badRequest(views.html.clients.index.render(
+					Client.find.all(), newForm));
+		}
+
+	}
+
+	public static Result sendInvoices(Long id, final String mailUsername, final String mailPassword) {
+		Client client = Client.find.byId(id);
+		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id).findList();
+
+		if (invoiceList != null && client != null) {
+			sendMail(mailUsername, mailUsername, client.email, "Your invoices", invoiceList.toString());
+			flash("success", "A mail has been sent to: " + client.name);
 			return goHome();
 		} else {
 			return badRequest(views.html.clients.index.render(
@@ -105,5 +123,9 @@ public class Clients extends Controller {
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Clients.index());
+	}
+	
+	private static void sendMail(final String username, final String password, String recipientEmail, String title, String message)  {
+		//TODO Add GoogleMail class and set up everyting 
 	}
 }
