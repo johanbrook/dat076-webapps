@@ -37,6 +37,10 @@ public class Clients extends Controller {
 		
 	}
 	
+	public static Result show(Long id) {
+		return ok(views.html.clients.show.render(Client.find.byId(id)));
+	}
+	
 	public static Result edit(Long id) {
 		Client client = Client.find.byId(id);
 		Form<Client> form = newForm.fill(client);
