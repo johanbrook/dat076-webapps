@@ -85,7 +85,7 @@ public class Invoice extends AbstractModel {
 	}
 
 	public boolean isOverdue() {
-		return this.isOverdue(new Date());
+		return !this.isPaid() && this.isOverdue(new Date());
 	}
 
 	public boolean isOverdue(Date date) {

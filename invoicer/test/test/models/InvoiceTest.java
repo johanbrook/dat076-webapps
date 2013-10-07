@@ -99,6 +99,18 @@ public class InvoiceTest extends BaseTest {
 	public void testOverdueInvoice() {
 		newInvoice.dueDate = DateTime.now().minusMonths(1).toDate();
 		assertTrue(newInvoice.isOverdue());
+
+		newInvoice.dueDate = DateTime.now().plusMonths(2).toDate();
+		newInvoice.setPaid();
+		assertFalse(newInvoice.isOverdue());
+	}
+
+	@Test
+	public void testNormalInvoice() {
+		newInvoice.dueDate = DateTime.now().plusMonths(3).toDate();
+
+		assertFalse(newInvoice.isPaid());
+		assertFalse(newInvoice.isOverdue());
 	}
 	
 	@Test
