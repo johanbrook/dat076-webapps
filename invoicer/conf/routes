@@ -30,7 +30,9 @@ DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
 
 # Bank Accounts
 
-GET    /bankaccount      			controllers.BankAccounts.index()
+GET    /bankaccounts      			controllers.BankAccounts.index()
+GET    /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
+GET		/bankaccounts/:id/edit		controllers.BankAccounts.edit(id: Long)
 
 # Clients
 
