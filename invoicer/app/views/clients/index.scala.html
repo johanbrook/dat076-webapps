@@ -28,7 +28,9 @@
 				<td>@client.name</td>
 				<td>@client.orgNumber</td>
 				<td><a href="@routes.Clients.edit(client.id)">Edit</a></td>
-				<td><a href="@routes.Clients.destroy(client.id)" type="hidden" name="_method" value="DELETE">Delete</a></td>
+				<td>@form(routes.Clients.destroy(client.id)){
+					
+					}</td>
 			</tr>
 		}
 	</tbody>
