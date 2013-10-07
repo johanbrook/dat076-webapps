@@ -36,9 +36,13 @@ public class Invoices extends Controller {
 			.where().isNotNull("datePaid").findList();
 	}
 
+	private static List<Invoice> overdueInvoicesOfCurrentUser() {
+		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
+	}
+
 	@Security.Authenticated(Secured.class)	
 	public static Result index() {
-    	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), form));
+    	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
     }
 	
 	@Security.Authenticated(Secured.class)
@@ -53,7 +57,7 @@ public class Invoices extends Controller {
 		if(filledForm.hasErrors()) {
 			flash("error", "There were errors in your form.");
 			return badRequest(views.html.invoices.index.
-					render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), filledForm));
+					render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
 		}
 		else {
 			Invoice in = filledForm.get();
@@ -117,7 +121,7 @@ public class Invoices extends Controller {
 			return goHome();
 		}
 		else {
-			return badRequest(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), form));
+			return badRequest(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
 		}
 	}
 	
