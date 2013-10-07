@@ -121,4 +121,14 @@ public class InvoiceTest extends BaseTest {
 		assertTrue(invoices.get(0).owner.equals(user));
 	}
 
+	@Test
+	public void testPaidInvoices() {
+		List<Invoice> invoices = Invoice.getPaid();
+		Invoice testInvoice = Invoice.find.where().eq("title", "Invoice was paid on time").findUnique();
+
+		assertNotNull(invoices);
+		assertEquals(4, invoices.size());
+		assertTrue(invoices.contains(testInvoice));
+	}
+
 }
