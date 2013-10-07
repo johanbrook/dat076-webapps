@@ -35,32 +35,21 @@ public class BankAccounts extends Controller{
 	}
 	
 	public static Result update(Long id) {
-		/*Invoice invoice = Invoice.find.byId(id);
-		Form<Invoice> filledForm = form.bindFromRequest();
+		BankAccount bankAccount = BankAccount.find.byId(id);
+		Form<BankAccount> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
-			return badRequest(views.html.invoices.edit.render(invoice, filledForm));
+			return badRequest(views.html.bankAccounts.edit.render(bankAccount, filledForm));
 		}
 		
-		invoice.title = filledForm.get().title;
-		/*
-		 * TODO: this doesn't work for now.
-		 * 
-		 *  See: http://stackoverflow.com/questions/19177077/how-to-properly-update-a-model-with-nested-models-in-play-framework-2-2-0
-		 */
-		
-//		invoice.client.id = filledForm.get().client.id;
-		
-		/*invoice.title = filledForm.get().title;
-		invoice.dueDate = filledForm.get().dueDate;
-		
-		invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
-		
-		invoice.update(id);
-
-		flash("success", "Invoice " + invoice.title + " was updated!");
-		*/
-		return null; //goHome();
+		bankAccount.accountNumber = filledForm.get().accountNumber;
+		bankAccount.bank = filledForm.get().bank;
+	
+		return goHome();
+	}
+	
+	private static Result goHome() {
+		return redirect(controllers.routes.BankAccounts.index());
 	}
 
 }
