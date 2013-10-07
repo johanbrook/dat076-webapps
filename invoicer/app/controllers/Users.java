@@ -76,7 +76,7 @@ public class Users extends Controller {
 		if(filledForm.hasErrors()) {
 			
 			Logger.info("Form errors " + filledForm.errors());
-			return badRequest(views.html.users.index.render(form));
+			return badRequest(views.html.users.index.render(filledForm));
 		}
 		
 		User user = filledForm.get();

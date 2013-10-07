@@ -28,20 +28,17 @@
 	        @inputText(
 	            signupForm("username"), 
 	            '_label -> "Username", 
-	            '_help -> "Please choose a valid username.",
 	            '_error -> signupForm.globalError
 	        )
 	        
 	        @inputPassword(
 	            signupForm("password"), 
-	            '_label -> "Password",
-	            '_help -> "A password must be at least 6 characters. "
+	            '_label -> "Password"
 	        )
 	        
 	        @inputPassword(
 	            signupForm("repeatPassword"), 
 	            '_label -> "Repeat password",
-	            '_help -> "Please repeat your password again.",
 	            '_error -> signupForm.error("password")
 	        )
 	        
@@ -54,7 +51,7 @@
 	            
 	            @inputText(
 		            signupForm("name"),
-		            '_label -> "name",
+		            '_label -> "Name",
 		            '_help -> "Please enter your full name.",
 		            '_error -> signupForm.globalError
 		        )
@@ -67,15 +64,13 @@
 	            
 	            @inputText(
 		            signupForm("postalCode"),
-		            '_label -> "postalCode",
-		            '_help -> "Please enter your postal code.",
+		            '_label -> "Postal Code",
 		            '_error -> signupForm.globalError
 		        )
 		        
 		        @inputText(
 		            signupForm("organizationNumber"),
-		            '_label -> "organizationNumber",
-		            '_help -> "Please enter your organization number.",
+		            '_label -> "Organization Number",
 		            '_error -> signupForm.globalError
 		        )
 		        
@@ -93,7 +88,7 @@
 	            
 	            @checkbox(
 	                signupForm("accept"), 
-	                '_label -> None, '_text -> "You agree the Terms and conditions",
+	                '_label -> None, '_text -> "You agree to the Terms and conditions",
 	                '_showConstraints -> false
 	            )
 	            
