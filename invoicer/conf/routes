@@ -2,6 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Home page
+GET     /                           controllers.Invoices.index()
+
 # Login page
 
 GET     /login                      controllers.Session.newSession()
@@ -15,9 +18,6 @@ GET     /logout                     controllers.Session.destroy()
 
 GET     /createuser                 controllers.Users.index()
 POST    /createuser                 controllers.Users.create()
-
-# Home page
-GET     /                           controllers.Application.index()
 
 # Invoices
 
