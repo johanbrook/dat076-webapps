@@ -82,9 +82,6 @@ public class InvoiceTest extends BaseTest {
 		Invoice i = Invoice.find.where().eq("title", "Invoice was paid on time").findUnique();
 		Invoice i2 = Invoice.find.where().eq("title", "Invoice was not paid on time").findUnique();
 		
-		assertNotNull(i);
-		assertNotNull(i2);
-		
 		assertTrue(i.isPaid());
 		assertTrue(i.wasPaidOnTime());
 		
@@ -96,6 +93,12 @@ public class InvoiceTest extends BaseTest {
 		
 		assertTrue(newInvoice.isPaid());
 		assertFalse(newInvoice.wasPaidOnTime());
+	}
+
+	@Test
+	public void testOverdueInvoice() {
+		newInvoice.dueDate = DateTime.now().minusMonths(1).toDate();
+		assertTrue(newInvoice.isOverdue());
 	}
 	
 	@Test
