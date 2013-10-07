@@ -62,3 +62,5 @@
     accountNumber: 1234-5678
     bank: Swedbank
     accountType: BG
+  iban: SE0004563215864902
+  bic: SWEDSESS
