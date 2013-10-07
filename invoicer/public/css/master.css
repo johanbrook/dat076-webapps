@@ -396,7 +396,7 @@ table {
   color: #8c9aa2;
 }
 
-.bubble {
+.bubble, .badge {
   display: inline-block;
   background-color: #e1e4e6;
   -webkit-border-radius: 100%;
@@ -405,6 +405,18 @@ table {
   -o-border-radius: 100%;
   border-radius: 100%;
   padding: 0 .5em;
+  text-align: center;
+  color: #4a4f52;
+  font-weight: bold;
+  font-size: 0.8125em;
+}
+
+.badge {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .table {
@@ -615,7 +627,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Bitter, Cambria, Georgia, serif;
   margin: 0 0 1.5em;
 }
-h1 .bubble, h2 .bubble, h3 .bubble, h4 .bubble, h5 .bubble, h6 .bubble {
+h1 .bubble, h1 .badge, h2 .bubble, h2 .badge, h3 .bubble, h3 .badge, h4 .bubble, h4 .badge, h5 .bubble, h5 .badge, h6 .bubble, h6 .badge {
   font-size: .8em;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -705,6 +717,10 @@ th {
 [role="navigation"] li {
   border-bottom: 1px solid #e1e4e6;
 }
+[role="navigation"] .badge-overdue {
+  background-color: orange;
+  color: #fff;
+}
 
 /* =SIDEBAR
 -------------------------------- */
@@ -762,12 +778,11 @@ th {
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   border-color: #aaa;
 }
-.invoice-list li.invoice-paid {
+.invoice-list li.invoice-paid, .invoice-list li.invoice-overdue, .invoice-list li.invoice-late {
   position: relative;
   overflow: hidden;
-  border-color: #00b300;
 }
-.invoice-list li.invoice-paid::before {
+.invoice-list li.invoice-paid::before, .invoice-list li.invoice-overdue::before, .invoice-list li.invoice-late::before {
   content: "";
   display: block;
   position: absolute;
@@ -775,7 +790,28 @@ th {
   top: 0;
   bottom: 0;
   width: 3px;
+}
+.invoice-list li.invoice-paid {
+  border-color: #00b300;
+  opacity: .8;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.invoice-list li.invoice-paid::before {
   background-color: #00b300;
+}
+.invoice-list li.invoice-overdue {
+  border-color: #cc8400;
+}
+.invoice-list li.invoice-overdue::before {
+  background-color: #cc8400;
+}
+.invoice-list li.invoice-late {
+  border-color: #cc0000;
+}
+.invoice-list li.invoice-late::before {
+  background-color: #cc0000;
 }
 .invoice-list .invoice-title {
   display: block;
