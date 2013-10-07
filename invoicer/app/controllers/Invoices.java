@@ -23,6 +23,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+@Security.Authenticated(Secured.class)
 public class Invoices extends Controller {
 	
 	public static Form<Invoice> form = Form.form(Invoice.class);
@@ -40,17 +41,14 @@ public class Invoices extends Controller {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
 
-	@Security.Authenticated(Secured.class)	
 	public static Result index() {
     	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
     }
 	
-	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return ok(views.html.invoices.show.render(Invoice.find.byId(id)));
 	}
 	
-	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		Form<Invoice> filledForm = form.bindFromRequest();
 		
@@ -72,7 +70,6 @@ public class Invoices extends Controller {
 		
 	}
 	
-	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> editForm = form.fill(invoice);
@@ -80,7 +77,6 @@ public class Invoices extends Controller {
 		return ok(views.html.invoices.edit.render(invoice, editForm));
 	}
 	
-	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> filledForm = form.bindFromRequest();
@@ -110,8 +106,6 @@ public class Invoices extends Controller {
 		return goHome();
 	}
 	
-	
-	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		

@@ -19,7 +19,9 @@ import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
+@Security.Authenticated(Secured.class)
 public class Clients extends Controller {
 
 	public static Form<Client> newForm = Form.form(Client.class);
