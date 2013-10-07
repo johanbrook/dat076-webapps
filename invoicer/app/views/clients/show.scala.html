@@ -1,0 +1,27 @@
+@( client: Client)
+@import helper._
+
+@main(client.name) {
+
+<p class="back back-invoices">
+	<a href="@routes.Clients.index()">← All clients</a>
+</p>
+
+<section class="client">
+	<header class="group">
+		<h1 class="alignleft">@client.name</h1>
+
+		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>
+	</header>	
+	
+	<dl>
+		<dt>Client nameS</dt>
+		<dd>@client.name</dd>
+		
+		<dt>Client org.Number</dt>
+		<dd>@client.orgNumber</dd>
+	
+	</dl>
+
+</section>
+}

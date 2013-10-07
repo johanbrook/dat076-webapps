@@ -20,11 +20,24 @@
 	color: green;
 }
 
+.subtle {
+	color: $grey;
+}
+
 .bubble {
 	display: inline-block;
 	background-color: $grey-light;
 	@include border-radius(100%);
 	padding: 0 .5em;
+	text-align: center;
+	color: $text-color;
+	font-weight: bold;
+	font-size: to_em(13);
+}
+
+.badge {
+	@extend .bubble;
+	@include border-radius(3px);
 }
 
 .table {

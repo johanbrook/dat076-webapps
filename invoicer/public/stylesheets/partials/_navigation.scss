@@ -22,4 +22,9 @@
 	li {
 		border-bottom: 1px solid $grey-light;
 	}
+
+	.badge-overdue {
+		background-color: orange;
+		color: #fff;
+	}
 }

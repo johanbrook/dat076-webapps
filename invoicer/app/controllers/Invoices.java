@@ -12,6 +12,7 @@ import models.Client;
 import java.util.List;
 
 import com.avaje.ebean.ExpressionList;
+import org.joda.time.DateTime;
 
 import models.Invoice;
 import models.User;
@@ -22,29 +23,39 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+@Security.Authenticated(Secured.class)
 public class Invoices extends Controller {
 	
 	public static Form<Invoice> form = Form.form(Invoice.class);
 
-	@Security.Authenticated(Secured.class)	
+	private static List<Invoice> invoicesOfCurrentUser() {
+		return Invoice.getInvoicesOfUser(Session.getCurrentUser().id);
+	}
+
+	private static List<Invoice> paidInvoicesOfCurrentUser() {
+		return Invoice.invoicesOfUser(Session.getCurrentUser().id)
+			.where().isNotNull("datePaid").findList();
+	}
+
+	private static List<Invoice> overdueInvoicesOfCurrentUser() {
+		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
+	}
+
 	public static Result index() {
-		List<Invoice> list = Invoice.invoicesOfUser(Session.getCurrentUser().id);
-    	return ok(views.html.invoices.index.render(list, form));
+    	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
     }
 	
-	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return ok(views.html.invoices.show.render(Invoice.find.byId(id)));
 	}
 	
-	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		Form<Invoice> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
 			flash("error", "There were errors in your form.");
 			return badRequest(views.html.invoices.index.
-					render(Invoice.find.all(), filledForm));
+					render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
 		}
 		else {
 			Invoice in = filledForm.get();
@@ -59,7 +70,6 @@ public class Invoices extends Controller {
 		
 	}
 	
-	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> editForm = form.fill(invoice);
@@ -67,7 +77,6 @@ public class Invoices extends Controller {
 		return ok(views.html.invoices.edit.render(invoice, editForm));
 	}
 	
-	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> filledForm = form.bindFromRequest();
@@ -76,7 +85,6 @@ public class Invoices extends Controller {
 			return badRequest(views.html.invoices.edit.render(invoice, filledForm));
 		}
 		
-		invoice.title = filledForm.get().title;
 		/*
 		 * TODO: this doesn't work for now.
 		 * 
@@ -85,20 +93,22 @@ public class Invoices extends Controller {
 		
 //		invoice.client.id = filledForm.get().client.id;
 		
-		invoice.title = filledForm.get().title;
-		invoice.dueDate = filledForm.get().dueDate;
+		if(filledForm.get().title != null)	
+			invoice.title = filledForm.get().title;
 		
-		invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
+		if(filledForm.get().dueDate != null)
+			invoice.dueDate = filledForm.get().dueDate;
+		
+		if(Form.form().bindFromRequest().get("ispaid") != null)
+			invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
 		
 		invoice.update(id);
 
 		flash("success", "Invoice " + invoice.title + " was updated!");
 		
-		return goHome();
+		return redirect(controllers.routes.Invoices.show(id));
 	}
 	
-	
-	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		
@@ -108,7 +118,7 @@ public class Invoices extends Controller {
 			return goHome();
 		}
 		else {
-			return badRequest(views.html.invoices.index.render(Invoice.invoicesOfUser(Session.getCurrentUser().id), form));
+			return badRequest(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
 		}
 	}
 	

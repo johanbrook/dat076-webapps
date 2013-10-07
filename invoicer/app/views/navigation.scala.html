@@ -1,7 +1,9 @@
+@(overdueInvoices: List[Invoice])
+
 <nav role="navigation">
 	<ul>
 		<li>
-			<a href="@routes.Invoices.index()">Invoices</a>	
+			<a href="@routes.Invoices.index()">Invoices @if(!overdueInvoices.isEmpty()) {<span title="@overdueInvoices.size() overdue invoices" class="badge badge-overdue">@overdueInvoices.size()</span>}</a>	
 		</li>
 		<li>
 			<a href="@routes.Clients.index()">Clients</a>	

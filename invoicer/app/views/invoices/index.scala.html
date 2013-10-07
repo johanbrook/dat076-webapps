@@ -1,4 +1,9 @@
-@(invoices: List[Invoice], addForm: Form[Invoice])
+@(
+	invoices: List[Invoice], 
+	paidInvoices: List[Invoice], 
+	overdueInvoices: List[Invoice],
+	addForm: Form[Invoice]
+)
 @import helper._
 
 @main("Invoices") {
@@ -7,17 +12,28 @@
 		@create_form(addForm)
 	</div>
 
-	<h2 class="alignleft">Invoices <span class="bubble">@invoices.size()</span></h2>
+	<header class="invoices-header">
+		<h2 class="alignleft">Invoices</h2>
+		<a class="alignright btn" href="#" id="add-invoice-btn">Add invoice</a>
+		<br class="clear" />
 
-	<a class="alignright btn" href="#" id="add-invoice-btn">Add invoice</a>
-
-	<br class="clear" />
+		<p class="subheading">
+			<strong id="invoices-total">@invoices.size()</strong> invoices
+			(<strong id="invoices-paid">@paidInvoices.size()</strong> paid
+			@if(!overdueInvoices.isEmpty()) {, <strong id="invoices-overdue">@overdueInvoices.size()</strong> overdue})
+		</p>
+	</header>
 	
 	@if(invoices != null && !invoices.isEmpty()) {
 	<ol class="invoice-list">
 		@for(invoice <- invoices) {
 		
-		<li @if(invoice.isPaid()) {class="invoice-paid"}>
+		<li class="@if(invoice.wasPaidOnTime()) {	invoice-paid
+			} else {
+				@if(invoice.isOverdue()) {	invoice-overdue
+			} else {
+				@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
+			}}}">
 			<a href="@routes.Invoices.show(invoice.id)">
 				<strong class="invoice-title">@invoice.title</strong>
 				

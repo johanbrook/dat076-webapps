@@ -3,6 +3,7 @@
  */
 package controllers;
 
+import controllers.Session.LoginForm;
 import play.Logger;
 import play.mvc.*;
 import play.mvc.Http.*;

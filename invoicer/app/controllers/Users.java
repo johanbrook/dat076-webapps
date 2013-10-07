@@ -13,11 +13,12 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  * @author Robin
  *
  */
-//TODO: Write tests
 public class Users extends Controller {
 	
 	public static Form<User> form = Form.form(User.class);
@@ -64,8 +65,6 @@ public class Users extends Controller {
 	            filledForm.reject("username", "'admin' and 'guest' are reserved usernames");
 	            
 	        } else {
-	        
-	        	List<User> users = User.find.findList();
 	        	
 	        	// See if username is taken
 	        	if(User.find.where().eq("username", username).findUnique() != null) {
@@ -76,18 +75,20 @@ public class Users extends Controller {
 		
 		if(filledForm.hasErrors()) {
 			
-			Logger.info("Errors " + filledForm.errors());
+			Logger.info("Form errors " + filledForm.errors());
 			return badRequest(views.html.users.index.render(form));
 		}
 		
 		User user = filledForm.get();
+		
+		// Hash the password with jBCrypt and save to database
+		user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
 		user.save();
 		
 		session("userId", String.valueOf(user.id));
+		Logger.info("*** User '" + user.username + "' created ***");
 		
-		Logger.info("User: " + user.username + " created");
-		
-		return Application.index();
+		return redirect(controllers.routes.Invoices.index());
 		
 	}
 
