@@ -14,17 +14,17 @@ public class BankAccounts extends Controller{
 	}
 	
 	public static Result index() {
-		//return ok("hej");
+		
     	
 		return ok(views.html.bankAccounts.index.render(BankAccount.find.all(), form));
-		// Returns a Result
+		
     }
 	
 	public static Result show(Long id) {
-		//return ok("hej");
+		
     	
 		return ok(views.html.bankAccounts.show.render(BankAccount.find.byId(id)));
-		// Returns a Result
+		
     }
 	
 	public static Result edit(Long id) {
