@@ -18,14 +18,14 @@ public class BankAccounts extends Controller{
 	public static Result index() {
 		
     	
-		return ok(views.html.bankAccounts.index.render(BankAccount.find.all(), form));
+		return ok(views.html.bankaccounts.index.render(BankAccount.find.all(), form));
 		
     }
 	
 	public static Result show(Long id) {
 		
     	
-		return ok(views.html.bankAccounts.show.render(BankAccount.find.byId(id)));
+		return ok(views.html.bankaccounts.show.render(BankAccount.find.byId(id)));
 		
     }
 	
@@ -33,7 +33,7 @@ public class BankAccounts extends Controller{
 		BankAccount bankAccount = BankAccount.find.byId(id);
 		Form<BankAccount> editForm = form.fill(bankAccount);
 		
-		return ok(views.html.bankAccounts.edit.render(bankAccount, editForm));
+		return ok(views.html.bankaccounts.edit.render(bankAccount, editForm));
 	}
 	
 	public static Result update(Long id) {
@@ -41,7 +41,7 @@ public class BankAccounts extends Controller{
 		Form<BankAccount> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
-			return badRequest(views.html.bankAccounts.edit.render(bankAccount, filledForm));
+			return badRequest(views.html.bankaccounts.edit.render(bankAccount, filledForm));
 		}
 		
 		bankAccount.accountNumber = filledForm.get().accountNumber;
