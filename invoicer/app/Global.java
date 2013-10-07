@@ -1,3 +1,4 @@
+import java.lang.reflect.Method;
 import java.util.List;
 
 import models.Invoice;
@@ -6,6 +7,8 @@ import com.avaje.ebean.Ebean;
 
 import play.*;
 import play.libs.*;
+import play.mvc.Action;
+import play.mvc.Http;
 
 /**
  *	Global.java
@@ -16,6 +19,15 @@ import play.libs.*;
  */
 
 public class Global extends GlobalSettings {
+	
+	@Override
+	public Action onRequest(Http.Request request, Method actionMethod) {
+	   System.out.println(request.toString() + " as '"+request.acceptedTypes().get(0)+"'");
+	   System.out.println("  --> "+actionMethod.getDeclaringClass()+"#"+actionMethod.getName());
+	   System.out.println();
+	   
+	   return super.onRequest(request, actionMethod);
+	}
 	
 	@Override
 	public void onStart(Application app) {
