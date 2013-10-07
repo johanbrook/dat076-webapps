@@ -24,10 +24,11 @@
 			border-color: #aaa;
 		}
 
-		&.invoice-paid {
+		&.invoice-paid,
+		&.invoice-overdue,
+		&.invoice-late {
 			position: relative;
 			overflow: hidden;
-			border-color: lighten(green, 10%);
 
 			&::before {
 				content: "";
@@ -37,7 +38,30 @@
 				top: 0;
 				bottom: 0;
 				width: 3px;
+			}
+		}
+
+		&.invoice-paid {
+			border-color: lighten(green, 10%);
+
+			&::before {
 				background-color: lighten(green, 10%);
+			}
+		}
+
+		&.invoice-overdue {
+			border-color: darken(orange, 10%);
+
+			&::before {
+				background-color: darken(orange, 10%);
+			}
+		}
+
+		&.invoice-late {
+			border-color: darken(red, 10%);
+
+			&::before {
+				background-color: darken(red, 10%);
 			}
 		}
 	}

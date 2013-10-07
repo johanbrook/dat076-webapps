@@ -17,7 +17,7 @@
 		</header>
 
 		<div class="sidebar">
-			@navigation()
+			@navigation(Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id))
 		</div>
 	
 		<main role="main">
