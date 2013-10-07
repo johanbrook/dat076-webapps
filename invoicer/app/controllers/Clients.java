@@ -15,6 +15,7 @@ import com.avaje.ebean.Ebean;
 import models.Client;
 import models.Invoice;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -31,8 +32,12 @@ public class Clients extends Controller {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(views.html.clients.index.render(
+			Result tmp = badRequest(views.html.clients.index.render(
 					Client.find.all(), filledForm));
+			if(tmp == null) {
+				Logger.info("asdf");
+			}
+			return tmp;
 		} else {
 			Client client = filledForm.get();
 			client.save();
@@ -58,7 +63,7 @@ public class Clients extends Controller {
 
 		if (form.hasErrors()) {
 			flash("fail", "The form has errors.");
-			return badRequest();//(views.html.clients.index.render(Client.find.all(), newForm));
+			return badRequest(views.html.clients.index.render(Client.find.all(), newForm));
 		} else {
 			client.name = form.get().name;
 			client.address = form.get().address;
