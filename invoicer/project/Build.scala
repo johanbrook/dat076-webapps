@@ -11,8 +11,7 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     javaCore,
     javaJdbc,
-    javaEbean,
-    "org.mindrot" % "jbcrypt" % "0.3m"
+    javaEbean
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
