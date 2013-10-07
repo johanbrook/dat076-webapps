@@ -113,30 +113,12 @@ public class InvoiceTest extends BaseTest {
 	public void testInvoicesOfUser() {
 		User user = User.find.where().eq("username", "johndoe").findUnique();
 		
-		List<Invoice> invoices = Invoice.invoicesOfUser(user.id);
+		List<Invoice> invoices = Invoice.getInvoicesOfUser(user.id);
 		Invoice testInvoice = Invoice.find.where().eq("title", "Test invoice").findUnique();
 		
 		assertNotNull(invoices);
 		assertTrue(invoices.contains(testInvoice));
 		assertTrue(invoices.get(0).owner.equals(user));
-	}
-
-	@Test
-	public void testPaidInvoices() {
-		List<Invoice> invoices = Invoice.getPaid();
-		Invoice testInvoice = Invoice.find.where().eq("title", "Invoice was paid on time").findUnique();
-
-		assertNotNull(invoices);
-		assertEquals(4, invoices.size());
-		assertTrue(invoices.contains(testInvoice));
-	}
-
-	@Test
-	public void testOverdueInvoices() {
-		List<Invoice> invoices = Invoice.getOverdue();
-		Invoice testInvoice = Invoice.find.where().eq("title", "Invoice was not paid on time").findUnique();
-
-		assertEquals(2, invoices.size());
 	}
 
 }

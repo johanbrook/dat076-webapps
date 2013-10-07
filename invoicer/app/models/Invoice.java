@@ -13,7 +13,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
-
+import com.avaje.ebean.ExpressionList;
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
 
@@ -64,17 +64,20 @@ public class Invoice extends AbstractModel {
 	public Invoice(User owner, Client client) {
 		this(new Date(), owner, client);
 	}
+
+	public static ExpressionList<Invoice> invoicesOfUser(Long userId) {
+		return find.where().like("owner", String.valueOf(userId));
+	}
 	
-	public static List<Invoice> invoicesOfUser(Long userId) {
-		return find.where().like("owner", String.valueOf(userId)).findList();
+	public static List<Invoice> getInvoicesOfUser(Long userId) {
+		return invoicesOfUser(userId).findList();
 	}
 
-	public static List<Invoice> getPaid() {
-		return find.where().isNotNull("datePaid").findList();
-	}
-
-	public static List<Invoice> getOverdue() {
-		return find.where().isNull("datePaid").lt("dueDate", DateTime.now()).findList();
+	public static List<Invoice> getOverdueInvoicesOfUser(Long userId) {
+		return invoicesOfUser(userId).where()
+				.isNull("datePaid")
+				.lt("dueDate", DateTime.now())
+			.findList();
 	}
 	
 	public boolean wasPaidOnTime() {

@@ -12,6 +12,7 @@ import models.Client;
 import java.util.List;
 
 import com.avaje.ebean.ExpressionList;
+import org.joda.time.DateTime;
 
 import models.Invoice;
 import models.User;
@@ -26,10 +27,18 @@ public class Invoices extends Controller {
 	
 	public static Form<Invoice> form = Form.form(Invoice.class);
 
+	private static List<Invoice> invoicesOfCurrentUser() {
+		return Invoice.getInvoicesOfUser(Session.getCurrentUser().id);
+	}
+
+	private static List<Invoice> paidInvoicesOfCurrentUser() {
+		return Invoice.invoicesOfUser(Session.getCurrentUser().id)
+			.where().isNotNull("datePaid").findList();
+	}
+
 	@Security.Authenticated(Secured.class)	
 	public static Result index() {
-		List<Invoice> list = Invoice.invoicesOfUser(Session.getCurrentUser().id);
-    	return ok(views.html.invoices.index.render(list, form));
+    	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), form));
     }
 	
 	@Security.Authenticated(Secured.class)
@@ -44,7 +53,7 @@ public class Invoices extends Controller {
 		if(filledForm.hasErrors()) {
 			flash("error", "There were errors in your form.");
 			return badRequest(views.html.invoices.index.
-					render(Invoice.find.all(), filledForm));
+					render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), filledForm));
 		}
 		else {
 			Invoice in = filledForm.get();
@@ -108,7 +117,7 @@ public class Invoices extends Controller {
 			return goHome();
 		}
 		else {
-			return badRequest(views.html.invoices.index.render(Invoice.invoicesOfUser(Session.getCurrentUser().id), form));
+			return badRequest(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), form));
 		}
 	}
 	
