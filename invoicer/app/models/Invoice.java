@@ -13,9 +13,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
-import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import play.data.validation.Constraints.Required;
@@ -74,8 +72,8 @@ public class Invoice extends AbstractModel {
 		this(new Date(), owner, client);
 	}
 
-	public static ExpressionList<Invoice> invoicesOfUser(Long userId) {
-		return find.where().like("owner", String.valueOf(userId));
+	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
+		return find.where().like("owner", String.valueOf(userId)).orderBy("dueDate");
 	}
 	
 	public static List<Invoice> getInvoicesOfUser(Long userId) {
