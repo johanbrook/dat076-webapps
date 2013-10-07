@@ -6,6 +6,7 @@ import play.mvc.Result;
 import views.html.helper.form;
 import models.BankAccount;
 
+@Security.Authenticated(Secured.class)
 public class BankAccounts extends Controller{
 
 	public BankAccounts() {
