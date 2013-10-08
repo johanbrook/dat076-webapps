@@ -492,6 +492,20 @@ main {
   width: 73%;
 }
 
+@-webkit-keyframes "pop" {
+  0% {
+    -webkit-transform: scale(0.8) translate(0, -100px);
+  }
+
+  50% {
+    -webkit-transform: scale(1.1) translate(0, -50px);
+  }
+
+  100% {
+    -webkit-transform: scale(1) translate(0, 0);
+  }
+}
+
 /* =BUTTONS
 ------------------------- */
 .btn,
@@ -777,6 +791,9 @@ th {
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   border-color: #aaa;
+}
+.invoice-list li.added {
+  -webkit-animation: pop 1s ease;
 }
 .invoice-list li.invoice-paid, .invoice-list li.invoice-overdue, .invoice-list li.invoice-late {
   position: relative;

@@ -24,6 +24,10 @@
 			border-color: #aaa;
 		}
 
+		&.added {
+			-webkit-animation: pop 1s ease;
+		}
+
 		&.invoice-paid,
 		&.invoice-overdue,
 		&.invoice-late {
