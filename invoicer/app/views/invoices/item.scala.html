@@ -1,0 +1,17 @@
+@(invoice : Invoice)
+
+<li class="@if(invoice.wasPaidOnTime()) {	invoice-paid
+	} else {
+		@if(invoice.isOverdue()) {	invoice-overdue
+	} else {
+		@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
+	}}}">
+	<a href="@routes.Invoices.show(invoice.id)">
+		<strong class="invoice-title">@invoice.title</strong>
+		
+		<label>Client</label>@invoice.client.name
+		<label>Invoice date</label><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
+		<label>Due date</label>
+		<time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time>
+	</a>
+</li>
