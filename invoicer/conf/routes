@@ -36,8 +36,9 @@ DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
 
 # Bank Accounts
 
-GET    /bankaccounts      			controllers.BankAccounts.index()
-GET    /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
+GET     /bankaccounts      			controllers.BankAccounts.index()
+POST    /bankaccounts      			controllers.BankAccounts.create()
+GET     /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
 POST    /bankaccounts/:id      		controllers.BankAccounts.update(id: Long)
 GET		/bankaccounts/:id/edit		controllers.BankAccounts.edit(id: Long)
 

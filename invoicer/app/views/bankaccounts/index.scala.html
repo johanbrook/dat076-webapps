@@ -3,6 +3,10 @@
 
 @main("BankAccounts") {
 
+<div class="form-container" hidden>
+		@create_form(addForm)
+	</div>
+
 	<h2 class="alignleft">Bank Accounts <span class="bubble">@bankAccounts.size()</span></h2>
 
 	<a class="alignright btn" href="#" id="add-bankaccount-btn">Add Bank Account</a>
