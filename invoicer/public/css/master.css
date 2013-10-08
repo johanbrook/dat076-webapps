@@ -508,7 +508,7 @@ main {
 
 /* =BUTTONS
 ------------------------- */
-.btn,
+.btn, .btn-dangerous,
 button,
 input[type="button"],
 input[type="submit"] {
@@ -530,7 +530,7 @@ input[type="submit"] {
   border-radius: 3px;
   font-weight: bold;
 }
-.btn:hover,
+.btn:hover, .btn-dangerous:hover,
 button:hover,
 input[type="button"]:hover,
 input[type="submit"]:hover {
@@ -543,6 +543,16 @@ input[type="submit"] {
   padding: .5em 1em;
   color: green;
   border-color: green;
+}
+
+.btn-dangerous {
+  color: #cc0000;
+  border-color: #cc0000;
+}
+.btn-dangerous:hover {
+  background-color: #cc0000;
+  color: #fff;
+  border-color: #cc0000;
 }
 
 .btn-cancel {
