@@ -40,7 +40,7 @@ public class Invoices extends Application {
 	}
 
 	public static Result index() {
-    	
+		
     	return respondTo(new Responder() {
 			
 			@Override
@@ -52,11 +52,13 @@ public class Invoices extends Application {
 			public Result html() {
 				return ok(index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
 			}
+			@Override
+			public Result script() { return noContent();}
 		});
     }
 	
 	public static Result show(Long id) {
-		return respondTo(Invoice.find.byId(id), show.ref());
+		return respondTo(Invoice.find.byId(id), show.ref(), null);
 	}
 	
 	public static Result create() {
@@ -77,6 +79,8 @@ public class Invoices extends Application {
 					return badRequest(index.
 							render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
 				}
+				@Override
+				public Result script() {return badRequest();}
 			});
 		}
 		else {
@@ -98,6 +102,10 @@ public class Invoices extends Application {
 				public Result html() {
 					flash("success", "Invoice was created!");
 					return goHome();
+				}
+				@Override
+				public Result script() {
+					return created(views.js.invoices.create.render(in));
 				}
 			});
 		}

@@ -50,11 +50,7 @@ $(function() {
 			dueDate: $("#due-date").val()
 		};
 
-		$.post("/invoices", data, function(result){
-			var rendered = Util.template($("#invoice-template").html(), result);
-
-			$(".invoice-list").prepend(rendered);
-		}, "json");
+		$.post("/invoices", data, "script");
 	});
 });
 
