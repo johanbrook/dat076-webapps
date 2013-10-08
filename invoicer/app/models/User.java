@@ -38,7 +38,7 @@ public class User extends AbstractModel {
 	@OneToMany(orphanRemoval=true, mappedBy="owner", cascade=CascadeType.ALL)
 	public List<Invoice> invoices;
 	
-	@Pattern(value = "^[0-9]{6}-[0-9]{4}$")	//TODO: Verify that constraint works
+	@Pattern(value = "^[0-9]{6}-[0-9]{4}$", message = "error.organizationNumberPattern")	//TODO: Verify that constraint works
 	public String organizationNumber;
 	
 	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);

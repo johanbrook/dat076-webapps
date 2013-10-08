@@ -71,6 +71,8 @@ public class Users extends Application {
 			return badRequest(index.render(filledForm));
 		}
 		
+		
+		// Form valid, create user
 		User user = filledForm.get();
 		
 		// Hash the password with jBCrypt and save to database
