@@ -6,8 +6,5 @@ var item = "@views.html.invoices.item.render(invoice)";
 // the list.
 $(".invoice-list").prepend(item).find("li:first").addClass("added");
 
-incrementTotal($("#invoices-total"));
+Util.incrementInvoices();
 
-function incrementTotal(element) {
-	element.text(parseInt(element.text()) + 1);
-}
