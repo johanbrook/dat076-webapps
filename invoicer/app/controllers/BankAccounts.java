@@ -33,7 +33,46 @@ public class BankAccounts extends Application {
 	}
 
 	public static Result create(){
-		return null;
+final Form<BankAccount> filledForm = form.bindFromRequest();
+		
+		if(filledForm.hasErrors()) {
+			
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+				
+				@Override
+				public Result html() {
+					flash("error", "There were errors in your form.");
+					return badRequest(index.render(BankAccount.find.all(), filledForm));
+				}
+			});
+		}
+		else {
+			final BankAccount ba = filledForm.get();
+			
+			//in.owner = Session.getCurrentUser();
+			//in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
+			ba.save();
+			
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result json() {
+					setLocationHeader(ba);
+					return created(Json.toJson(ba));
+				}
+				
+				@Override
+				public Result html() {
+					flash("success", "Bank account was created!");
+					return goHome();
+				}
+			});
+		}
 
 	}
 
