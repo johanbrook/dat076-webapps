@@ -11,13 +11,13 @@ package test.controllers;
 import static org.junit.Assert.*;
 
 import models.Invoice;
+
+import org.fest.assertions.Assertions;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
-
 import play.mvc.*;
 import static play.test.Helpers.*;
-import play.test.*;
 
 import test.BaseTest;
 
@@ -99,4 +99,32 @@ public class InvoicesTest extends BaseTest {
 		
 		assertNull(Invoice.find.byId(existingId));
 	}
+	
+	@Test
+	public void testRequestJSON() {
+		Result index = callAction(
+			controllers.routes.ref.Invoices.index(),
+			fakeRequest()
+				.withSession("userId", "1")
+				.withHeader(ACCEPT, "application/json")
+		);
+		
+		
+		assertEquals(OK, status(index));
+		assertEquals("application/json", contentType(index));
+		
+		Invoice i = Invoice.find.all().get(0);
+		
+		Result show = callAction(
+				controllers.routes.ref.Invoices.show(i.id),
+				fakeRequest()
+					.withSession("userId", "1")
+					.withHeader(ACCEPT, "application/json")
+			);
+		
+		assertEquals(OK, status(show));
+		assertEquals("application/json", contentType(show));
+		Assertions.assertThat(contentAsString(show)).contains("\"title\":\""+i.title+"\"");
+	}
 }
+
