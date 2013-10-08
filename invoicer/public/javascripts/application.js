@@ -24,6 +24,7 @@ Util = (function(util) {
 	return exports = methods;
 })(window.Util);
 
+
 // DOM Ready
 
 $(function() {
@@ -40,17 +41,5 @@ $(function() {
 	updateNewInvoiceTitle();
 
 	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
-
-	$(".create-form").on("submit", function(evt) {
-		evt.preventDefault();
-		var data = {
-			title: $("#title").val(),
-			"client.id": $("#client-dropdown").val(),
-			invoiceDate: $("#invoice-date").val(),
-			dueDate: $("#due-date").val()
-		};
-
-		$.post("/invoices", data, "script");
-	});
 });
 

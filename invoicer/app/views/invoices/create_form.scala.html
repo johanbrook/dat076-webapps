@@ -16,7 +16,7 @@
 </ul>
 }
 
-@form(routes.Invoices.create(), 'class -> "create-form") {
+<form action="@routes.Invoices.create()" method="post" data-remote="true" class="create-form">
 	<p>
 		<label for="title">Invoice title</label>
 		<input type="text" id="title" name="title" /></p>
@@ -44,4 +44,4 @@
 		<input type="submit" value="Add invoice" />
 		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
 	</p>
-}
+</form>
