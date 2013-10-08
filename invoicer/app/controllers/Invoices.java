@@ -88,6 +88,8 @@ public class Invoices extends Application {
 			
 			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
+			in.setPaid(Form.form().bindFromRequest().get("ispaid") != null);
+
 			in.save();
 			
 			return respondTo(new Responder() {
