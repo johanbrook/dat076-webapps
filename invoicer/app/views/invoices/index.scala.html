@@ -8,7 +8,7 @@
 
 @main("Invoices") {
 
-	<div class="form-container" hidden>
+	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
 		@create_form(addForm)
 	</div>
 
