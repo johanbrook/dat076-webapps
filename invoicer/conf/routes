@@ -41,6 +41,7 @@ POST    /bankaccounts      			controllers.BankAccounts.create()
 GET     /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
 POST    /bankaccounts/:id      		controllers.BankAccounts.update(id: Long)
 GET		/bankaccounts/:id/edit		controllers.BankAccounts.edit(id: Long)
+GET		/bankaccounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
 
 # Clients
 

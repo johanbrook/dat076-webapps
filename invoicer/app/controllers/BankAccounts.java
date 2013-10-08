@@ -54,8 +54,6 @@ final Form<BankAccount> filledForm = form.bindFromRequest();
 		else {
 			final BankAccount ba = filledForm.get();
 			
-			//in.owner = Session.getCurrentUser();
-			//in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
 			ba.save();
 			
 			return respondTo(new Responder() {
@@ -100,6 +98,19 @@ final Form<BankAccount> filledForm = form.bindFromRequest();
 		bankAccount.update(id);
 
 		return goHome();
+	}
+	
+	public static Result destroy(Long id){
+		BankAccount bankAccount = BankAccount.find.byId(id);
+		
+		if(bankAccount != null) {
+			bankAccount.delete();
+			flash("success", "The bankAccount was deleted.");
+			return goHome();
+		}
+		else {
+			return notFound(show.render(bankAccount));
+		}
 	}
 
 	private static Result goHome() {
