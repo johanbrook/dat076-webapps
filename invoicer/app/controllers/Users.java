@@ -71,9 +71,13 @@ public class Users extends Application {
 			return badRequest(index.render(filledForm));
 		}
 		
-		
 		// Form valid, create user
 		User user = filledForm.get();
+		
+		// set country to null if no country was chosen
+		if(filledForm.field("country").value().equals("default")) {
+			user.country = null;
+		}
 		
 		// Hash the password with jBCrypt and save to database
 		user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
