@@ -1,59 +1,28 @@
-@(bankaccounts: List[BankAccount])
+@(bankAccounts: List[BankAccount], addForm: Form[BankAccount])
 @import helper._
 
 @main("BankAccounts") {
 
-	<h1>This is bank accounts view</h1>
-	
-	<table id="invoiceTable" class="tablesorter" border=1>
+	<h2 class="alignleft">Bank Accounts <span class="bubble">@bankAccounts.size()</span></h2>
 
-	<thead>
-		<tr>
-				<th>Invoice title</th>
-				<th>Invoice date</th>
-				<th>Due date</th>
-				<th>Owner</th>
-				<th>Client</th>
-		</tr>
-	</thead>
-	<tbody>
-		@for(bankaccount <- bankaccounts) {
-			<tr>
-				<td>@bankaccount.accountNumber</td>
-			
-			</tr>
+	<a class="alignright btn" href="#" id="add-bankaccount-btn">Add Bank Account</a>
+
+	<br class="clear" />
+	
+	@if(bankAccounts != null && !bankAccounts.isEmpty()) {
+	<ol class="bankaccount-list">
+		@for(bankAccount <- bankAccounts) {
+		
+			<a href="@routes.BankAccounts.show(bankAccount.id)">
+				<strong class="bankaccount-accountnumber">@bankAccount.accountNumber</strong>
+				
+				<label>Account type</label>@bankAccount.accountType
+				<label>Bank</label>@bankAccount.bank
+				<label>IBAN</label>@bankAccount.iban
+				<label>BIC</label>@bankAccount.bic
+			</a>
 		}
-	</tbody>
-	
-	</table>
-	
-	@*@if(addForm.hasErrors()){
-	<h3>Errors</h3>
-	<ul class="negative">
-		@addForm.errors().map { 
-			case (prop, errors) => {
-			
-			@for(error <- errors) {
-				<li>@prop: @error.message()</li>
-			}
-			}
-		}
-	</ul>
-	}
-	
-	@form(routes.Invoices.create()) {
-		<p><input type="text" name="title" /></p>
-		<p><input type="date" name="invoiceDate" /></p>
-		<p><input type="date" name="dueDate" /></p>
-		
-		@helper.select(
-			addForm("client.id"), 
-			options = Client.find.all().map { c => c.id.toString() -> c.name.toString()},
-			'_label -> "Client" 
-		)
-		
-		
-		<input type="submit" value="Create invoice" />
-	}*@
+	</ol>
+	}	
     
 }

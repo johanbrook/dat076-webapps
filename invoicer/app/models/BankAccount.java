@@ -24,7 +24,21 @@ public class BankAccount extends AbstractModel {
 	public AccountType accountType;
 
 	public enum AccountType{
-		PG, BG, BUSINESSACCOUNT
+		PG("PG"),
+		BG("BG"),
+		BUSINESSACCOUNT("Business Account");
+		
+		private String name;
+		
+		private AccountType(String name){
+			this.name = name;
+		}
+		
+		public String getName(){
+			System.out.println(super.toString());
+			return name;
+		}
+		
 	}
 
 	// Finder object

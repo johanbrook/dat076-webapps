@@ -32,7 +32,6 @@ public class Secured extends Authenticator {
     public Result onUnauthorized(Context ctx) {
     	
     	//TODO: return unauthorized status code instead?
-    	Logger.info("onUnauthorized");
         return redirect(routes.Session.newSession());
     }
 

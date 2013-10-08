@@ -25,83 +25,43 @@
 	    <fieldset>
 	        <legend>Account information</legend>
 	        
-	        @inputText(
-	            signupForm("username"), 
-	            '_label -> "Username", 
-	            '_help -> "Please choose a valid username.",
-	            '_error -> signupForm.globalError
-	        )
-	        
-	        @inputPassword(
-	            signupForm("password"), 
-	            '_label -> "Password",
-	            '_help -> "A password must be at least 6 characters. "
-	        )
-	        
-	        @inputPassword(
-	            signupForm("repeatPassword"), 
-	            '_label -> "Repeat password",
-	            '_help -> "Please repeat your password again.",
-	            '_error -> signupForm.error("password")
-	        )
-	        
-	        
+	        <p><input type="text" name="username" placeholder="Username"></p>
+	        <p><input type="password" name="password" placeholder="Password"></p>
+	    	<p><input type="password" name="repeatPassword" placeholder="Repeat password"></p>
+		    
 	    </fieldset>
 	    
 	    <fieldset>
-	            
-	            <legend>Personal information</legend>
-	            
-	            @inputText(
-		            signupForm("name"),
-		            '_label -> "name",
-		            '_help -> "Please enter your full name.",
-		            '_error -> signupForm.globalError
-		        )
-	            
-	            @textarea(
-	                signupForm("address"),
-	                '_label -> "Address",
-	                'cols -> 50
-	            )
-	            
-	            @inputText(
-		            signupForm("postalCode"),
-		            '_label -> "postalCode",
-		            '_help -> "Please enter your postal code.",
-		            '_error -> signupForm.globalError
-		        )
-		        
-		        @inputText(
-		            signupForm("organizationNumber"),
-		            '_label -> "organizationNumber",
-		            '_help -> "Please enter your organization number.",
-		            '_error -> signupForm.globalError
-		        )
-		        
-		        @select(
-	                signupForm("country"), 
-	                options = options(User.getCountries),
-	                '_default -> "Choose a country",
-	                '_label -> "Country",
-	                '_error -> signupForm("country").error.map(_.withMessage("Please select your country"))
-	            )
-	            
-	        </fieldset>
-	        
-	        <fieldset>
-	            
-	            @checkbox(
-	                signupForm("accept"), 
-	                '_label -> None, '_text -> "You agree the Terms and conditions",
-	                '_showConstraints -> false
-	            )
-	            
-	        </fieldset>
 	    
+	            
+            <legend>Personal information</legend>
+            
+            <p><input type="text" name="name" placeholder="Your full name"></p>
+            <p><textarea" cols="50" name="address" placeholder="Address"></p>
+            <p><input type="text" name="postalCode" placeholder="Postal Code"></p>
+            <p><input type="text" name="organizationNumber" placeholder="Organization number"></p>
+            
+            
+            <select name="country">
+				@for(country <- User.getCountries()) {
+					<option value="@country">@country</option>	
+				}
+			</select>
+            
+        </fieldset>
+        
+        <fieldset>
+            
+            @checkbox(
+                signupForm("accept"), 
+                '_label -> None, '_text -> "You agree to the Terms and conditions",
+                '_showConstraints -> false
+            )
+            
+        </fieldset>
 	    
 	    <p><button type="submit">Signup</button></p>
-	    <p><a href="@routes.Application.index">Cancel</a></p>
+	    <p><a href="/">Cancel</a></p>
 	    
 	
 	}

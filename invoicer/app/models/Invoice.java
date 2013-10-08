@@ -13,9 +13,12 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
-import com.avaje.ebean.ExpressionList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
+import util.CustomDateSerializer;
 
 @Entity
 public class Invoice extends AbstractModel {
@@ -26,21 +29,25 @@ public class Invoice extends AbstractModel {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	@Formats.DateTime(pattern="yyyy-MM-dd")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date invoiceDate;
 	
 	@Required
 	@Temporal(TemporalType.DATE)
 	@Formats.DateTime(pattern="yyyy-MM-dd")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date dueDate;
 	
 	@Temporal(TemporalType.DATE)
 	@Formats.DateTime(pattern="yyyy-MM-dd")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date datePaid;
 	
 	// @Required
 	// TODO: should be required, but deactivate for now due to controller problems
 	@Column(nullable=false)
 	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JsonIgnore
 	public User owner;
 	
 	@Required
@@ -65,8 +72,8 @@ public class Invoice extends AbstractModel {
 		this(new Date(), owner, client);
 	}
 
-	public static ExpressionList<Invoice> invoicesOfUser(Long userId) {
-		return find.where().like("owner", String.valueOf(userId));
+	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
+		return find.where().like("owner", String.valueOf(userId)).orderBy("dueDate");
 	}
 	
 	public static List<Invoice> getInvoicesOfUser(Long userId) {

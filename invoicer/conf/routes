@@ -2,6 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Home page
+GET     /                           controllers.Invoices.index()
+
 # Login page
 
 GET     /login                      controllers.Session.newSession()
@@ -16,21 +19,27 @@ GET     /logout                     controllers.Session.destroy()
 GET     /createuser                 controllers.Users.index()
 POST    /createuser                 controllers.Users.create()
 
-# Home page
-GET     /                           controllers.Application.index()
-
 # Invoices
 
 GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
 GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)
-POST	/invoices/:id				controllers.Invoices.update(id: Long)
+
+# Workaround for Play not supporting bypassing HTTP methods in the Router
+POST	/invoices/:id/update		controllers.Invoices.update(id: Long)
+PUT		/invoices/:id				controllers.Invoices.update(id: Long)
+
+# Same as above ...
+POST	/invoices/:id/delete		controllers.Invoices.destroy(id: Long)
 DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
 
 # Bank Accounts
 
-GET    /bankaccount      			controllers.BankAccounts.index()
+GET    /bankaccounts      			controllers.BankAccounts.index()
+GET    /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
+POST    /bankaccounts/:id      		controllers.BankAccounts.update(id: Long)
+GET		/bankaccounts/:id/edit		controllers.BankAccounts.edit(id: Long)
 
 # Clients
 

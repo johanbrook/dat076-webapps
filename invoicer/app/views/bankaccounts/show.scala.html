@@ -1,0 +1,34 @@
+@( bankAccount: BankAccount )
+@import helper._
+
+@main(bankAccount.accountNumber) {
+
+<p class="back back-bankAccounts">
+	<a href="@routes.BankAccounts.index()">← All bank accounts</a>
+</p>
+
+<section class="bankAccount">
+	<header class="group">
+		<h1 class="alignleft">@bankAccount.accountNumber</h1>
+
+		<a href="@routes.BankAccounts.edit(bankAccount.id)" class="btn alignright">Edit</a>
+	</header>	
+	
+	<dl>
+	 <dt>Account type</dt>
+		<dd>@bankAccount.accountType.toString()</dd>
+		
+		<dt>Bank</dt>
+		<dd>@bankAccount.bank</dd>
+		
+		<dt>IBAN</dt>
+		<dd>@bankAccount.iban</dd>
+		
+		<dt>BIC</dt>
+		<dd>@bankAccount.bic</dd>
+		
+	
+	</dl>
+
+</section>
+}

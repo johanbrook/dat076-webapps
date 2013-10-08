@@ -14,13 +14,13 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import org.mindrot.jbcrypt.BCrypt;
+import views.html.users.*;
 
 /**
  * @author Robin
  *
  */
-//TODO: Write tests
-public class Users extends Controller {
+public class Users extends Application {
 	
 	public static Form<User> form = Form.form(User.class);
 	
@@ -32,7 +32,7 @@ public class Users extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		return ok(views.html.users.index.render(form));
+		return ok(index.render(form));
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class Users extends Controller {
 		if(filledForm.hasErrors()) {
 			
 			Logger.info("Form errors " + filledForm.errors());
-			return badRequest(views.html.users.index.render(form));
+			return badRequest(index.render(filledForm));
 		}
 		
 		User user = filledForm.get();
@@ -89,7 +89,7 @@ public class Users extends Controller {
 		session("userId", String.valueOf(user.id));
 		Logger.info("*** User '" + user.username + "' created ***");
 		
-		return Application.index();
+		return redirect(controllers.routes.Invoices.index());
 		
 	}
 

@@ -6,14 +6,14 @@ package controllers;
 import models.User;
 import play.Logger;
 import play.data.Form;
-import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.session.*;
 
 /**
  * @author Robin
  *
  */
-public class Session extends Controller {
+public class Session extends Application {
 	
 	/**
 	 * (Action called from GET to /login)
@@ -24,7 +24,7 @@ public class Session extends Controller {
     public static Result newSession() {
     	
     	// Send the LoginForm class to the form
-    	return ok(views.html.session.index.render(Form.form(LoginForm.class)));
+    	return ok(index.render(Form.form(LoginForm.class)));
     }
     
     /**
@@ -40,7 +40,7 @@ public class Session extends Controller {
     	Form<LoginForm> loginForm = Form.form(LoginForm.class).bindFromRequest();
     	
     	if(loginForm.hasErrors()) {
-    		return badRequest(views.html.session.index.render(loginForm));
+    		return badRequest(index.render(loginForm));
     	}
     	
     	User user = User.find.where().eq("username", loginForm.get().username).findUnique();

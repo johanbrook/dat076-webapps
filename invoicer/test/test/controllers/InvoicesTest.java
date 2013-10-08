@@ -66,7 +66,24 @@ public class InvoicesTest extends BaseTest {
 	
 	@Test
 	public void testUpdate() {
+		Invoice existing = Invoice.find.all().get(0);
 		
+		Result update = callAction(
+			controllers.routes.ref.Invoices.update(existing.id),
+			fakeRequest()
+				.withSession("userId", "1")
+				.withFormUrlEncodedBody(ImmutableMap.of(
+					"title", "New title",
+					"dueDate", "2013-12-30",
+					"client.id", "1"
+				))
+		);
+		Invoice updated = Invoice.find.where().eq("title", "New title").findUnique();
+		assertNotNull(updated);
+		assertEquals("New title", updated.title);
+		
+		assertEquals(303, status(update));
+		assertEquals("/invoices/"+existing.id, header("Location", update));
 	}
 	
 	@Test

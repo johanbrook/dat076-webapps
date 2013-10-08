@@ -40,16 +40,20 @@ public class ClientsTest extends BaseTest {
 		assertEquals(303, status(index));
 	}
 
+	/**
+	 * Test for creating Clients
+	 */
 	@Test
 	public void testCreate() {
-
+		// Testing to add a correct Client
 		Result result = callAction(
 				controllers.routes.ref.Clients.create(),
 				fakeRequest().withSession("userId", "1")
 						.withFormUrlEncodedBody(
 								(ImmutableMap.of("name", "testName",
 										"orgNumber", "666666-6666"))));
-
+		
+		// Testing the validation of the orgNumber
 		Result badResult = callAction(
 				controllers.routes.ref.Clients.create(),
 				fakeRequest().withSession("userId", "1")
@@ -68,6 +72,9 @@ public class ClientsTest extends BaseTest {
 		assertNotNull(newClient);
 	}
 
+	/**
+	 * Testing to update an existing Client
+	 */
 	@Test
 	public void testUpdate() {
 		Client oldClient = Client.find.all().get(0);
@@ -90,14 +97,19 @@ public class ClientsTest extends BaseTest {
 		assertEquals("777777-7777", newClient.orgNumber);
 	}
 
+	/**
+	 * Testing to remove a Client with and without invoices
+	 */
 	@Test
 	public void testDestroy() {
+		// Testing to remove a Client
 		Long id = Client.find.where().eq("name", "client Without Invoice")
 				.findUnique().id;
 		Result resultWithoutInvoice = callAction(
 				controllers.routes.ref.Clients.destroy(id), fakeRequest()
 						.withSession("userId", "1"));
 
+		// Testing to remove a Client with invoices (The invoices should also be deleted)
 		Long invoiceId = Invoice.find.where()
 				.eq("title", "Test client destroy").findUnique().id;
 		Result resultWithInvoice = callAction(

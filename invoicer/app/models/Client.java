@@ -19,7 +19,7 @@ import play.db.ebean.Model.Finder;
 public class Client extends AbstractModel {
 	
 	@Required
-	@Column(nullable=false) //TODO Should this use unique=true?
+	@Column(nullable=false)
 	public String name;
 	
 	public String address;

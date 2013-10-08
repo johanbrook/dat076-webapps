@@ -1,0 +1,38 @@
+@( bankAccount: BankAccount, editForm: Form[BankAccount] )
+@import helper._
+
+@main("Edit bank account") {
+	<h1>Editing @bankAccount.accountNumber</h1>
+	
+	@if(editForm.hasErrors()){
+	<h3>Errors</h3>
+	<ul class="negative">
+		@editForm.errors().map { 
+			case (prop, errors) => {
+			
+			@for(error <- errors) {
+				<li>@prop: @error.message()</li>
+			}
+			}
+		}
+	</ul>
+	}	
+	
+	@form(routes.BankAccounts.update(bankAccount.id)) {  
+		<input type="hidden" name="_method" value="PUT" />
+		
+		<p><input type="text" name="accountNumber" value="@editForm("accountNumber").value" /></p>
+		<p><input type="text" name="bank" value="@editForm("bank").value" /></p>
+		
+		@helper.select(
+			editForm("accountType"), 
+			options = models.BankAccount.AccountType.values.toSeq.map {c => c.toString -> c.getName()},
+			'_label -> "Account type" 
+		)
+		
+		
+		<p>
+			<input type="submit" value="Update" />
+		</p>
+	}
+}

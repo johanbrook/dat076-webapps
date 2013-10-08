@@ -8,23 +8,21 @@
 
 package controllers;
 
+import views.html.invoices.*;
 import models.Client;
 import java.util.List;
 
-import com.avaje.ebean.ExpressionList;
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import models.Invoice;
-import models.User;
-import play.Logger;
+import play.api.templates.Html;
 import play.data.Form;
-import play.db.ebean.Transactional;
-import play.mvc.Controller;
+import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
-public class Invoices extends Controller {
+public class Invoices extends Application {
 	
 	public static Form<Invoice> form = Form.form(Invoice.class);
 
@@ -42,30 +40,66 @@ public class Invoices extends Controller {
 	}
 
 	public static Result index() {
-    	return ok(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
+    	
+    	return respondTo(new Responder() {
+			
+			@Override
+			public Result json() {
+				return ok(Json.toJson(Invoice.find.all()));
+			}
+			
+			@Override
+			public Result html() {
+				return ok(index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
+			}
+		});
     }
 	
 	public static Result show(Long id) {
-		return ok(views.html.invoices.show.render(Invoice.find.byId(id)));
+		return respondTo(Invoice.find.byId(id), show.ref());
 	}
 	
 	public static Result create() {
-		Form<Invoice> filledForm = form.bindFromRequest();
+		final Form<Invoice> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
-			flash("error", "There were errors in your form.");
-			return badRequest(views.html.invoices.index.
-					render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
+			
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+				
+				@Override
+				public Result html() {
+					flash("error", "There were errors in your form.");
+					return badRequest(index.
+							render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), filledForm));
+				}
+			});
 		}
 		else {
-			Invoice in = filledForm.get();
+			final Invoice in = filledForm.get();
 			
 			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId( Long.parseLong( Form.form().bindFromRequest().get("client.id") ) );
 			in.save();
 			
-			flash("success", "Invoice was created!");
-			return goHome();
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result json() {
+					setLocationHeader(in);
+					return created(Json.toJson(in));
+				}
+				
+				@Override
+				public Result html() {
+					flash("success", "Invoice was created!");
+					return goHome();
+				}
+			});
 		}
 		
 	}
@@ -74,7 +108,7 @@ public class Invoices extends Controller {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> editForm = form.fill(invoice);
 		
-		return ok(views.html.invoices.edit.render(invoice, editForm));
+		return ok(edit.render(invoice, editForm));
 	}
 	
 	public static Result update(Long id) {
@@ -85,7 +119,6 @@ public class Invoices extends Controller {
 			return badRequest(views.html.invoices.edit.render(invoice, filledForm));
 		}
 		
-		invoice.title = filledForm.get().title;
 		/*
 		 * TODO: this doesn't work for now.
 		 * 
@@ -94,16 +127,20 @@ public class Invoices extends Controller {
 		
 //		invoice.client.id = filledForm.get().client.id;
 		
-		invoice.title = filledForm.get().title;
-		invoice.dueDate = filledForm.get().dueDate;
+		if(filledForm.get().title != null)	
+			invoice.title = filledForm.get().title;
 		
-		invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
+		if(filledForm.get().dueDate != null)
+			invoice.dueDate = filledForm.get().dueDate;
+		
+		if(Form.form().bindFromRequest().get("ispaid") != null)
+			invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
 		
 		invoice.update(id);
 
 		flash("success", "Invoice " + invoice.title + " was updated!");
 		
-		return goHome();
+		return redirect(controllers.routes.Invoices.show(id));
 	}
 	
 	public static Result destroy(Long id) {
@@ -115,7 +152,7 @@ public class Invoices extends Controller {
 			return goHome();
 		}
 		else {
-			return badRequest(views.html.invoices.index.render(invoicesOfCurrentUser(), paidInvoicesOfCurrentUser(), overdueInvoicesOfCurrentUser(), form));
+			return notFound(show.render(invoice));
 		}
 	}
 	
