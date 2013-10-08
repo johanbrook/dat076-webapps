@@ -45,6 +45,8 @@ public class BankAccounts extends Application {
 		
 		bankAccount.accountNumber = filledForm.get().accountNumber;
 		bankAccount.bank = filledForm.get().bank;
+
+		bankAccount.update(id);
 	
 		return goHome();
 	}
