@@ -14,7 +14,8 @@
 
 
 	$.adapter = adapter = {
-		formSubmitSelector: 'form[data-remote]'
+		formSubmitSelector: 'form[data-remote]',
+		linkSelector: 'a[data-remote]'
 	};
 
 	/*
@@ -27,6 +28,11 @@
 			method = element.attr("method");
 			url = element.attr("action");
 			data = element.serializeArray();
+		}
+		else {
+			method = element.data("method");
+			url = element.attr("href");
+			data = element.data("params") || null;
 		}
 
 		options = {
@@ -60,4 +66,16 @@
 			handleRemote(form);
 		}
 	});
+
+	$document.delegate(adapter.linkSelector, "click", function(evt) {
+		var $link = $(this),
+				method = $link.data("method");
+
+		if($link.data("remote") !== undefined) {
+			if ( (evt.metaKey || evt.ctrlKey) && (!method || method === 'GET')) { return true; }
+			evt.preventDefault();
+			handleRemote($link);
+		}
+	});
+
 })(jQuery);
