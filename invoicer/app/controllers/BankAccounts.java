@@ -45,6 +45,9 @@ public class BankAccounts extends Application {
 		
 		bankAccount.accountNumber = filledForm.get().accountNumber;
 		bankAccount.bank = filledForm.get().bank;
+		bankAccount.accountType = filledForm.get().accountType;
+		bankAccount.iban = filledForm.get().iban;
+		bankAccount.bic = filledForm.get().bic;
 
 		bankAccount.update(id);
 	
