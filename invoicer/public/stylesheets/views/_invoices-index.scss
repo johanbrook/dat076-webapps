@@ -16,8 +16,10 @@
 	li {
 		margin-bottom: $lineheight / 2;
 		border: 1px solid #ccc;
+		position: relative;
 		@include border-radius(5px);
 		@include box-shadow(rgba(#000, .2) 0 1px 3px);
+		@include transition(opacity .5s, -webkit-transform .5s);
 
 		&:hover {
 			@include box-shadow(rgba(#000, .3) 0 1px 3px);
@@ -26,6 +28,11 @@
 
 		&.added {
 			-webkit-animation: pop 1s ease;
+		}
+
+		&.removed {
+			-webkit-transform: scale(0);
+			opacity: 0;
 		}
 
 		&.invoice-paid,
@@ -87,10 +94,37 @@
 		margin-left: 0;
 	}
 
-	li > a {
+	li > a:not(.delete) {
 		padding: 10px;
 		display: block;
 		text-decoration: none;
 		color: $text-color;
+	}
+
+	li:hover .delete {
+		display: inline-block;
+	}
+
+	.delete {
+		@include transition(none);
+		display: none;
+		position: absolute;
+		top: 3px;
+		right: 5px;
+		font-weight: bold;
+		text-decoration: none;
+		color: darken(red, 10%);
+		font-size: to_em(17);
+		z-index: 999;
+		@include border-radius(100%);
+		height: 1em;
+		width: 1em;
+		line-height: .8;
+		text-align: center;
+
+		&:hover {
+			background-color: darken(red, 10%);
+			color: #fff;
+		}
 	}
 }

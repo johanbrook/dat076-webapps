@@ -777,6 +777,7 @@ th {
 .invoice-list li {
   margin-bottom: 0.75em;
   border: 1px solid #ccc;
+  position: relative;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -785,6 +786,10 @@ th {
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  -moz-transition: opacity 0.5s, -webkit-transform 0.5s;
+  -o-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
 }
 .invoice-list li:hover {
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
@@ -794,6 +799,10 @@ th {
 }
 .invoice-list li.added {
   -webkit-animation: pop 1s ease;
+}
+.invoice-list li.removed {
+  -webkit-transform: scale(0);
+  opacity: 0;
 }
 .invoice-list li.invoice-paid, .invoice-list li.invoice-overdue, .invoice-list li.invoice-late {
   position: relative;
@@ -842,11 +851,42 @@ th {
 .invoice-list li label:first-of-type {
   margin-left: 0;
 }
-.invoice-list li > a {
+.invoice-list li > a:not(.delete) {
   padding: 10px;
   display: block;
   text-decoration: none;
   color: #4a4f52;
+}
+.invoice-list li:hover .delete {
+  display: inline-block;
+}
+.invoice-list .delete {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  display: none;
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #cc0000;
+  font-size: 1.0625em;
+  z-index: 999;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
+  border-radius: 100%;
+  height: 1em;
+  width: 1em;
+  line-height: .8;
+  text-align: center;
+}
+.invoice-list .delete:hover {
+  background-color: #cc0000;
+  color: #fff;
 }
 
 /* =LOGIN VIEW
