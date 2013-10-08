@@ -152,12 +152,27 @@ public class Invoices extends Application {
 	}
 	
 	public static Result destroy(Long id) {
-		Invoice invoice = Invoice.find.byId(id);
+		final Invoice invoice = Invoice.find.byId(id);
 		
 		if(invoice != null) {
 			invoice.delete();
-			flash("success", "The invoice was deleted.");
-			return goHome();
+
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					return noContent();
+				}
+				
+				@Override
+				public Result html() {
+					flash("success", "The invoice was deleted");
+					return goHome();
+				}
+				@Override
+				public Result script() {
+					return ok(views.js.invoices.destroy.render(invoice));
+				}
+			});
 		}
 		else {
 			return notFound(show.render(invoice));

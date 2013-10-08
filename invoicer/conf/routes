@@ -31,8 +31,8 @@ POST	/invoices/:id/update		controllers.Invoices.update(id: Long)
 PUT		/invoices/:id				controllers.Invoices.update(id: Long)
 
 # Same as above ...
-POST	/invoices/:id/delete		controllers.Invoices.destroy(id: Long)
 DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
+POST	/invoices/:id/delete		controllers.Invoices.destroy(id: Long)
 
 # Bank Accounts
 
