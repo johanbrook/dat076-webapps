@@ -6,7 +6,12 @@
 	} else {
 		@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
 	}}}">
-	<a class="delete" title="Remove invoice" href="@routes.Invoices.destroy(invoice.id)" data-remote="true" data-method="delete">×</a>
+	<a class="delete" 
+		title="Remove invoice" 
+		href="@routes.Invoices.destroy(invoice.id)" 
+		data-remote="true" 
+		data-confirm="Are you sure you want to remove this invoice?"
+		data-method="delete">×</a>
 	<a href="@routes.Invoices.show(invoice.id)">
 		<strong class="invoice-title">@invoice.title</strong>
 		

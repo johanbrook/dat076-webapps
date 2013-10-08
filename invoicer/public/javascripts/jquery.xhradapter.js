@@ -15,7 +15,21 @@
 
 	$.adapter = adapter = {
 		formSubmitSelector: 'form[data-remote]',
-		linkSelector: 'a[data-remote]'
+		linkSelector: 'a[data-remote], a[data-confirm]',
+
+		allowAction: function(element) {
+			var message = element.data("confirm"),
+					answer = false;
+
+			if(!message) return true;
+
+			return confirm(message);
+		},
+
+		stopEverything: function(evt) {
+			evt.stopImmediatePropagation();
+			return false;
+		}
 	};
 
 	/*
@@ -60,6 +74,7 @@
 	$document.delegate(adapter.formSubmitSelector, "submit", function(evt) {
 		var form = $(this),
 				remote = form.data("remote") !== undefined;
+		if(! adapter.allowAction(form)) return adapter.stopEverything(evt);
 
 		if(remote) {
 			evt.preventDefault();
@@ -68,13 +83,15 @@
 	});
 
 	$document.delegate(adapter.linkSelector, "click", function(evt) {
-		var $link = $(this),
-				method = $link.data("method");
+		var link = $(this),
+				method = link.data("method");
 
-		if($link.data("remote") !== undefined) {
+		if(! adapter.allowAction(link)) return adapter.stopEverything(evt);
+
+		if(link.data("remote") !== undefined) {
 			if ( (evt.metaKey || evt.ctrlKey) && (!method || method === 'GET')) { return true; }
 			evt.preventDefault();
-			handleRemote($link);
+			handleRemote(link);
 		}
 	});
 
