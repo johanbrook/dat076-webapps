@@ -6,6 +6,7 @@ import play.mvc.Result;
 import models.BankAccount;
 import models.Client;
 import models.Invoice;
+import models.BankAccount.AccountType;
 import play.mvc.Security;
 
 import views.html.bankaccounts.*;
@@ -89,12 +90,12 @@ final Form<BankAccount> filledForm = form.bindFromRequest();
 			return badRequest(edit.render(bankAccount, filledForm));
 		}
 
-		bankAccount.accountNumber = filledForm.get().accountNumber;
-		bankAccount.bank = filledForm.get().bank;
 		bankAccount.accountType = filledForm.get().accountType;
+		bankAccount.bank = filledForm.get().bank;
 		bankAccount.iban = filledForm.get().iban;
 		bankAccount.bic = filledForm.get().bic;
-
+		setAccountNumber(bankAccount, filledForm);
+		
 		bankAccount.update(id);
 
 		return goHome();
@@ -115,6 +116,28 @@ final Form<BankAccount> filledForm = form.bindFromRequest();
 
 	private static Result goHome() {
 		return redirect(controllers.routes.BankAccounts.index());
+	}
+	
+	private static void setAccountNumber(BankAccount bankAccount, Form<BankAccount> filledForm ){
+		AccountType aType = bankAccount.accountType;
+		String aNumber = filledForm.get().accountNumber;
+		
+		switch(aType){
+		 case PG: if(aNumber.matches("[0-9]{1,6}(-[0-9]{1})")){
+			 bankAccount.accountNumber = aNumber;
+		 }
+        break;
+		 case BG: if(aNumber.matches("[0-9]{4}-[0-9]{4}")){
+			 bankAccount.accountNumber = aNumber;
+		 }
+		 break;
+		 case BUSINESSACCOUNT: if(aNumber.matches("[0-9]{4}(-[0-9]{1})[0-9]{0,9}(-[0-9]){0,1}")){
+			 bankAccount.accountNumber = aNumber;
+		 }
+		 break;
+		 default: 
+        break;
+		}
 	}
 
 }
