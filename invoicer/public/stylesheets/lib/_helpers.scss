@@ -12,6 +12,38 @@
 	margin: -1px 0 0 0;
 }
 
+#notification {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 10px;
+	text-align: center;
+	border-bottom: solid 2px;
+	font-weight: bold;
+	font-size: to_em(16);
+	cursor: pointer;
+
+	&.notice {
+		background-color: rgba(lighten(yellow, 20%), .5);
+		border-color: darken(yellow, 15%);
+		color: darken(yellow, 30%);
+	}
+
+	&.positive {
+		background-color: rgba(desaturate(lighten(green, 30%), 20%), .3);
+		border-color: green;
+		color: darken(green, 10%);
+	}
+
+	&.negative {
+		background-color: rgba(darken(red, 10%), .7);
+		border-color: darken(red, 20%);
+		color: #fff;
+	}
+}
+
 .negative {
 	color: darken(red, 10%);
 }

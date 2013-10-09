@@ -18,6 +18,7 @@ body {
 	padding: $lineheight / 2 2% $lineheight;
 	@include box-shadow(rgba(#000, .2) 0 2px 4px);
 	@include clearfix;
+	position: relative;
 }
 
 main, 
