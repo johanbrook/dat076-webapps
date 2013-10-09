@@ -12,71 +12,8 @@
 	* Tell Play where to send the form  *
 	*************************************@
 	@helper.form(routes.Users.create) {
-	    
-	    
-	    @*************************************
-		 * Display error message if user    *
-		 * creation failed                  *
-	 	*************************************@
-	    @if(signupForm.hasGlobalErrors) {
-	    <p class="error">
-	        @signupForm.globalError.message
-	    </p>
-		}
 		
-	    <fieldset>
-	        <legend>Account information</legend>
-	        
-	        <p><input required type="text" name="username" placeholder="Username"><span class="negative"> *
-	        	@if(signupForm.error("username") != null) {
-					@Messages( signupForm.error("username").message() )
-				}</span></p>
-	        <p><input required type="password" name="password" placeholder="Password"><span class="negative"> *
-	        	@if(signupForm.error("password") != null) {
-					@Messages( signupForm.error("password").message() )
-				}</span></p>
-	    	<p><input required type="password" name="repeatPassword" placeholder="Repeat password"><span class="negative"> *
-	    		@if(signupForm.error("repeatPassword") != null) {
-					@Messages( signupForm.error("repeatPassword").message() )
-				}</span></p>
-		    
-	    </fieldset>
+		@create_form(signupForm)
 	    
-	    <fieldset>
-	    	
-            <legend>Personal information</legend>
-            
-            <p><input type="text" name="name" placeholder="Your full name"></p>
-            <p><textarea" cols="50" name="address" placeholder="Address"></p>
-            <p><input type="text" name="postalCode" placeholder="Postal Code"></p>
-            <p><input type="text" name="organizationNumber" placeholder="Organization number">
-            	<span class="negative">
-	            	@if(signupForm.error("organizationNumber") != null) {
-						@Messages( signupForm.error("organizationNumber").message(), signupForm.error("organizationNumber").arguments() )
-					}
-				</span></p>
-            
-            
-            <select name="country">
-            	<option value="default">Select a country</option>
-				@for(country <- User.getCountries()) {
-					<option value="@country">@country</option>	
-				}
-			</select>
-            
-        </fieldset>
-        
-        <fieldset>
-            <input type="checkbox" required name="accept" value="true">You accept the terms and conditions (if we had such :P)
-            <span class="negative"> *</br>
-            	@if(signupForm.error("accept") != null) {
-						@Messages( signupForm.error("accept").message() )
-					}
-            </span>
-        </fieldset>
-	    
-	    <p><button type="submit">Signup</button><a href="/">Cancel</a></p>
-	    
-	
 	}
 }
