@@ -916,6 +916,9 @@ th {
   bottom: 5px;
   right: 5px;
 }
+.invoice-list .star:hover {
+  color: #59676f;
+}
 .invoice-list .star.starred {
   color: green;
 }
