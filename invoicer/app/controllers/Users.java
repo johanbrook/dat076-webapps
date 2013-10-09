@@ -107,7 +107,7 @@ public class Users extends Application {
 	 * @return
 	 */
 	public static Result edit() {
-		form.fill(Session.getCurrentUser());
+		form = form.fill(Session.getCurrentUser());
 		
 		return ok(views.html.users.edit.render(form));
 	}
