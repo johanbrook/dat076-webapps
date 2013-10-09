@@ -157,9 +157,8 @@ public class Invoices extends Application {
 		
 		if(filledForm.get().dueDate != null)
 			invoice.dueDate = filledForm.get().dueDate;
-		
-		if(Form.form().bindFromRequest().get("ispaid") != null)
-			invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
+
+		invoice.setPaid( Form.form().bindFromRequest().get("ispaid") != null );
 		
 		invoice.update(id);
 
