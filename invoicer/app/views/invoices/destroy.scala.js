@@ -5,3 +5,4 @@ $("#invoice-@invoice.id").addClass("removed").on("webkitTransitionEnd", function
 });
 
 Util.decrementInvoices();
+Util.showNotice("The invoice was removed forever and ever");
