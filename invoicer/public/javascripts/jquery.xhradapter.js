@@ -39,7 +39,7 @@
 		var dataType = "script", method, url, data;
 
 		if(element.is("form")) {
-			method = element.attr("method");
+			method = element.find("[name='_method']").val() || element.attr("method");
 			url = element.attr("action");
 			data = element.serializeArray();
 		}
@@ -66,7 +66,6 @@
 		};
 
 		if (url) { options.url = url; }
-
 		var jqXhr = $.ajax(options);
 		element.trigger("ajax:send", jqXhr);
 	}
