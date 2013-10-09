@@ -1,5 +1,5 @@
 /**
-*	Client.java
+*	GoogleMail.java
 *
 *	@author Andreas Rolén
 *	@copyright (c) 2013 Andreas Rolén
@@ -33,8 +33,8 @@ public class GoogleMail {
      * @throws AddressException if the email address parse failed
      * @throws MessagingException if the connection is dead or not in the connected state or if the message is not a MimeMessage
      */
-    public static void Send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
-        GoogleMail.Send(username, password, recipientEmail, "", title, message);
+    public static void send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
+        GoogleMail.send(username, password, recipientEmail, "", title, message);
     }
 
     /**
@@ -49,7 +49,7 @@ public class GoogleMail {
      * @throws AddressException if the email address parse failed
      * @throws MessagingException if the connection is dead or not in the connected state or if the message is not a MimeMessage
      */
-    public static void Send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
+    public static void send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
