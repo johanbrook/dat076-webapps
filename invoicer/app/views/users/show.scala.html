@@ -6,7 +6,7 @@
 		<header class="group">
 			<h1 class="alignleft">User information</h1>
 	
-			<a href="nej" class="btn alignright">Edit</a>
+			<a href="@routes.Users.edit()" class="btn alignright">Edit</a>
 		</header>	
 		
 		@defining(Session.getCurrentUser) { user =>

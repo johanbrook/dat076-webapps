@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Client;
+import models.Invoice;
 import models.User;
 import play.Logger;
 import play.data.Form;
@@ -14,6 +15,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import org.mindrot.jbcrypt.BCrypt;
+
 import views.html.users.*;
 
 /**
@@ -97,6 +99,17 @@ public class Users extends Application {
 	 */
 	public static Result show() {
 		return ok(views.html.users.show.render());
+	}
+	
+	/**
+	 * (Action called from GET to /edituser
+	 * 
+	 * @return
+	 */
+	public static Result edit() {
+		form.fill(Session.getCurrentUser());
+		
+		return ok(views.html.users.edit.render(form));
 	}
 
 }

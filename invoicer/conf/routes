@@ -19,6 +19,7 @@ GET     /logout                     controllers.Session.destroy()
 GET     /createuser                 controllers.Users.index()
 POST    /createuser                 controllers.Users.create()
 GET		/user					    controllers.Users.show()
+GET     /edituser                   controllers.Users.edit()
 
 # Invoices
 
