@@ -456,6 +456,35 @@ table {
   display: table-cell;
 }
 
+.details {
+  /* For IE 6/7 (trigger hasLayout) */
+}
+.details:before, .details:after {
+  content: "";
+  display: table;
+}
+.details:after {
+  clear: both;
+}
+.details {
+  *zoom: 1;
+}
+.details dt, .details dd {
+  float: left;
+}
+.details dt {
+  clear: left;
+  margin-right: .5em;
+  text-align: right;
+  min-width: 100px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5em;
+}
+
 .back {
   font-size: 0.875em;
 }
@@ -630,6 +659,10 @@ p {
   margin: 0.75em 0 1.5em;
 }
 
+dt {
+  font-weight: bold;
+}
+
 /* =FORM STYLING
 ------------------------------------ */
 input[type="text"],
@@ -685,6 +718,11 @@ h1 .bubble, h1 .badge, h2 .bubble, h2 .badge, h3 .bubble, h3 .badge, h4 .bubble,
   font-size: .8em;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  color: #8c9aa2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+}
 
 .subheading {
   color: #8c9aa2;
@@ -698,6 +736,11 @@ h1 {
 
 h2 {
   font-size: 1.25em;
+}
+
+h3 {
+  color: #8c9aa2;
+  margin-bottom: .5em;
 }
 
 /* =TABLE STYLING

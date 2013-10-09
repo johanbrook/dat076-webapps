@@ -2,7 +2,7 @@
 @import helper._
 
 @main("Edit invoice") {
-	<h1>Editing @invoice.title</h1>
+	<h1>Editing invoice <small>@invoice.title</small></h1>
 	
 	@if(editForm.hasErrors()){
 	<h3>Errors</h3>

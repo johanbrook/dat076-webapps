@@ -81,6 +81,27 @@
 	}
 }
 
+.details {
+	@include clearfix;
+
+	dt, dd {
+		float: left;
+	}
+
+	dt {
+		clear: left;
+		margin-right: .5em;
+		text-align: right;
+		min-width: 100px;
+	}
+}
+
+.list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 $lineheight;
+}
+
 .back {
 	font-size: to_em(14);
 }

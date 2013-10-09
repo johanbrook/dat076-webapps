@@ -9,24 +9,26 @@
 
 <section class="client">
 	<header class="group">
-		<h1 class="alignleft">@client.name</h1>
+		<h1 class="alignleft">Client <small>@client.name</small></h1>
 
 		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>
 	</header>	
 	
-	<dl>
-		<dt>Client name</dt>
+	<dl class="details">
+		<dt>Name</dt>
 		<dd>@client.name</dd>
 		
-		<dt>Client Organization Number</dt>
+		<dt>Org.no.</dt>
 		<dd>@client.orgNumber</dd>
 		
-		<dt>Client Adress</dt>
-		<dd>Address: @client.address</dd>
-		<dd>Postal Code: @client.postalCode</dd>
-		<dd>Country: @client.country</dd>
+		<dt>Address</dt>
+		<dd>@client.address</dd>
+		<dt>Postal code</dt>
+		<dd>@client.postalCode</dd>
+		<dt>Country</dt>
+		<dd>@client.country</dd>
 		
-		<dt>Client Contact Person</dt>
+		<dt>Contact</dt>
 		<dd>@client.contactPerson</dt>
 	
 	</dl>
