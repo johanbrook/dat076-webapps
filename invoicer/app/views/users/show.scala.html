@@ -1,0 +1,35 @@
+@import helper._
+
+@main("User information") {
+
+	<section class="invoice">
+		<header class="group">
+			<h1 class="alignleft">header</h1>
+	
+			<a href="nej" class="btn alignright">Edit</a>
+		</header>	
+		
+		<dl>
+			<dt>Username</dt>
+			<dd>@Session.getCurrentUser().username</dd>
+			
+			<dt>Name</dt>
+			<dd>@Session.getCurrentUser().name</dd>
+			
+			<dt>Address</dt>
+			<dd>@Session.getCurrentUser().address</dd>
+			
+			<dt>Organization Number</dt>
+			<dd>@Session.getCurrentUser().organizationNumber</dd>
+			
+			<dt>Country</dt>
+			<dd>@Session.getCurrentUser().country</dd>
+			
+			<dt>Postal Code</dt>
+			<dd>@Session.getCurrentUser().postalCode</dd>
+			
+		
+		</dl>
+	
+	</section>
+}

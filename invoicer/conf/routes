@@ -14,10 +14,11 @@ POST    /login                      controllers.Session.createSession()
 
 GET     /logout                     controllers.Session.destroy()
 
-# Create user page
+# User pages
 
 GET     /createuser                 controllers.Users.index()
 POST    /createuser                 controllers.Users.create()
+GET		/user					    controllers.Users.show()
 
 # Invoices
 

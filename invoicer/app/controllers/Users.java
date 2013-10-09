@@ -89,5 +89,14 @@ public class Users extends Application {
 		return redirect(controllers.routes.Invoices.index());
 		
 	}
+	
+	/**
+	 * (Action called from GET to /user)
+	 * 
+	 * @return
+	 */
+	public static Result show() {
+		return ok(views.html.users.show.render());
+	}
 
 }
