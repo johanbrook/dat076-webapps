@@ -23,7 +23,7 @@ public class BankAccountsTest extends BaseTest {
 	public void testIndex() {
 		Result index = callAction(controllers.routes.ref.BankAccounts.index());
 		
-		assertEquals(OK, status(index));
+		assertEquals(303, status(index));
 	}
 	
 	@Test
@@ -32,7 +32,7 @@ public class BankAccountsTest extends BaseTest {
 		
 		Result show = callAction(controllers.routes.ref.BankAccounts.show(existingId));
 		
-		assertEquals(OK, status(show));
+		assertEquals(303, status(show));
 	}
 	
 	@Test
