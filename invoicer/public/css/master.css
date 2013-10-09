@@ -891,14 +891,33 @@ th {
 .invoice-list li label:first-of-type {
   margin-left: 0;
 }
-.invoice-list li > a:not(.delete) {
+.invoice-list li > a:not(.delete):not(.star) {
   padding: 10px;
   display: block;
   text-decoration: none;
   color: #4a4f52;
 }
-.invoice-list li:hover .delete {
-  display: inline-block;
+.invoice-list li:hover .delete,
+.invoice-list li:hover .star {
+  display: inline-block !important;
+}
+.invoice-list li .star:not(.starred) {
+  display: none;
+}
+.invoice-list .star {
+  position: absolute;
+  z-index: 998;
+  color: #8c9aa2;
+  text-decoration: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  bottom: 5px;
+  right: 5px;
+}
+.invoice-list .star.starred {
+  color: green;
 }
 .invoice-list .delete {
   -webkit-transition: none;

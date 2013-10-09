@@ -210,6 +210,33 @@ public class Invoices extends Application {
 		}
 	}
 	
+
+	public static Result toggleStarred(Long id) {
+		final Invoice invoice = Invoice.find.byId(id);
+
+		if(invoice != null) {
+			invoice.toggleStarred();
+			invoice.update(invoice.id);
+
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					return noContent();
+				}
+				
+				@Override
+				public Result html() {
+					return redirect(controllers.routes.Invoices.show(invoice.id));
+				}
+				@Override
+				public Result script() {
+					return ok(views.js.invoices.starred.render(invoice));
+				}
+			});
+		}
+
+		return notFound();
+	}
 	
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());

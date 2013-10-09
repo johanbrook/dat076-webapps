@@ -126,5 +126,21 @@ public class InvoicesTest extends BaseTest {
 		assertEquals("application/json", contentType(show));
 		Assertions.assertThat(contentAsString(show)).contains("\"title\":\""+i.title+"\"");
 	}
+
+	@Test
+	public void testToggleStarred() {
+		Invoice invoice = Invoice.find.all().get(0);
+		boolean isStarred = invoice.starred;
+
+		Result starred = callAction(
+			controllers.routes.ref.Invoices.toggleStarred(invoice.id),
+			fakeRequest()
+				.withSession("userId", "1")
+				.withHeader(ACCEPT, "application/script")
+		);
+
+		assertEquals(OK, status(starred));
+		assertEquals(!isStarred, invoice.starred);
+	}
 }
 

@@ -19,5 +19,12 @@
 		<label>Invoice date</label><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
 		<label>Due date</label>
 		<time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time>
+
+		<a
+			title="Star invoice" 
+			data-method="put"
+			data-remote="true"
+			class="star @if(invoice.starred) {starred}"
+			href="@routes.Invoices.toggleStarred(invoice.id)">★</a>
 	</a>
 </li>

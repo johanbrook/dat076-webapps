@@ -94,15 +94,34 @@
 		margin-left: 0;
 	}
 
-	li > a:not(.delete) {
+	li > a:not(.delete):not(.star) {
 		padding: 10px;
 		display: block;
 		text-decoration: none;
 		color: $text-color;
 	}
 
-	li:hover .delete {
-		display: inline-block;
+	li:hover .delete,
+	li:hover .star {
+		display: inline-block !important;
+	}
+
+	li .star:not(.starred) {
+		display: none;
+	}
+	
+	.star {
+		position: absolute;
+		z-index: 998;
+		color: $grey;
+		text-decoration: none;
+		@include transition(none);
+		bottom: 5px;
+		right: 5px;
+
+		&.starred {
+			color: green;
+		}
 	}
 
 	.delete {
