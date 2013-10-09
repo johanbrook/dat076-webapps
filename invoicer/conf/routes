@@ -25,12 +25,9 @@ GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
 GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)
-
-# Workaround for Play not supporting bypassing HTTP methods in the Router
 PUT		/invoices/:id				controllers.Invoices.update(id: Long)
-
-# Same as above ...
 DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
+PUT		/invoices/:id/star		controllers.Invoices.toggleStarred(id: Long)
 
 # Bank Accounts
 

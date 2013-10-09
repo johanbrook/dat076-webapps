@@ -53,6 +53,11 @@ public class Invoice extends AbstractModel {
 	@Required
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
+
+	// Embed the 'starred' attribute directly in the model. If we were to handle
+	// many more invoice records, I would've created a new table for keeping track
+	// of starred invoices instead of having a redundant column in the Invoices table.
+	public boolean starred = false;
 	
 	// Finder object
 	public static Finder<Long, Invoice> find = new Finder<Long, Invoice>(Long.class, Invoice.class);
@@ -109,5 +114,9 @@ public class Invoice extends AbstractModel {
 	
 	public void setPaid(boolean paid) {
 		this.datePaid = paid ? DateTime.now().toDate() : null;
+	}
+
+	public void toggleStarred() {
+		this.starred = !this.starred;
 	}
 }

@@ -42,6 +42,7 @@
   client: *chalmers
   dueDate: 2013-09-30
   invoiceDate: 2013-09-01
+  starred: true
 
 - !!models.Invoice
   title: Test invoice 2
@@ -56,6 +57,7 @@
   invoiceDate: 2013-08-01
   dueDate: 2013-08-31
   datePaid: 2013-08-25
+  starred: true
 
 - !!models.Invoice
   title: Test invoice 4
