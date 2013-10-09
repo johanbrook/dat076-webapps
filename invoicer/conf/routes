@@ -27,12 +27,10 @@ GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)
 
 # Workaround for Play not supporting bypassing HTTP methods in the Router
-POST	/invoices/:id/update		controllers.Invoices.update(id: Long)
 PUT		/invoices/:id				controllers.Invoices.update(id: Long)
 
 # Same as above ...
 DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
-POST	/invoices/:id/delete		controllers.Invoices.destroy(id: Long)
 
 # Bank Accounts
 

@@ -122,11 +122,26 @@ public class Invoices extends Application {
 	}
 	
 	public static Result update(Long id) {
-		Invoice invoice = Invoice.find.byId(id);
-		Form<Invoice> filledForm = form.bindFromRequest();
+		final Invoice invoice = Invoice.find.byId(id);
+		final Form<Invoice> filledForm = form.bindFromRequest();
 		
 		if(filledForm.hasErrors()) {
-			return badRequest(views.html.invoices.edit.render(invoice, filledForm));
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+				
+				@Override
+				public Result html() {
+					flash("fail", "Something went wrong when trying to update the invoice");
+					return badRequest(views.html.invoices.edit.render(invoice, filledForm));
+				}
+				@Override
+				public Result script() {
+					return badRequest(views.js.invoices.update.render(invoice, filledForm));
+				}
+			});
 		}
 		
 		/*
@@ -148,9 +163,23 @@ public class Invoices extends Application {
 		
 		invoice.update(id);
 
-		flash("success", "Invoice " + invoice.title + " was updated!");
-		
-		return redirect(controllers.routes.Invoices.show(id));
+		return respondTo(new Responder() {
+			@Override
+			public Result json() {
+				setLocationHeader(invoice);
+				return ok(Json.toJson(invoice));
+			}
+			
+			@Override
+			public Result html() {
+				flash("success", "Invoice " + invoice.title + " was updated!");
+				return redirect(controllers.routes.Invoices.show(invoice.id));
+			}
+			@Override
+			public Result script() {
+				return ok(views.js.invoices.update.render(invoice, filledForm));
+			}
+		});
 	}
 	
 	public static Result destroy(Long id) {

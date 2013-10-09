@@ -18,7 +18,7 @@
 	</ul>
 	}	
 	
-	@form(routes.Invoices.update(invoice.id)) {
+	<form action="@routes.Invoices.update(invoice.id)" method="post" data-remote="true">
 		<input type="hidden" name="_method" value="PUT" />
 		
 		<p><input type="text" name="title" value="@editForm("title").value" /></p>
@@ -37,5 +37,5 @@
 		<p>
 			<input type="submit" value="Update" /> or <a href="@routes.Invoices.show(invoice.id)">Cancel</a>
 		</p>
-	}
+	</form>
 }
