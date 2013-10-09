@@ -31,16 +31,12 @@
 		this.element.addClass(this.settings.type);
 	}
 
-	function bindCloseOnClick(element, methods) {
-		
-	}
-
 	function retrieveOrCreateElement(selector) {
 		if( $(selector).length === 0 ) {
 			return $("<div />", {id: selector}).prependTo("body");
 		}
-
-		return $(selector);
+		// Remember to clear any existing class attributes
+		return $(selector).attr("class", "");
 	}
 
 	Notification.prototype = {
