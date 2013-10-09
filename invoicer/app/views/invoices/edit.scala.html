@@ -21,14 +21,20 @@
 	<form action="@routes.Invoices.update(invoice.id)" method="post" data-remote="true">
 		<input type="hidden" name="_method" value="PUT" />
 		
-		<p><input type="text" name="title" value="@editForm("title").value" /></p>
-		<p><input type="date" name="dueDate" value="@editForm("dueDate").value" /></p>
+		<p>
+			<label for="title">Title</label>
+			<input id="title" type="text" name="title" value="@editForm("title").value" /></p>
 		
-		@helper.select(
-			editForm("client.id"), 
-			options = Client.find.all().map { c => c.id.toString() -> c.name.toString()},
-			'_label -> "Client" 
-		)
+		<p>
+			<label for="due-date">Due date</label>
+			<input id="due-date" type="date" name="dueDate" value="@editForm("dueDate").value" /></p>
+		
+		<label for="client">Client</label>
+		<select name="client.id" id="client">
+			@for(client <- Client.find.all()) {
+			<option value="@client.id" @if(client.id == invoice.client.id){selected}>@client.name</option>
+			}
+		</select>
 		
 		<p>
 			<label><input type="checkbox" name="ispaid" @if(invoice.isPaid()) { checked } /> Is paid?</label>
