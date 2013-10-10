@@ -8,18 +8,23 @@
 
 package controllers;
 
+import play.*;
 import views.html.invoices.*;
 import models.Client;
-import java.util.List;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import models.Invoice;
 import play.api.templates.Html;
 import play.data.Form;
+import play.libs.*;
 import play.libs.Json;
+import play.mvc.*;
 import play.mvc.Result;
 import play.mvc.Security;
+
+import akka.actor.*;
 
 public class Invoices extends Application {
 	
@@ -38,6 +43,7 @@ public class Invoices extends Application {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result index() {
 		
     	return respondTo(new Responder() {
@@ -263,6 +269,21 @@ public class Invoices extends Application {
 		});
 	}
 
+	public static Result setPaid(Long id) {
+		Invoice invoice = Invoice.find.byId(id);
+		// Fetch reference to Akka actor and send event
+		final ActorRef actor = Events.InvoiceActor.instance;
+
+		if(invoice != null) {
+			invoice.setPaid();
+			invoice.save();
+			
+			actor.tell(Json.toJson(invoice), null);
+			return ok();
+		}
+
+		return notFound();
+	}
 	
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());
