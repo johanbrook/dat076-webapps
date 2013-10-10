@@ -7,6 +7,7 @@
   country: Sweden
   orgNumber: 556479-5598
   contactPerson: Karin Markides
+  email: andreasrolen93@gmail.com
   
 - &pripps !!models.Client
   name: Pripps
@@ -15,6 +16,7 @@
   country: Sweden
   orgNumber: 556002-4795
   contactPerson: Johan Albrecht Pripps
+  email: andreasrolen93@gmail.com
 
 # Users
 
