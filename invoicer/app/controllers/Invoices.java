@@ -21,7 +21,6 @@ import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Security;
 
-@Security.Authenticated(Secured.class)
 public class Invoices extends Application {
 	
 	public static Form<Invoice> form = Form.form(Invoice.class);
@@ -57,10 +56,12 @@ public class Invoices extends Application {
 		});
     }
 	
+	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		final Form<Invoice> filledForm = form.bindFromRequest();
 		
@@ -114,6 +115,7 @@ public class Invoices extends Application {
 		
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		Form<Invoice> editForm = form.fill(invoice);
@@ -121,6 +123,7 @@ public class Invoices extends Application {
 		return ok(edit.render(invoice, editForm));
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
 		final Form<Invoice> filledForm = form.bindFromRequest();
@@ -181,6 +184,7 @@ public class Invoices extends Application {
 		});
 	}
 	
+	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
 		
@@ -209,7 +213,7 @@ public class Invoices extends Application {
 		}
 	}
 	
-
+	@Security.Authenticated(Secured.class)
 	public static Result toggleStarred(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
 
@@ -237,6 +241,7 @@ public class Invoices extends Application {
 		return notFound();
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result starred() {
 		final List<Invoice> starred = Invoice.invoicesOfUser(Session.getCurrentUser().id)
 				.where().eq("starred", true).findList();
@@ -257,6 +262,7 @@ public class Invoices extends Application {
 			}
 		});
 	}
+
 	
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());
