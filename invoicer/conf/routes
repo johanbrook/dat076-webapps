@@ -16,10 +16,11 @@ GET     /logout                     controllers.Session.destroy()
 
 # User pages
 
-GET     /createuser                 controllers.Users.index()
-POST    /createuser                 controllers.Users.create()
-GET		/user					    controllers.Users.show()
-GET     /edituser                   controllers.Users.edit()
+GET     /user                       controllers.Users.index()
+POST    /user                       controllers.Users.create()
+GET		/user/show                  controllers.Users.show()
+GET     /user/edit                  controllers.Users.edit()
+POST    /user/edit                  controllers.Users.update()
 
 # Invoices
 

@@ -28,7 +28,7 @@ public class Users extends Application {
 	
 	
 	/**
-	 * (Action called from GET to /createuser)
+	 * (Action called from GET to /user)
 	 * 
 	 * 
 	 * @return
@@ -38,7 +38,7 @@ public class Users extends Application {
 	}
 	
 	/**
-	 * (Action called from POST to /createuser)
+	 * (Action called from POST to /user)
 	 * 
 	 * @return
 	 */
@@ -93,7 +93,7 @@ public class Users extends Application {
 	}
 	
 	/**
-	 * (Action called from GET to /user)
+	 * (Action called from GET to /user/show)
 	 * 
 	 * @return
 	 */
@@ -102,7 +102,7 @@ public class Users extends Application {
 	}
 	
 	/**
-	 * (Action called from GET to /edituser
+	 * (Action called from GET to /user/edit)
 	 * 
 	 * @return
 	 */
