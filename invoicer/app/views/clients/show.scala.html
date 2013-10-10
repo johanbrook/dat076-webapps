@@ -11,8 +11,14 @@
 	<header class="group">
 		<h1 class="alignleft">Client <small>@client.name</small></h1>
 
-		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>
-		<a href="@routes.Clients.sendInvoices(client.id)" class=" btn alignrigth">Send Invoices</a>
+		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>	
+			<a
+				title="Send invoices" 
+				data-method="post"
+				data-remote="true"
+				class="btn alignright"
+				href="@routes.Clients.sendInvoices(client.id)">Send Invoices</a>
+			</a>
 	</header>	
 	
 	<dl class="details">

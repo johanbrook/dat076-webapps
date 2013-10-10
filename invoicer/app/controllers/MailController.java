@@ -59,12 +59,13 @@ public class MailController {
 				// i.owner.bankAccount[0].bank + "\n" + "Account number: " +
 				// i.owner.bankAccount[0].accountNumber)
 				// message.append("Sum to pay: " + i.amount);
+				message.append("\n");
 			}
 		} else {
 			message.append("Congratulations you don't have any invoices to pay");
 		}
 		try {
-			GoogleMail.send(userName, pw, client.email,
+			GoogleMail.send(userName, pw, client.email, 
 					"All your invoices", message.toString());
 		} catch (AddressException e) {
 			Logger.info("Email address parse failed");
