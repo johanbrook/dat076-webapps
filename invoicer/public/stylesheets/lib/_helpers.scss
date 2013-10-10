@@ -102,6 +102,17 @@
 	margin: 0 0 $lineheight;
 }
 
+.horizontal-list {
+	@extend .list;
+	display: table;
+	width: 100%;
+	margin: 0;
+
+	li {
+		display: table-cell;
+	}
+}
+
 .back {
 	font-size: to_em(14);
 }

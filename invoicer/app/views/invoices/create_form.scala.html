@@ -16,20 +16,29 @@
 </ul>
 }
 
-<form action="@routes.Invoices.create()" method="post" data-remote="true" class="create-form">
+<form action="@routes.Invoices.create()" method="post" data-remote="true" class="create-form group">
 	<p>
 		<label for="title">Invoice title</label>
 		<input type="text" id="title" name="title" /></p>
 
-	<div class="table">
+	<p>
+		<label for="invoice-total">Total rate</label>
+		<input type="number" placeholder="$100.00" id="invoice-total" name="totalRate" min="0" />
+	</p>
+
+	<div class="table dates">
 		<p>
 			<label for="invoice-date">Invoice date</label>
 			<input type="date" id="invoice-date" name="invoiceDate" value="@{DateTime.now.toString("yyyy-MM-dd")}" /></p>
-		
+
 		<p>
 			<label for="due-date">Due date</label>
 			<input type="date" id="due-date" name="dueDate" value="@{ (DateTime.now + 2.months).toString("yyyy-MM-dd") }" /></p>
-		<p>
+
+	</div>
+
+	<div class="group submit">
+		<p class="alignleft">
 			<label for="client-dropdown">Client</label>
 			<select id="client-dropdown" name="client.id">
 			@for(client <- Client.find.all()) {
@@ -37,12 +46,11 @@
 			}
 			</select>
 		</p>
-
+		
+		<p class="alignright">
+			<label><input type="checkbox" name="ispaid" /> Already paid</label>
+			<input type="submit" value="Add invoice" />
+			<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
+		</p>
 	</div>
-	
-	<p class="right">
-		<label><input type="checkbox" name="ispaid" /> Already paid</label>
-		<input type="submit" value="Add invoice" />
-		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
-	</p>
 </form>

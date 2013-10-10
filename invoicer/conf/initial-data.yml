@@ -43,12 +43,14 @@
   dueDate: 2013-09-30
   invoiceDate: 2013-09-01
   starred: true
+  totalRate: 120
 
 - !!models.Invoice
   title: Test invoice 2
   owner: *henke
   client: *chalmers
   dueDate: 2013-10-30
+  totalRate: 5000
 
 - !!models.Invoice
   title: Test invoice 3
@@ -58,6 +60,7 @@
   dueDate: 2013-08-31
   datePaid: 2013-08-25
   starred: true
+  totalRate: 10000
 
 - !!models.Invoice
   title: Test invoice 4
@@ -66,6 +69,7 @@
   invoiceDate: 2013-10-01
   dueDate: 2013-10-30
   datePaid: 2013-11-02
+  totalRate: 50.55
 
 - !!models.Invoice
   title: Test invoice 5
@@ -73,6 +77,7 @@
   client: *pripps
   invoiceDate: 2013-09-01
   dueDate: 2013-10-30
+  totalRate: 100.10
 
 - !!models.Invoice
   title: Test invoice 6

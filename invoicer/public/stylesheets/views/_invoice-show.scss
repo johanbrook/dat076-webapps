@@ -7,6 +7,17 @@
 	border: 1px solid #ccc;
 	@include box-shadow(rgba(#000, .2) 0 2px 5px);
 	padding: 20px;
+
+	.summary {
+		color: $grey;
+		margin: 0;
+
+		.total-rate {
+			font-size: to_em(18);
+			font-family: $serif;
+			color: $text-color;
+		}
+	}
 }
 
 .back-invoices {

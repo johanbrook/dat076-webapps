@@ -58,6 +58,8 @@ public class Invoice extends AbstractModel {
 	// many more invoice records, I would've created a new table for keeping track
 	// of starred invoices instead of having a redundant column in the Invoices table.
 	public boolean starred = false;
+
+	public double totalRate = 0;
 	
 	// Finder object
 	public static Finder<Long, Invoice> find = new Finder<Long, Invoice>(Long.class, Invoice.class);

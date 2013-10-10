@@ -30,10 +30,17 @@
 		<li>@invoice.client.postalCode</li>
 		<li>@invoice.client.country</li>
 	</ol>
+	
+	<footer class="group">
+		@if(invoice.isPaid()){
+		<strong class="alignleft @if(invoice.wasPaidOnTime()){positive}else{negative}">Paid on <time>@invoice.datePaid.format("yyyy-MM-dd")</time></strong>
+		}
 
-	@if(invoice.isPaid()){
-	<strong class="@if(invoice.wasPaidOnTime()){positive}else{negative}">Paid on <time>@invoice.datePaid.format("yyyy-MM-dd")</time></strong>
-	}
+		<p class="summary alignright">
+			Total:
+			<strong class="total-rate">$@invoice.totalRate</strong>
+		</p>
+	</footer>
 
 </section>
 }

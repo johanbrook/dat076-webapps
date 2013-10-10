@@ -36,6 +36,7 @@ create table invoice (
   owner_id                  bigint,
   client_id                 bigint,
   starred                   boolean,
+  total_rate                double,
   constraint pk_invoice primary key (id))
 ;
 

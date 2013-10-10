@@ -479,10 +479,19 @@ table {
   min-width: 100px;
 }
 
-.list {
+.list, .horizontal-list {
   list-style: none;
   padding: 0;
   margin: 0 0 1.5em;
+}
+
+.horizontal-list {
+  display: table;
+  width: 100%;
+  margin: 0;
+}
+.horizontal-list li {
+  display: table-cell;
 }
 
 .back {
@@ -669,6 +678,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="url"],
+input[type="number"],
 input[type="date"],
 textarea {
   -webkit-appearance: none;
@@ -686,6 +696,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="url"]:focus,
+input[type="number"]:focus,
 input[type="date"]:focus,
 textarea:focus {
   outline: 0;
@@ -703,9 +714,25 @@ label[for] {
   display: block;
 }
 
-.create-form #title {
+.create-form #title,
+.create-form #invoice-total {
   width: 100%;
   font-size: 1.2em;
+}
+.create-form .dates {
+  border-spacing: 2px;
+}
+.create-form .dates > p {
+  width: 50%;
+}
+.create-form .dates > p input {
+  width: 100%;
+}
+.create-form .submit {
+  margin-top: 1.5em;
+}
+.create-form .submit p {
+  vertical-align: middle;
 }
 
 /*	=HEADINGS
@@ -849,6 +876,15 @@ th {
   box-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
   padding: 20px;
 }
+.invoice .summary {
+  color: #8c9aa2;
+  margin: 0;
+}
+.invoice .summary .total-rate {
+  font-size: 1.125em;
+  font-family: Bitter, Cambria, Georgia, serif;
+  color: #4a4f52;
+}
 
 .back-invoices {
   margin-top: -1.5em;
@@ -867,7 +903,7 @@ th {
   padding: 0;
   margin: 0;
 }
-.invoice-list li {
+.invoice-list > li {
   margin-bottom: 0.75em;
   border: 1px solid #ccc;
   position: relative;
@@ -884,24 +920,24 @@ th {
   -o-transition: opacity 0.5s, -webkit-transform 0.5s;
   transition: opacity 0.5s, -webkit-transform 0.5s;
 }
-.invoice-list li:hover {
+.invoice-list > li:hover {
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   border-color: #aaa;
 }
-.invoice-list li.added {
+.invoice-list > li.added {
   -webkit-animation: pop 1s ease;
 }
-.invoice-list li.removed {
+.invoice-list > li.removed {
   -webkit-transform: scale(0);
   opacity: 0;
 }
-.invoice-list li.invoice-paid, .invoice-list li.invoice-overdue, .invoice-list li.invoice-late {
+.invoice-list > li.invoice-paid, .invoice-list > li.invoice-overdue, .invoice-list > li.invoice-late {
   position: relative;
   overflow: hidden;
 }
-.invoice-list li.invoice-paid::before, .invoice-list li.invoice-overdue::before, .invoice-list li.invoice-late::before {
+.invoice-list > li.invoice-paid::before, .invoice-list > li.invoice-overdue::before, .invoice-list > li.invoice-late::before {
   content: "";
   display: block;
   position: absolute;
@@ -910,27 +946,30 @@ th {
   bottom: 0;
   width: 3px;
 }
-.invoice-list li.invoice-paid {
+.invoice-list > li.invoice-paid {
   border-color: #00b300;
   opacity: .8;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.invoice-list li.invoice-paid::before {
+.invoice-list > li.invoice-paid::before {
   background-color: #00b300;
 }
-.invoice-list li.invoice-overdue {
+.invoice-list > li.invoice-overdue {
   border-color: #cc8400;
 }
-.invoice-list li.invoice-overdue::before {
+.invoice-list > li.invoice-overdue::before {
   background-color: #cc8400;
 }
-.invoice-list li.invoice-late {
+.invoice-list > li.invoice-late {
   border-color: #cc0000;
 }
-.invoice-list li.invoice-late::before {
+.invoice-list > li.invoice-late::before {
   background-color: #cc0000;
+}
+.invoice-list .details {
+  font-size: .9em;
 }
 .invoice-list .invoice-title {
   display: block;

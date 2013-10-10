@@ -15,10 +15,20 @@
 	<a href="@routes.Invoices.show(invoice.id)">
 		<strong class="invoice-title">@invoice.title</strong>
 		
-		<label>Client</label>@invoice.client.name
-		<label>Invoice date</label><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
-		<label>Due date</label>
-		<time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time>
+		<ul class="details horizontal-list">
+			<li>
+				<label>Total</label>$@invoice.totalRate
+			</li>
+			<li>
+				<label>Client</label>@invoice.client.name
+			</li>
+			<li>
+				<label>Date</label><time>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
+			</li>
+			<li>
+				<label>Due date</label><time>@invoice.dueDate.format("yyyy-MM-dd")</time>
+			</li>
+		</ul>
 
 		<a
 			title="Star invoice" 
