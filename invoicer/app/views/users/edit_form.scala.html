@@ -12,54 +12,73 @@
 </p>
 }
 
-<fieldset>
-    <legend>Account information</legend>
-    
-    <p><input required type="text" name="username" value="@editForm("username").value" disabled="true"><span class="negative"> *
-    	@if(editForm.error("username") != null) {
-			@Messages( editForm.error("username").message() )
-		}</span></p>
-    <p><input required type="password" name="password" placeholder="Password"><span class="negative"> *
-    	@if(editForm.error("password") != null) {
-			@Messages( editForm.error("password").message() )
-		}</span></p>
-	<p><input required type="password" name="repeatPassword" placeholder="Repeat password"><span class="negative"> *
-		@if(editForm.error("repeatPassword") != null) {
-			@Messages( editForm.error("repeatPassword").message() )
-		}</span></p>
-    
-</fieldset>
-
-<fieldset>
-	
-    <legend>Personal information</legend>
-    
-    <p><input type="text" name="name" value="@editForm("name").value"></p>
-    <p><textarea" cols="50" name="address" value="@editForm("address").value"></p>
-    <p><input type="text" name="postalCode" value="@editForm("postalCode").value"></p>
-    <p><input type="text" name="organizationNumber" value="@editForm("organizationNumber").value">
-    	<span class="negative">
-        	@if(editForm.error("organizationNumber") != null) {
-				@Messages( editForm.error("organizationNumber").message(), editForm.error("organizationNumber").arguments() )
-			}
-		</span></p>
-    
-    <select name="country" >
-    	<option value="Not specified">Select a country</option>
-		@for(country <- User.getCountries()) {
-			@if(editForm("country") == country){
-				<option value="@country" selected="selected">@country</option>
-			}
-			<option value="@country">@country</option>
+<ul class="negative">
+	@editForm.errors().map { 
+		case (prop, errors) => {
+		
+		@for(error <- errors) {
+			<li>@prop: @error.message()</li>
 		}
-	</select>
-    
-</fieldset>
+		}
+	}
+</ul>
 
-<p>
-	<small>
-		<button type="submit">Apply changes</button>
-		 or 
-		<a href="@routes.Users.show()" class="btn-cancel close">Cancel</a>
-	</small>
-</p>
+@helper.form(routes.Users.update) {
+
+	<fieldset>
+	    <legend>Account information</legend>
+	    
+	    <p><label for="username">Username</label><input required type="text" name="username" value="@editForm("username").value" readonly><span class="negative">
+	    	@if(editForm.error("username") != null) {
+				@Messages( editForm.error("username").message() )
+			}</span></p>
+		<p><label for="oldPassword">Old password</label><input type="password" name="password" placeholder="Old password"><span class="negative">
+	    	@if(editForm.error("oldPassword") != null) {
+				@Messages( editForm.error("oldPassword").message() )
+			}</span></p>
+	    <p><label for="newPassword">New Password</label><input type="password" name="newPassword" placeholder="New password"><span class="negative">
+	    	@if(editForm.error("newPassword") != null) {
+				@Messages( editForm.error("newPassword").message() )
+			}</span></p>
+		<p><label for="repeatNewPassword">Repeat new password</label><input type="password" name="repeatNewPassword" placeholder="Repeat new password"><span class="negative">
+			@if(editForm.error("repeatPassword") != null) {
+				@Messages( editForm.error("repeatNewPassword").message() )
+			}</span></p>
+	    
+	</fieldset>
+	
+	<fieldset>
+		
+	    <legend>Personal information</legend>
+	    
+	    <p><label for="name">Name</label><input type="text" name="name" value="@editForm("name").value"></p>
+	    <p><label for="address">address</label><textarea" cols="50" name="address" value="@editForm("address").value"></p>
+	    <p><label for="postalCode">Postal code</label><input type="text" name="postalCode" value="@editForm("postalCode").value"></p>
+	    <p><label for="organizationNumber">Organization number</label><input type="text" name="organizationNumber" value="@editForm("organizationNumber").value">
+	    	<span class="negative">
+	        	@if(editForm.error("organizationNumber") != null) {
+					@Messages( editForm.error("organizationNumber").message(), editForm.error("organizationNumber").arguments() )
+				}
+			</span></p>
+	    
+	    <label for="country">Country</label>
+	    <select name="country" >
+	    	<option>Select a country</option>
+			@for(country <- User.getCountries()) {
+				@if(editForm("country") == country){
+					<option value="@country" selected="selected">@country</option>
+				}
+				<option value="@country">@country</option>
+			}
+		</select>
+	    
+	</fieldset>
+	
+	<p>
+		<small>
+			<button type="submit">Apply changes</button>
+			 or 
+			<a href="@routes.Users.show()" class="btn-cancel close">Cancel</a>
+		</small>
+	</p>
+}
