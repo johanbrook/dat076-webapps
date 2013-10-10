@@ -142,5 +142,18 @@ public class InvoicesTest extends BaseTest {
 		assertEquals(OK, status(starred));
 		assertEquals(!isStarred, invoice.starred);
 	}
+
+	@Test
+	public void testStarredInvoices() {
+		Result starred = callAction(
+					controllers.routes.ref.Invoices.starred(),
+					fakeRequest()
+						.withSession("userId", "1")
+				);
+
+		assertEquals(OK, status(starred));
+		assertEquals("/invoices/starred", header("Location", starred));
+		Assertions.assertThat(contentAsString(starred)).contains("Test invoice");
+	}
 }
 

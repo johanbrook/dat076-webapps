@@ -19,12 +19,24 @@
 		}
 	}
 
+	.badge-overdue {
+		background-color: orange;
+		color: #fff;
+	}
+
 	li {
 		border-bottom: 1px solid $grey-light;
 	}
 
-	.badge-overdue {
-		background-color: orange;
-		color: #fff;
+	ul ul li{
+		border-bottom: 0;
+		font-size: .85em;
+		padding-left: 1em;
+
+		a::before {
+			content: "★";
+			margin-right: 5px;
+			color: $grey;
+		}
 	}
 }

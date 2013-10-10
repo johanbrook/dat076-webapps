@@ -811,12 +811,22 @@ th {
   position: absolute;
   right: 3%;
 }
-[role="navigation"] li {
-  border-bottom: 1px solid #e1e4e6;
-}
 [role="navigation"] .badge-overdue {
   background-color: orange;
   color: #fff;
+}
+[role="navigation"] li {
+  border-bottom: 1px solid #e1e4e6;
+}
+[role="navigation"] ul ul li {
+  border-bottom: 0;
+  font-size: .85em;
+  padding-left: 1em;
+}
+[role="navigation"] ul ul li a::before {
+  content: "★";
+  margin-right: 5px;
+  color: #8c9aa2;
 }
 
 /* =SIDEBAR

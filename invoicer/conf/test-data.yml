@@ -42,6 +42,7 @@
     owner: *john
     client: *invoiceClient
     dueDate: 2013-09-30
+    starred: true
 
 - !!models.Invoice
     title: Test invoice
@@ -66,6 +67,7 @@
   title: Test invoice 2
   owner: *robin
   dueDate: 2013-09-30
+  starred: true
 
 - !!models.Invoice
   title: Invoice was paid on time 2

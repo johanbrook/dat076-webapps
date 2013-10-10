@@ -23,6 +23,7 @@ POST    /createuser                 controllers.Users.create()
 
 GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
+GET		/invoices/starred 		controllers.Invoices.starred()
 GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)
 PUT		/invoices/:id				controllers.Invoices.update(id: Long)

@@ -236,6 +236,27 @@ public class Invoices extends Application {
 
 		return notFound();
 	}
+
+	public static Result starred() {
+		final List<Invoice> starred = Invoice.invoicesOfUser(Session.getCurrentUser().id)
+				.where().eq("starred", true).findList();
+
+		return respondTo(new Responder() {
+			@Override
+			public Result json() {
+				return ok(Json.toJson(starred));
+			}
+			
+			@Override
+			public Result html() {
+				return ok(index.render(starred, null, null, form));
+			}
+			@Override
+			public Result script() {
+				return noContent();
+			}
+		});
+	}
 	
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());

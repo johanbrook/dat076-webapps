@@ -19,8 +19,10 @@
 
 		<p class="subheading">
 			<strong id="invoices-total">@invoices.size()</strong> invoices
+			@if(paidInvoices != null) {
 			(<strong id="invoices-paid">@paidInvoices.size()</strong> paid
-			@if(!overdueInvoices.isEmpty()) {, <strong id="invoices-overdue">@overdueInvoices.size()</strong> overdue})
+			}
+			@if(overdueInvoices != null && !overdueInvoices.isEmpty()) {, <strong id="invoices-overdue">@overdueInvoices.size()</strong> overdue)}
 		</p>
 	</header>
 	
