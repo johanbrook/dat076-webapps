@@ -32,7 +32,7 @@ public class MailController {
 		// invoice.owner.bankAccounts[0].type + "\n" + "Bank: " +
 		// invoice.owner.bankAccount[0].bank + "\n" + "Account number: " +
 		// invoice.owner.bankAccount[0].accountNumber)
-		// message.append("Sum to pay: " + invoice.amount);
+		message.append("Sum to pay: " + invoice.totalRate);
 
 		try {
 			GoogleMail.send(userName, pw, client.email,
@@ -58,7 +58,7 @@ public class MailController {
 				// i.owner.bankAccounts[0].type + "\n" + "Bank: " +
 				// i.owner.bankAccount[0].bank + "\n" + "Account number: " +
 				// i.owner.bankAccount[0].accountNumber)
-				// message.append("Sum to pay: " + i.amount);
+				message.append("Sum to pay: " + i.totalRate);
 				message.append("\n");
 			}
 		} else {

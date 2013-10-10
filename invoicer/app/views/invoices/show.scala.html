@@ -12,6 +12,13 @@
 		<h1 class="alignleft">@invoice.title</h1>
 
 		<a href="@routes.Invoices.edit(invoice.id)" class="btn alignright">Edit</a>
+		<a
+				title="Send invoice" 
+				data-method="post"
+				data-remote="true"
+				class="btn alignright"
+				href="@routes.Invoices.sendInvoice(invoice.id)">Send Invoice</a>
+			</a>
 	</header>	
 	
 	<dl class="details">
