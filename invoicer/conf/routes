@@ -44,6 +44,7 @@ POST	/clients					controllers.Clients.create()
 GET		/clients/:id				controllers.Clients.show(id: Long)
 GET		/clients/:id/edit			controllers.Clients.edit(id: Long)
 POST	/clients/:id				controllers.Clients.update(id: Long)
+POST	/clients/:id/send			controllers.Clients.sendInvoices(id: Long)
 POST	/clients/:id/delete			controllers.Clients.destroy(id: Long)
 DELETE	/clients/:id				controllers.Clients.destroy(id: Long)
 

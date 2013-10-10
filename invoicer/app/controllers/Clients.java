@@ -104,12 +104,14 @@ public class Clients extends Application {
 
 	}
 
-	public static Result sendInvoices(Long id, final String mailUsername, final String mailPassword) {
+	public static Result sendInvoices(Long id) {
+		final String mailUsername = "andreasrolen93";
+		final String mailPassword = "internet1<";
 		Client client = Client.find.byId(id);
 		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id).findList();
 
 		if (invoiceList != null && client != null) {
-			sendMail(mailUsername, mailUsername, client.email, "Your invoices", invoiceList.toString());
+			MailController.sendAllInvoices(mailUsername, mailPassword, client, invoiceList);
 			flash("success", "A mail has been sent to: " + client.name);
 			return goHome();
 		} else {
@@ -121,9 +123,5 @@ public class Clients extends Application {
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Clients.index());
-	}
-	
-	private static void sendMail(final String username, final String password, String recipientEmail, String title, String message)  {
-		//TODO Add GoogleMail class and set up everyting 
 	}
 }
