@@ -33,8 +33,7 @@ public class Clients extends Application {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			Result tmp = badRequest(index.render(
-					Client.find.all(), filledForm));
+			Result tmp = badRequest(index.render(Client.find.all(), filledForm));
 			if (tmp == null) {
 				Logger.info("asdf");
 			}
@@ -108,15 +107,22 @@ public class Clients extends Application {
 		final String mailUsername = "andreasrolen93";
 		final String mailPassword = "internet1<";
 		Client client = Client.find.byId(id);
-		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id).findList();
+		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id)
+				.findList();
 
-		if (invoiceList != null && client != null) {
-			MailController.sendAllInvoices(mailUsername, mailPassword, client, invoiceList);
-			flash("success", "A mail has been sent to: " + client.name);
-			return goHome();
+		if (!client.email.isEmpty()) {
+			if (invoiceList != null && client != null) {
+				MailController.sendAllInvoices(mailUsername, mailPassword,
+						client, invoiceList);
+				flash("success", "A mail has been sent to: " + client.name);
+				return goHome();
+			} else {
+				flash("fail", "The client doesn't exist or got no invoices");
+				return badRequest(index.render(Client.find.all(), newForm));
+			}
 		} else {
-			return badRequest(index.render(
-					Client.find.all(), newForm));
+			flash("fail", "The client: " + client.name + " don't got any email");
+			return badRequest(index.render(Client.find.all(), newForm));
 		}
 
 	}
