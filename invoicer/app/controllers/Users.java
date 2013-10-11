@@ -186,16 +186,17 @@ public class Users extends Application {
 			return badRequest(edit.render(filledForm));
 		}
 		
+		// null all non set keys
+		for(String key : userMap.keySet()) {
+			if(userMap.get(key).equals("")) {
+				userMap.put(key, null);
+			}
+		}
+		
 		form = form.bind(userMap);
 		
 		// Form valid, create user
 		User user = form.get();
-		
-		// TODO: Do this somewhere else, conventions?
-		// set country to null if no country was chosen
-		if(filledForm.field("country").value().equals("default")) {
-			user.country = null;
-		}
 		
 		user.id = Session.getCurrentUser().id;
 		
