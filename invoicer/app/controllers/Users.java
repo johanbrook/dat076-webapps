@@ -193,16 +193,11 @@ public class Users extends Application {
 			}
 		}
 		
+		// "Fill in" the original User forms fields
 		form = form.bind(userMap);
-		
-		// Form valid, create user
 		User user = form.get();
 		
 		user.id = Session.getCurrentUser().id;
-		
-		// Hash the password with jBCrypt and save to database
-		user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
-		
 		user.update();
 		
 		session("userId", String.valueOf(user.id));
