@@ -109,11 +109,15 @@ public class Users extends Application {
 	 * @return
 	 */
 	public static Result edit() {
+		
+		// TODO: Fill in form here instead of using session in view
+		
 		// Use custom User edit form
 		return ok(edit.render(Form.form(UserEditForm.class)));
 	}
 	
 	
+	// TODO: Use id in action for users or just always use the one stored in session?
 	/**
 	 * (Action called from POST to /user/edit)
 	 * 
@@ -190,7 +194,9 @@ public class Users extends Application {
 		session("userId", String.valueOf(user.id));
 		Logger.info("*** User '" + user.username + "' edited ***");
 		
-		return redirect(controllers.routes.Users.show());
+		flash("success", "User updated successfully!");
+		
+		return ok(show.render());
 	}
 	
 	/**

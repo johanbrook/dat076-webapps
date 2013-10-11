@@ -12,6 +12,12 @@
 </p>
 }
 
+@if(flash.contains("success")) {
+    <p class="success">
+        @flash.get("success")
+    </p>
+}
+
 @helper.form(routes.Users.update) {
 
 	<fieldset>
