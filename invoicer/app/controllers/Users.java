@@ -116,6 +116,7 @@ public class Users extends Application {
 	
 	/**
 	 * (Action called from POST to /user/edit)
+	 * 
 	 * @return
 	 */
 	public static Result update() {
@@ -123,20 +124,48 @@ public class Users extends Application {
 		Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
 		Map<String, String> userMap = filledForm.data();
 		
-		Logger.info("Form errors " + filledForm.errors());
+		// Input needed key-value pair
+		userMap.put("password", Session.getCurrentUser().password);
 		
         // Check password
-    	if(!filledForm.field("newPassword").valueOr("").equals(filledForm.field("repeatNewPassword").value())) {
-            filledForm.reject("repeatNewPassword", "Passwords don't match");
-        }
-    	
-    	else {
-    	
-        	// Insert password key-value pair
-        	userMap.put("password",
-        			BCrypt.hashpw(filledForm.field("newPassword").value(),
-        					BCrypt.gensalt()));
-    	}
+		String oldPassword = filledForm.field("oldPassword").value();
+		String newPassword = filledForm.field("newPassword").value();
+		String newRepeatedPassword = filledForm.field("newRepeatedPassword").value();
+		 
+		if(oldPassword != null && !oldPassword.equals("")) {
+			
+			// Check if old password was correct
+			if(User.authenticateUser(filledForm.field("username").value(), oldPassword) != null) {
+				
+				// Check if new password has been entered
+				if(newPassword.equals("") || newPassword == null) {
+					filledForm.reject("newPassword", "You need to enter a new password");
+					
+				// Check if new password was repeated correctly
+				} else if(!newPassword.equals(newRepeatedPassword)) {
+					filledForm.reject("newRepeatedPassword", "Passwords don't match");
+				}
+		    	
+		    	// Successfull password change
+		    	else {
+		    	
+		        	// Insert hashed password key-value pair
+		        	userMap.put("password",
+		        			BCrypt.hashpw(filledForm.field("newPassword").value(),
+		        					BCrypt.gensalt()));
+		    	}
+			}
+			
+			else {
+				filledForm.reject("oldPassword", "Incorrect password!");
+			}
+			
+		// Reject if new password inserted but not the old one
+		} else if(!(newPassword.equals("") || newPassword == null) ||
+				!(newRepeatedPassword.equals("") || newRepeatedPassword == null)) {
+			
+			filledForm.reject("oldPassword", "You need to fill in your old password");
+		}
         
         // Username unable to edit (for now), so these are redundant
         /*
@@ -197,23 +226,6 @@ public class Users extends Application {
     	public String newPassword;
     	public String newRepeatedPassword;
     	public String country;
-    	
-    	/**
-    	 * Ad-hoc validation, for username and password
-    	 * @return Error message if username or password didn't match, else null
-    	 */
-    	public String validate() {
-    		
-    		Logger.info(String.valueOf(oldPassword != null));
-    		Logger.info("Old password: '" + oldPassword + "'");
-    		
-    		if(!(oldPassword.equals("") || oldPassword == null) && User.authenticateUser(username, oldPassword) == null) {
-    		
-	    		return "Wrong password";
-    		}
-    		
-    		return null;
-    	}
     }
 
 }
