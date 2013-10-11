@@ -166,19 +166,6 @@ public class Users extends Application {
 			
 			filledForm.reject("oldPassword", "You need to fill in your old password");
 		}
-        
-        // Username unable to edit (for now), so these are redundant
-        /*
-    	String username = filledForm.field("username").valueOr("");
-    	
-    	if(username.equals("admin") || username.equals("guest")) {
-            filledForm.reject("username", "'admin' and 'guest' are reserved usernames");
-        
-        } else if(!username.equals(Session.getCurrentUser().username) &&
-        		User.find.where().eq("username", username).findUnique() != null) {
-    		filledForm.reject("username", "Username is taken!");
-    	}
-    	*/
 		
 		if(filledForm.hasErrors()) {
 			
