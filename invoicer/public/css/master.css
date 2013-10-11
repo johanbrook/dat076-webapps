@@ -607,7 +607,7 @@ input[type="email"],
 input[type="password"],
 input[type="url"],
 input[type="date"],
-textarea {
+input[type="textarea"] {
   -webkit-appearance: none;
   -webkit-font-smoothing: antialiased;
   font-size: 99%;
@@ -624,7 +624,7 @@ input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="url"]:focus,
 input[type="date"]:focus,
-textarea:focus {
+input[type="textarea"]:focus {
   outline: 0;
   border-color: #bbb;
   color: #4a4f52;
