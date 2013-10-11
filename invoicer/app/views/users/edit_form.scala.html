@@ -1,4 +1,4 @@
-@(editForm: Form[User])
+@(editForm: Form[Users.UserEditForm])
 
 @import helper._
 
@@ -28,13 +28,13 @@
 	<fieldset>
 	    <legend>Account information</legend>
 	    
-	    <p><label for="username">Username</label><input required type="text" name="username" value="@editForm("username").value" readonly><span class="negative">
+	    <p><label for="username">Username</label><input required type="text" name="username" value="@Session.getCurrentUser().username" readonly><span class="negative">
 	    	@if(editForm.error("username") != null) {
 				@Messages( editForm.error("username").message() )
 			}</span></p>
-		<p><label for="oldPassword">Old password</label><input type="password" name="password" placeholder="Old password"><span class="negative">
-	    	@if(editForm.error("oldPassword") != null) {
-				@Messages( editForm.error("oldPassword").message() )
+		<p><label for="oldPassword">Old password</label><input type="password" name="oldPassword" placeholder="Old password"><span class="negative">
+	    	@if(editForm.error("password") != null) {
+				@Messages( editForm.error("password").message() )
 			}</span></p>
 	    <p><label for="newPassword">New Password</label><input type="password" name="newPassword" placeholder="New password"><span class="negative">
 	    	@if(editForm.error("newPassword") != null) {
@@ -51,10 +51,10 @@
 		
 	    <legend>Personal information</legend>
 	    
-	    <p><label for="name">Name</label><input type="text" name="name" value="@editForm("name").value"></p>
-	    <p><label for="address">address</label><textarea" cols="50" name="address" value="@editForm("address").value"></p>
-	    <p><label for="postalCode">Postal code</label><input type="text" name="postalCode" value="@editForm("postalCode").value"></p>
-	    <p><label for="organizationNumber">Organization number</label><input type="text" name="organizationNumber" value="@editForm("organizationNumber").value">
+	    <p><label for="name">Name</label><input type="text" name="name" value="@Session.getCurrentUser().name"></p>
+	    <p><label for="address">address</label><textarea" cols="50" name="address" value="@Session.getCurrentUser().address"></p>
+	    <p><label for="postalCode">Postal code</label><input type="text" name="postalCode" value="@Session.getCurrentUser().postalCode"></p>
+	    <p><label for="organizationNumber">Organization number</label><input type="text" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber">
 	    	<span class="negative">
 	        	@if(editForm.error("organizationNumber") != null) {
 					@Messages( editForm.error("organizationNumber").message(), editForm.error("organizationNumber").arguments() )
@@ -65,10 +65,11 @@
 	    <select name="country" >
 	    	<option>Select a country</option>
 			@for(country <- User.getCountries()) {
-				@if(editForm("country") == country){
+				@if(Session.getCurrentUser().country == country){
 					<option value="@country" selected="selected">@country</option>
+				} else {
+					<option value="@country">@country</option>
 				}
-				<option value="@country">@country</option>
 			}
 		</select>
 	    
