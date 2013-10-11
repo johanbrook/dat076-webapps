@@ -100,7 +100,7 @@ public class Users extends Application {
 	 * @return
 	 */
 	public static Result show() {
-		return ok(views.html.users.show.render());
+		return ok(show.render());
 	}
 	
 	/**
@@ -109,9 +109,8 @@ public class Users extends Application {
 	 * @return
 	 */
 	public static Result edit() {
-		form = form.fill(Session.getCurrentUser());
-		
-		return ok(views.html.users.edit.render(form));
+		// Use custom User edit form
+		return ok(edit.render(Form.form(UserEditForm.class)));
 	}
 	
 	
