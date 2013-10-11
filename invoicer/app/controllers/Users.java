@@ -11,6 +11,7 @@ import models.Client;
 import models.Invoice;
 import models.User;
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -120,32 +121,34 @@ public class Users extends Application {
 	 */
 	public static Result update() {
 		
-		Form<User> filledForm = form.bindFromRequest();
+		Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
+		Map<String, String> userMap = filledForm.data();
 		
 		Logger.info("Form errors " + filledForm.errors());
 		
         // Check password
-        if(!filledForm.field("oldPassword").valueOr("").isEmpty()) {
-        	
-        	if(!BCrypt.checkpw(filledForm.field("oldPassword").value(), Session.getCurrentUser().password)) {
-        		filledForm.reject("oldPassword", "Incorrect password");
-        	}
-        	
-        	else if(!filledForm.field("newPassword").valueOr("").equals(filledForm.field("repeatNewPassword").value())) {
-                filledForm.reject("repeatNewPassword", "Passwords don't match");
-            }
-        	
-        	else {
-        	
-	        	Map<String, String> newForm = filledForm.data();
-	        	
-	        	newForm.put("password", filledForm.field("newPassword").value());
-	        	
-	        	filledForm = filledForm.bind(newForm);
-        	}
+    	if(!filledForm.field("newPassword").valueOr("").equals(filledForm.field("repeatNewPassword").value())) {
+            filledForm.reject("repeatNewPassword", "Passwords don't match");
         }
+    	
+    	else {
+    	
+        	Logger.info("newPassword field: " + filledForm.field("newPassword").value());
+        	
+        	
+        	// Insert password key-value pair
+        	userMap.put("password",
+        			BCrypt.hashpw(filledForm.field("newPassword").value(),
+        					BCrypt.gensalt()));
+        	
+        	// Remove redundant key-value pairs
+        	/*
+        	userMap.remove("oldPassword");
+        	userMap.remove("newPassword");
+        	userMap.remove("newRepeatedPassword");*/
+    	}
         
-        // Observe that username not able to edit (for now), so these are redundant
+        // Username unable to edit (for now), so these are redundant
         /*
     	String username = filledForm.field("username").valueOr("");
     	
@@ -164,8 +167,14 @@ public class Users extends Application {
 			return badRequest(edit.render(filledForm));
 		}
 		
+		Logger.info(userMap.toString());
+		
+		form = form.bind(userMap);
+		
+		Logger.info(form.toString());
+		
 		// Form valid, create user
-		User user = filledForm.get();
+		User user = form.get();
 		
 		// TODO: Do this somewhere else, conventions?
 		// set country to null if no country was chosen
@@ -186,5 +195,39 @@ public class Users extends Application {
 		
 		return redirect(controllers.routes.Users.show());
 	}
+	
+	/**
+     * Inner class for handling user edit (sent as parameter to the edit form)
+     * 
+     * @author Robin
+     */
+    public static class UserEditForm {
+    	public String username;
+    	public String name;
+    	public String address;
+    	public String postalCode;
+    	public String organizationNumber;
+    	public String oldPassword;
+    	public String newPassword;
+    	public String newRepeatedPassword;
+    	public String country;
+    	
+    	/**
+    	 * Ad-hoc validation, for username and password
+    	 * @return Error message if username or password didn't match, else null
+    	 */
+    	public String validate() {
+    		
+    		Logger.info(String.valueOf(oldPassword != null));
+    		Logger.info("Old password: '" + oldPassword + "'");
+    		
+    		if(!(oldPassword.equals("") || oldPassword == null) && User.authenticateUser(username, oldPassword) == null) {
+    		
+	    		return "Wrong password";
+    		}
+    		
+    		return null;
+    	}
+    }
 
 }
