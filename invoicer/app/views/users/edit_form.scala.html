@@ -12,17 +12,6 @@
 </p>
 }
 
-<ul class="negative">
-	@editForm.errors().map { 
-		case (prop, errors) => {
-		
-		@for(error <- errors) {
-			<li>@prop: @error.message()</li>
-		}
-		}
-	}
-</ul>
-
 @helper.form(routes.Users.update) {
 
 	<fieldset>
@@ -33,16 +22,16 @@
 				@Messages( editForm.error("username").message() )
 			}</span></p>
 		<p><label for="oldPassword">Old password</label><input type="password" name="oldPassword" placeholder="Old password"><span class="negative">
-	    	@if(editForm.error("password") != null) {
-				@Messages( editForm.error("password").message() )
+	    	@if(editForm.error("oldPassword") != null) {
+				@Messages( editForm.error("oldPassword").message() )
 			}</span></p>
 	    <p><label for="newPassword">New Password</label><input type="password" name="newPassword" placeholder="New password"><span class="negative">
 	    	@if(editForm.error("newPassword") != null) {
 				@Messages( editForm.error("newPassword").message() )
 			}</span></p>
-		<p><label for="repeatNewPassword">Repeat new password</label><input type="password" name="repeatNewPassword" placeholder="Repeat new password"><span class="negative">
-			@if(editForm.error("repeatPassword") != null) {
-				@Messages( editForm.error("repeatNewPassword").message() )
+		<p><label for="repeatNewPassword">Repeat new password</label><input type="password" name="newRepeatedPassword" placeholder="Repeat new password"><span class="negative">
+			@if(editForm.error("newRepeatedPassword") != null) {
+				@Messages( editForm.error("newRepeatedPassword").message() )
 			}</span></p>
 	    
 	</fieldset>
