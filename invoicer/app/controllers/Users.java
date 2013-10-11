@@ -183,6 +183,7 @@ public class Users extends Application {
 	
 	/**
      * Inner class for handling user edit (sent as parameter to the edit form)
+     * Used because field requirements are different than User model
      * 
      * @author Robin
      */
