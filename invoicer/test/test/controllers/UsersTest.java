@@ -81,8 +81,60 @@ public class UsersTest extends BaseTest {
 	@Test
 	public void testUpdate() {
 		
-		Result update = callAction(controllers.routes.ref.Users.update());
-		assertEquals(303, status(update));
+		Result update = callAction(
+				controllers.routes.ref.Users.create(),
+				fakeRequest()
+				.withSession("userId", "2")
+				.withFormUrlEncodedBody(ImmutableMap.of(
+						"username", "robindough",
+						"name", "Robin Dough",
+						"address", "Dough road 43",
+						"postalCode", "41121 Dough",
+						"organizationNumber", "123456-7890",
+						"oldPassword", "secret",
+						"newPassword", "not",
+						"newRepeatedPassword", "not",
+						"country", "Sweden"
+				))
+			);
+		
+		String userId = Helpers.session(update).get("userId");
+	    User user = User.find.where().eq("username", "robindough").findUnique();
+	    
+	    assertEquals(303, status(update));
+	    assertEquals("robindough", user.username);
+	    assertTrue(BCrypt.checkpw("not", user.password));
+	    assertEquals("Robin Dough", user.name);
+	    assertEquals("Dough road 43", user.address);
+	    assertEquals("41121 Dough", user.postalCode);
+	    assertEquals("123456-7890", user.organizationNumber);
+	    assertEquals("Sweden", user.country);
+	    
+	    Result update = callAction(
+				controllers.routes.ref.Users.create(),
+				fakeRequest()
+				.withSession("userId", "2")
+				.withFormUrlEncodedBody(ImmutableMap.of(
+						"username", "robindough",
+						"name", "Robin",
+						"address", "Doughroad 43",
+						"postalCode", "009911 Dough",
+						"organizationNumber", "098765-4321",
+						"oldPassword", "not",
+						"newPassword", "secret",
+						"newRepeatedPassword", "secret",
+						"country", "Sweden"
+				))
+			);
+	    
+	    assertEquals("robindough", user.username);
+	    assertTrue(BCrypt.checkpw("not", user.password));
+	    assertEquals("Robin", user.name);
+	    assertEquals("Doughroad 43", user.address);
+	    assertEquals("009911 Dough", user.postalCode);
+	    assertEquals("098765-4321", user.organizationNumber);
+	    assertEquals("Sweden", user.country);
+		
 	}
 	
 	
