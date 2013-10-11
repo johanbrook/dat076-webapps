@@ -12,7 +12,6 @@ import com.google.common.collect.ImmutableMap;
 
 import play.mvc.*;
 import static play.test.Helpers.*;
-import play.test.*;
 
 import test.BaseTest;
 
@@ -37,7 +36,22 @@ public class BankAccountsTest extends BaseTest {
 	
 	@Test
 	public void testCreate() {
+		Result create = callAction(
+				controllers.routes.ref.BankAccounts.create(),
+				fakeRequest()
+				.withSession("userId", "1")
+				.withFormUrlEncodedBody(ImmutableMap.of(
+						"accountNumber", "1234-5678",
+						"accountType", "PG"
+				))
+			);
 		
+		assertEquals(303, status(create));
+		assertEquals("/bankaccounts", header("Location", create));
+		
+		BankAccount created = BankAccount.find.where().eq("accountNumber", "1234-5678").findUnique();
+		
+		assertNotNull(created);
 		
 	}
 	
