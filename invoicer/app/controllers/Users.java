@@ -132,19 +132,10 @@ public class Users extends Application {
     	
     	else {
     	
-        	Logger.info("newPassword field: " + filledForm.field("newPassword").value());
-        	
-        	
         	// Insert password key-value pair
         	userMap.put("password",
         			BCrypt.hashpw(filledForm.field("newPassword").value(),
         					BCrypt.gensalt()));
-        	
-        	// Remove redundant key-value pairs
-        	/*
-        	userMap.remove("oldPassword");
-        	userMap.remove("newPassword");
-        	userMap.remove("newRepeatedPassword");*/
     	}
         
         // Username unable to edit (for now), so these are redundant
@@ -166,11 +157,7 @@ public class Users extends Application {
 			return badRequest(edit.render(filledForm));
 		}
 		
-		Logger.info(userMap.toString());
-		
 		form = form.bind(userMap);
-		
-		Logger.info(form.toString());
 		
 		// Form valid, create user
 		User user = form.get();
@@ -186,7 +173,6 @@ public class Users extends Application {
 		// Hash the password with jBCrypt and save to database
 		user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
 		
-		Logger.info(user.id + " " + user.username + " " + user.address + " " + user.country + " " + user.name + " " + user.organizationNumber);
 		user.update();
 		
 		session("userId", String.valueOf(user.id));
