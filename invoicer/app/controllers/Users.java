@@ -196,7 +196,7 @@ public class Users extends Application {
 		
 		flash("success", "User updated successfully!");
 		
-		return ok(show.render());
+		return redirect(controllers.routes.Users.show());
 	}
 	
 	/**
