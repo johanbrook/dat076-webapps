@@ -20,7 +20,7 @@
 			<a href="@routes.BankAccounts.show(bankAccount.id)">
 				<strong class="bankaccount-accountnumber">@bankAccount.accountNumber</strong>
 				
-				<label>Account type</label>@bankAccount.accountType
+				<label>Account type</label>@bankAccount.accountType.getName
 				<label>Bank</label>@bankAccount.bank
 				<label>IBAN</label>@bankAccount.iban
 				<label>BIC</label>@bankAccount.bic
