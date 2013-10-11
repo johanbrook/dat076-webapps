@@ -34,8 +34,7 @@ public class BankAccounts extends Application {
 
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
-
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors() || !validate(filledForm)) {
 
 			return respondTo(new Responder() {
 
@@ -53,7 +52,6 @@ public class BankAccounts extends Application {
 			});
 		} else {
 			final BankAccount ba = filledForm.get();
-
 			ba.save();
 
 			return respondTo(new Responder() {
@@ -93,7 +91,7 @@ public class BankAccounts extends Application {
 		bankAccount.iban = filledForm.get().iban;
 		bankAccount.bic = filledForm.get().bic;
 		
-		// Validates here because annotation values in model can not change
+		// Validates in controller because annotation values in model can not change
 		// during runtime
 		if (validate(filledForm)) {
 			bankAccount.accountNumber = filledForm.get().accountNumber;
@@ -122,13 +120,13 @@ public class BankAccounts extends Application {
 		return redirect(controllers.routes.BankAccounts.index());
 	}
 
-	// Method to validate accountNumber
+	// Method to validate account type with the account number
 	private static boolean validate(Form<BankAccount> filledForm) {
 		String aNumber = filledForm.get().accountNumber;
-
 		switch (filledForm.get().accountType) {
 		case PG:
 			if (aNumber.matches("[0-9]{1,6}-[0-9]{1}")) {
+				
 				return true;
 			}
 			break;
@@ -138,7 +136,7 @@ public class BankAccounts extends Application {
 			}
 			break;
 		case BUSINESSACCOUNT:
-			if (aNumber.matches("[0-9]{4}(-[0-9]{1})[0-9]{0,9}(-[0-9]){0,1}")) {
+			if (aNumber.matches("[0-9]{4}(-[0-9]{0,1})[0-9]{0,9}(-[0-9]){0,1}")) {
 				return true;
 			}
 			break;
