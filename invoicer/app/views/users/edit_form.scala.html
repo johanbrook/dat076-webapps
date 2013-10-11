@@ -63,7 +63,7 @@
 	    
 	    <label for="country">Country</label>
 	    <select name="country" >
-	    	<option>Select a country</option>
+	    	<option value="">Select a country</option>
 			@for(country <- User.getCountries()) {
 				@if(Session.getCurrentUser().country == country){
 					<option value="@country" selected="selected">@country</option>
