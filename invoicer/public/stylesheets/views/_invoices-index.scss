@@ -13,15 +13,26 @@
 	padding: 0;
 	margin: 0;
 
-	li {
+	& > li {
 		margin-bottom: $lineheight / 2;
 		border: 1px solid #ccc;
+		position: relative;
 		@include border-radius(5px);
 		@include box-shadow(rgba(#000, .2) 0 1px 3px);
+		@include transition(opacity .5s, -webkit-transform .5s);
 
 		&:hover {
 			@include box-shadow(rgba(#000, .3) 0 1px 3px);
 			border-color: #aaa;
+		}
+
+		&.added {
+			-webkit-animation: pop 1s ease;
+		}
+
+		&.removed {
+			-webkit-transform: scale(0);
+			opacity: 0;
 		}
 
 		&.invoice-paid,
@@ -68,6 +79,10 @@
 		}
 	}
 
+	.details {
+		font-size: .9em;
+	}
+
 	.invoice-title {
 		display: block;
 		font-size: 1.2em;
@@ -83,10 +98,60 @@
 		margin-left: 0;
 	}
 
-	li > a {
+	li > a:not(.delete):not(.star) {
 		padding: 10px;
 		display: block;
 		text-decoration: none;
 		color: $text-color;
+	}
+
+	li:hover .delete,
+	li:hover .star {
+		display: inline-block !important;
+	}
+
+	li .star:not(.starred) {
+		display: none;
+	}
+	
+	.star {
+		position: absolute;
+		z-index: 998;
+		color: $grey;
+		text-decoration: none;
+		@include transition(none);
+		bottom: 5px;
+		right: 5px;
+
+		&:hover {
+			color: darken($grey, 20%);
+		}
+
+		&.starred {
+			color: green;
+		}
+	}
+
+	.delete {
+		@include transition(none);
+		display: none;
+		position: absolute;
+		top: 3px;
+		right: 5px;
+		font-weight: bold;
+		text-decoration: none;
+		color: darken(red, 10%);
+		font-size: to_em(17);
+		z-index: 999;
+		@include border-radius(100%);
+		height: 1em;
+		width: 1em;
+		line-height: .8;
+		text-align: center;
+
+		&:hover {
+			background-color: darken(red, 10%);
+			color: #fff;
+		}
 	}
 }

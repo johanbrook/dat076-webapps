@@ -12,17 +12,49 @@ function updateNewInvoiceTitle() {
 }
 
 Util = (function(util) {
-	var exports = util || {};
+	var exports = util || {},
+
+			Elements = {
+				invoiceCounter: $("#invoices-total")
+			};
+
+	function getElementContentAsInteger(cb) {
+		var value = parseInt(Elements.invoiceCounter.text());
+		Elements.invoiceCounter.text(cb(value));
+	}
+
 	var methods = {
 		template: function t(tmpl, data){
 			for(var p in data)
 				tmpl = tmpl.replace(new RegExp('{{'+p+'}}','g'), data[p]);
 			return tmpl;
+		},
+
+		decrementInvoices: function() {
+			getElementContentAsInteger(function(value) {
+				return value - 1;
+			});
+		},
+		incrementInvoices: function() {
+			getElementContentAsInteger(function(value) {
+				return value + 1;
+			});
 		}
 	};
 
+	// Create 'show-' methods dynamically:
+
+	$.each(["Notice", "Success", "Error"], function(i, type) {
+		// Map method types to notification classes:
+		var map = {error: "negative", success: "positive", notice: "notice"};
+		methods["show"+type] = function(text) {
+			new Notification(text, map[type.toLowerCase()] ).reveal();
+		}
+	});
+
 	return exports = methods;
 })(window.Util);
+
 
 // DOM Ready
 
@@ -41,21 +73,5 @@ $(function() {
 	updateNewInvoiceTitle();
 
 	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
-
-	$(".create-form").on("submit", function(evt) {
-		evt.preventDefault();
-		var data = {
-			title: $("#title").val(),
-			"client.id": $("#client-dropdown").val(),
-			invoiceDate: $("#invoice-date").val(),
-			dueDate: $("#due-date").val()
-		};
-
-		$.post("/invoices", data, function(result){
-			var rendered = Util.template($("#invoice-template").html(), result);
-
-			$(".invoice-list").prepend(rendered);
-		}, "json");
-	});
 });
 

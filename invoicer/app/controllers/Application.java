@@ -5,6 +5,7 @@ import models.AbstractModel;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import play.api.templates.Html;
+import play.api.templates.JavaScript;
 import play.api.templates.Template1;
 import play.libs.Json;
 import play.mvc.*;
@@ -26,6 +27,10 @@ public abstract class Application extends Controller {
 		 * Respond as <code>application/json</code>
 		 */
 		public Result json();
+		/**
+		 * Respond as <code>application/javascript</code>
+		 */
+		public Result script();
 	}
 	
 	/**
@@ -42,7 +47,7 @@ public abstract class Application extends Controller {
 	 * @param html A reference to a view (ex. <code>index.ref()</code>)
 	 * @return A <code>Result</code>
 	 */
-	protected static <T> Result respondTo(final T resource, final Template1<T, Html> html) {
+	protected static <T> Result respondTo(final T resource, final Template1<T, Html> html, final Template1<T, JavaScript> js) {
 		return respondTo(new Responder() {
 			
 			@Override
@@ -57,6 +62,12 @@ public abstract class Application extends Controller {
 				System.out.println("Rendering HTML ...");
 				// Let injected HTML view render the response.
 				return ok(html.render(resource));
+			}
+			
+			@Override
+			public Result script() {
+				System.out.println("Rendering JS ...");
+				return ok(js.render(resource));
 			}
 		});
 	}
@@ -78,8 +89,11 @@ public abstract class Application extends Controller {
 		else if(types.indexOf("application/json") != -1){
 			return respond.json();
 		}
+		else if(types.indexOf("text/script") != -1 || types.indexOf("application/javascript") != -1) {
+			return respond.script();
+		}
 
-		return null;
+		return badRequest();
 	}
 	
 	protected static <T extends AbstractModel> void setLocationHeader(T resource) {

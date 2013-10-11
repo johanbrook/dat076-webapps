@@ -1,0 +1,4 @@
+# Custom messages
+
+# --- Custom errors
+error.organizationNumberPattern=Must be on the form XXXXXX-XXXX

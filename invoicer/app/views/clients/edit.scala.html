@@ -2,7 +2,7 @@
 @import helper._
 
 @main("Edit client") {
-	<h1>Editing @client.name</h1>
+	<h1>Editing client <small>@client.name</small></h1>
 	
 	@if(editForm.hasErrors()){
 	<h3>Errors</h3>
@@ -21,12 +21,39 @@
 	@form(routes.Clients.update(client.id)) {
 		<input type="hidden" name="_method" value="PUT" />
 		
-		<p><input type="text" name="name" value="@editForm("name").value" /></p>
-		<p><input type="text" name="orgNumber" value="@editForm("orgNumber").value" /></p>
-		
+		<p>
+			<label for="name">Name</label>
+			<input id="name" type="text" name="name" value="@editForm("name").value" /></p>
 		
 		<p>
-			<input type="submit" value="Update" />
+			<label for="org-number">Organization number</label>
+			<input id="org-number" placeholder="XXXXXX-XXXX" type="text" name="orgNumber" value="@editForm("orgNumber").value" /></p>
+		
+		<p>
+			<label for="title">Address</label>
+			<input type="text" id="address" name="address" value="@editForm("address").value" /></p>
+		
+		<p>
+			<label for="title">Postal Code</label>
+			<input type="text" id="postalCode" name="postalCode" value="@editForm("postalCode").value" /></p>	
+				
+		 <select name="country">
+            	<option value="default">Select a country</option>
+				@for(country <- User.getCountries()) {
+					<option value="@country" selected="@editForm("country").value">@country</option>	
+				}
+			</select>
+		
+		<p>
+			<label for="title">Contact Person</label>
+			<input type="text" id="contactPerson" name="contactPerson" value="@editForm("contactPerson").value" /></p>
+			
+		<p>
+			<label for="title">E-Mail</label>
+			<input type="text" id="email" name="email" value="@editForm("email").value" /></p>
+		
+		<p>
+			<input type="submit" value="Save" /> or <a href="@routes.Clients.index()">Cancel</a>
 		</p>
 	}
 }

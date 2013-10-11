@@ -46,7 +46,7 @@ public class SecuredTest extends BaseTest {
 		
 		// Calls the main page with Session attribute set
 	    Result result = callAction(
-	        controllers.routes.ref.Application.index(),
+	        controllers.routes.ref.Invoices.index(),
 	        fakeRequest().withSession("userId", String.valueOf(user.id))
 	    );
 	    assertEquals(303, status(result));
@@ -62,7 +62,7 @@ public class SecuredTest extends BaseTest {
 		
 		// Calls the main page without Session attribute set
 	    Result result = callAction(
-	        controllers.routes.ref.Application.index(),
+	        controllers.routes.ref.Invoices.index(),
 	        fakeRequest()
 	    );
 	    

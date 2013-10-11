@@ -22,7 +22,6 @@ import play.db.ebean.Model;
 public abstract class AbstractModel extends Model {
 
 	@Id
-	@JsonIgnore
 	public Long id;
 	
 	

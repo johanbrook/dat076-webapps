@@ -8,41 +8,28 @@
 
 @main("Invoices") {
 
-	<div class="form-container" hidden>
+	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
 		@create_form(addForm)
 	</div>
 
 	<header class="invoices-header">
 		<h2 class="alignleft">Invoices</h2>
-		<a class="alignright btn" href="#" id="add-invoice-btn">Add invoice</a>
+		<a class="alignright btn" href="#" id="add-invoice-btn">Add Invoice</a>
 		<br class="clear" />
 
 		<p class="subheading">
 			<strong id="invoices-total">@invoices.size()</strong> invoices
+			@if(paidInvoices != null) {
 			(<strong id="invoices-paid">@paidInvoices.size()</strong> paid
-			@if(!overdueInvoices.isEmpty()) {, <strong id="invoices-overdue">@overdueInvoices.size()</strong> overdue})
+			}
+			@if(overdueInvoices != null && !overdueInvoices.isEmpty()) {, <strong id="invoices-overdue">@overdueInvoices.size()</strong> overdue)}
 		</p>
 	</header>
 	
 	@if(invoices != null && !invoices.isEmpty()) {
 	<ol class="invoice-list">
 		@for(invoice <- invoices) {
-		
-		<li class="@if(invoice.wasPaidOnTime()) {	invoice-paid
-			} else {
-				@if(invoice.isOverdue()) {	invoice-overdue
-			} else {
-				@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
-			}}}">
-			<a href="@routes.Invoices.show(invoice.id)">
-				<strong class="invoice-title">@invoice.title</strong>
-				
-				<label>Client</label>@invoice.client.name
-				<label>Invoice date</label><time datetime="@invoice.invoiceDate" pubdate>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
-				<label>Due date</label>
-				<time datetime="@invoice.dueDate">@invoice.dueDate.format("yyyy-MM-dd")</time>
-			</a>
-		</li>
+			@item(invoice)
 		}
 	</ol>
 	}	

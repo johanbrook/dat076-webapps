@@ -52,27 +52,18 @@ public class Users extends Application {
         // Check repeated password
         if(!filledForm.field("password").valueOr("").isEmpty()) {
             if(!filledForm.field("password").valueOr("").equals(filledForm.field("repeatPassword").value())) {
-                filledForm.reject("repeatPassword", "Password don't match");
+                filledForm.reject("repeatPassword", "Passwords don't match");
             }
         }
         
-        // TODO: Getting username causes a crash if there is an error, why?
-        if(!filledForm.hasErrors()) {
-	        // Check if the username is valid
-	        
-	    	String username = filledForm.get().username;
-	    	
-	        if(username.equals("admin") || username.equals("guest")) {
-	            filledForm.reject("username", "'admin' and 'guest' are reserved usernames");
-	            
-	        } else {
-	        	
-	        	// See if username is taken
-	        	if(User.find.where().eq("username", username).findUnique() != null) {
-	        		filledForm.reject("username", "Username is taken!");
-	        	}
-	        }
-        }
+    	String username = filledForm.field("username").valueOr("");
+    	
+    	if(username.equals("admin") || username.equals("guest")) {
+            filledForm.reject("username", "'admin' and 'guest' are reserved usernames");
+        
+        } else if(User.find.where().eq("username", username).findUnique() != null) {
+    		filledForm.reject("username", "Username is taken!");
+    	}
 		
 		if(filledForm.hasErrors()) {
 			
@@ -80,7 +71,13 @@ public class Users extends Application {
 			return badRequest(index.render(filledForm));
 		}
 		
+		// Form valid, create user
 		User user = filledForm.get();
+		
+		// set country to null if no country was chosen
+		if(filledForm.field("country").value().equals("default")) {
+			user.country = null;
+		}
 		
 		// Hash the password with jBCrypt and save to database
 		user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());

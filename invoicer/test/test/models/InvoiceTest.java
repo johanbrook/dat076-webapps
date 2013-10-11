@@ -136,4 +136,12 @@ public class InvoiceTest extends BaseTest {
 		assertTrue(invoices.get(0).owner.equals(user));
 	}
 
+	@Test
+	public void testToggleStarred() {
+		assertFalse(newInvoice.starred);
+		newInvoice.toggleStarred();
+
+		assertTrue(newInvoice.starred);
+	}
+
 }

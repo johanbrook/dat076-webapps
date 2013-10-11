@@ -12,24 +12,42 @@
 		<h1 class="alignleft">@invoice.title</h1>
 
 		<a href="@routes.Invoices.edit(invoice.id)" class="btn alignright">Edit</a>
+		<a
+				title="Send invoice" 
+				data-method="post"
+				data-remote="true"
+				class="btn alignright"
+				href="@routes.Invoices.sendInvoice(invoice.id)">Send Invoice</a>
+			</a>
 	</header>	
 	
-	<dl>
+	<dl class="details">
 		<dt>Invoice date</dt>
 		<dd>@invoice.invoiceDate.format("yyyy-MM-dd")</dd>
 		
 		<dt>Due date</dt>
 		<dd>@invoice.dueDate.format("yyyy-MM-dd")</dd>
-		
-		<dt>Paid?</dt>
-		<dd>@{ if(invoice.isPaid()) "Yes (on "+invoice.datePaid.format("yyyy-MM-dd")+")" else "No" }</dd>
-		
-		<dt>Client</dt>
-		<dd>
-			<a href="@routes.Clients.show(invoice.client.id)">@invoice.client.name</a>
-		</dd>
-	
 	</dl>
+
+	<h3>Client</h3>
+
+	<ol class="list">
+		<li><strong><a href="@routes.Clients.show(invoice.client.id)">@invoice.client.name</a></strong></li>
+		<li>@invoice.client.address</li>
+		<li>@invoice.client.postalCode</li>
+		<li>@invoice.client.country</li>
+	</ol>
+	
+	<footer class="group">
+		@if(invoice.isPaid()){
+		<strong class="alignleft @if(invoice.wasPaidOnTime()){positive}else{negative}">Paid on <time>@invoice.datePaid.format("yyyy-MM-dd")</time></strong>
+		}
+
+		<p class="summary alignright">
+			Total:
+			<strong class="total-rate">$@invoice.totalRate</strong>
+		</p>
+	</footer>
 
 </section>
 }

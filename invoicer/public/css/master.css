@@ -384,6 +384,35 @@ table {
   margin: -1px 0 0 0;
 }
 
+#notification {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom: solid 2px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+}
+#notification.notice {
+  background-color: rgba(255, 255, 102, 0.5);
+  border-color: #b2b300;
+  color: #666600;
+}
+#notification.positive {
+  background-color: rgba(49, 232, 49, 0.3);
+  border-color: green;
+  color: #004d00;
+}
+#notification.negative {
+  background-color: rgba(204, 0, 0, 0.7);
+  border-color: #990000;
+  color: #fff;
+}
+
 .negative {
   color: #cc0000;
 }
@@ -424,6 +453,44 @@ table {
   width: 100%;
 }
 .table > * {
+  display: table-cell;
+}
+
+.details {
+  /* For IE 6/7 (trigger hasLayout) */
+}
+.details:before, .details:after {
+  content: "";
+  display: table;
+}
+.details:after {
+  clear: both;
+}
+.details {
+  *zoom: 1;
+}
+.details dt, .details dd {
+  float: left;
+}
+.details dt {
+  clear: left;
+  margin-right: .5em;
+  text-align: right;
+  min-width: 100px;
+}
+
+.list, .horizontal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5em;
+}
+
+.horizontal-list {
+  display: table;
+  width: 100%;
+  margin: 0;
+}
+.horizontal-list li {
   display: table-cell;
 }
 
@@ -471,6 +538,7 @@ body {
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px;
   box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px;
   /* For IE 6/7 (trigger hasLayout) */
+  position: relative;
 }
 body:before, body:after {
   content: "";
@@ -492,9 +560,23 @@ main {
   width: 73%;
 }
 
+@-webkit-keyframes "pop" {
+  0% {
+    -webkit-transform: scale(0.8) translate(0, -100px);
+  }
+
+  50% {
+    -webkit-transform: scale(1.1) translate(0, -50px);
+  }
+
+  100% {
+    -webkit-transform: scale(1) translate(0, 0);
+  }
+}
+
 /* =BUTTONS
 ------------------------- */
-.btn,
+.btn, .btn-dangerous,
 button,
 input[type="button"],
 input[type="submit"] {
@@ -516,7 +598,7 @@ input[type="submit"] {
   border-radius: 3px;
   font-weight: bold;
 }
-.btn:hover,
+.btn:hover, .btn-dangerous:hover,
 button:hover,
 input[type="button"]:hover,
 input[type="submit"]:hover {
@@ -529,6 +611,16 @@ input[type="submit"] {
   padding: .5em 1em;
   color: green;
   border-color: green;
+}
+
+.btn-dangerous {
+  color: #cc0000;
+  border-color: #cc0000;
+}
+.btn-dangerous:hover {
+  background-color: #cc0000;
+  color: #fff;
+  border-color: #cc0000;
 }
 
 .btn-cancel {
@@ -576,12 +668,17 @@ p {
   margin: 0.75em 0 1.5em;
 }
 
+dt {
+  font-weight: bold;
+}
+
 /* =FORM STYLING
 ------------------------------------ */
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="url"],
+input[type="number"],
 input[type="date"],
 textarea {
   -webkit-appearance: none;
@@ -599,6 +696,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="url"]:focus,
+input[type="number"]:focus,
 input[type="date"]:focus,
 textarea:focus {
   outline: 0;
@@ -616,9 +714,25 @@ label[for] {
   display: block;
 }
 
-.create-form #title {
+.create-form #title,
+.create-form #invoice-total {
   width: 100%;
   font-size: 1.2em;
+}
+.create-form .dates {
+  border-spacing: 2px;
+}
+.create-form .dates > p {
+  width: 50%;
+}
+.create-form .dates > p input {
+  width: 100%;
+}
+.create-form .submit {
+  margin-top: 1.5em;
+}
+.create-form .submit p {
+  vertical-align: middle;
 }
 
 /*	=HEADINGS
@@ -630,6 +744,11 @@ h1, h2, h3, h4, h5, h6 {
 h1 .bubble, h1 .badge, h2 .bubble, h2 .badge, h3 .bubble, h3 .badge, h4 .bubble, h4 .badge, h5 .bubble, h5 .badge, h6 .bubble, h6 .badge {
   font-size: .8em;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  color: #8c9aa2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
 }
 
 .subheading {
@@ -644,6 +763,11 @@ h1 {
 
 h2 {
   font-size: 1.25em;
+}
+
+h3 {
+  color: #8c9aa2;
+  margin-bottom: .5em;
 }
 
 /* =TABLE STYLING
@@ -714,12 +838,22 @@ th {
   position: absolute;
   right: 3%;
 }
-[role="navigation"] li {
-  border-bottom: 1px solid #e1e4e6;
-}
 [role="navigation"] .badge-overdue {
   background-color: orange;
   color: #fff;
+}
+[role="navigation"] li {
+  border-bottom: 1px solid #e1e4e6;
+}
+[role="navigation"] ul ul li {
+  border-bottom: 0;
+  font-size: .85em;
+  padding-left: 1em;
+}
+[role="navigation"] ul ul li a::before {
+  content: "★";
+  margin-right: 5px;
+  color: #8c9aa2;
 }
 
 /* =SIDEBAR
@@ -742,6 +876,15 @@ th {
   box-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
   padding: 20px;
 }
+.invoice .summary {
+  color: #8c9aa2;
+  margin: 0;
+}
+.invoice .summary .total-rate {
+  font-size: 1.125em;
+  font-family: Bitter, Cambria, Georgia, serif;
+  color: #4a4f52;
+}
 
 .back-invoices {
   margin-top: -1.5em;
@@ -760,9 +903,10 @@ th {
   padding: 0;
   margin: 0;
 }
-.invoice-list li {
+.invoice-list > li {
   margin-bottom: 0.75em;
   border: 1px solid #ccc;
+  position: relative;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -771,18 +915,29 @@ th {
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  -moz-transition: opacity 0.5s, -webkit-transform 0.5s;
+  -o-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
 }
-.invoice-list li:hover {
+.invoice-list > li:hover {
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   border-color: #aaa;
 }
-.invoice-list li.invoice-paid, .invoice-list li.invoice-overdue, .invoice-list li.invoice-late {
+.invoice-list > li.added {
+  -webkit-animation: pop 1s ease;
+}
+.invoice-list > li.removed {
+  -webkit-transform: scale(0);
+  opacity: 0;
+}
+.invoice-list > li.invoice-paid, .invoice-list > li.invoice-overdue, .invoice-list > li.invoice-late {
   position: relative;
   overflow: hidden;
 }
-.invoice-list li.invoice-paid::before, .invoice-list li.invoice-overdue::before, .invoice-list li.invoice-late::before {
+.invoice-list > li.invoice-paid::before, .invoice-list > li.invoice-overdue::before, .invoice-list > li.invoice-late::before {
   content: "";
   display: block;
   position: absolute;
@@ -791,27 +946,30 @@ th {
   bottom: 0;
   width: 3px;
 }
-.invoice-list li.invoice-paid {
+.invoice-list > li.invoice-paid {
   border-color: #00b300;
   opacity: .8;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.invoice-list li.invoice-paid::before {
+.invoice-list > li.invoice-paid::before {
   background-color: #00b300;
 }
-.invoice-list li.invoice-overdue {
+.invoice-list > li.invoice-overdue {
   border-color: #cc8400;
 }
-.invoice-list li.invoice-overdue::before {
+.invoice-list > li.invoice-overdue::before {
   background-color: #cc8400;
 }
-.invoice-list li.invoice-late {
+.invoice-list > li.invoice-late {
   border-color: #cc0000;
 }
-.invoice-list li.invoice-late::before {
+.invoice-list > li.invoice-late::before {
   background-color: #cc0000;
+}
+.invoice-list .details {
+  font-size: .9em;
 }
 .invoice-list .invoice-title {
   display: block;
@@ -825,11 +983,64 @@ th {
 .invoice-list li label:first-of-type {
   margin-left: 0;
 }
-.invoice-list li > a {
+.invoice-list li > a:not(.delete):not(.star) {
   padding: 10px;
   display: block;
   text-decoration: none;
   color: #4a4f52;
+}
+.invoice-list li:hover .delete,
+.invoice-list li:hover .star {
+  display: inline-block !important;
+}
+.invoice-list li .star:not(.starred) {
+  display: none;
+}
+.invoice-list .star {
+  position: absolute;
+  z-index: 998;
+  color: #8c9aa2;
+  text-decoration: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  bottom: 5px;
+  right: 5px;
+}
+.invoice-list .star:hover {
+  color: #59676f;
+}
+.invoice-list .star.starred {
+  color: green;
+}
+.invoice-list .delete {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  display: none;
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #cc0000;
+  font-size: 1.0625em;
+  z-index: 999;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
+  border-radius: 100%;
+  height: 1em;
+  width: 1em;
+  line-height: .8;
+  text-align: center;
+}
+.invoice-list .delete:hover {
+  background-color: #cc0000;
+  color: #fff;
 }
 
 /* =LOGIN VIEW

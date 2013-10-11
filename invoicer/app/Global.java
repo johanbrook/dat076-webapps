@@ -25,9 +25,10 @@ public class Global extends GlobalSettings {
 	
 	@Override
 	public Action onRequest(Http.Request request, Method actionMethod) {
-	   System.out.println(request.toString() + " as '"+request.acceptedTypes().get(0)+"'");
-	   System.out.println("  --> "+actionMethod.getDeclaringClass()+"#"+actionMethod.getName());
-	   System.out.println();
+		String types = (request.acceptedTypes().isEmpty()) ? "" : "'"+request.acceptedTypes().get(0)+"'"; 
+		System.out.println(request.toString() + " as "+types);
+		System.out.println("  --> "+actionMethod.getDeclaringClass()+"#"+actionMethod.getName());
+		System.out.println();
 	   
 	   return super.onRequest(request, actionMethod);
 	}

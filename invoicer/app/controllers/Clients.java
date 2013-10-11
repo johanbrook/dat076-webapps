@@ -33,8 +33,7 @@ public class Clients extends Application {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			Result tmp = badRequest(index.render(
-					Client.find.all(), filledForm));
+			Result tmp = badRequest(index.render(Client.find.all(), filledForm));
 			if (tmp == null) {
 				Logger.info("asdf");
 			}
@@ -104,26 +103,32 @@ public class Clients extends Application {
 
 	}
 
-	public static Result sendInvoices(Long id, final String mailUsername, final String mailPassword) {
+	public static Result sendInvoices(Long id) {
+		final String mailUsername = "andreasrolen93"; //TODO Change to users email
+		final String mailPassword = "internet1<";
+		
 		Client client = Client.find.byId(id);
-		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id).findList();
+		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id)
+				.findList();
 
-		if (invoiceList != null && client != null) {
-			sendMail(mailUsername, mailUsername, client.email, "Your invoices", invoiceList.toString());
-			flash("success", "A mail has been sent to: " + client.name);
-			return goHome();
+		if (!client.email.isEmpty()) {
+			if (invoiceList != null && client != null) {
+				MailController.sendAllInvoices(mailUsername, mailPassword,
+						client, invoiceList);
+				flash("success", "A mail has been sent to: " + client.name);
+				return goHome();
+			} else {
+				flash("fail", "The client doesn't exist or got no invoices");
+				return badRequest(index.render(Client.find.all(), newForm));
+			}
 		} else {
-			return badRequest(index.render(
-					Client.find.all(), newForm));
+			flash("fail", "The client: " + client.name + " don't got any email");
+			return badRequest(index.render(Client.find.all(), newForm));
 		}
 
 	}
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Clients.index());
-	}
-	
-	private static void sendMail(final String username, final String password, String recipientEmail, String title, String message)  {
-		//TODO Add GoogleMail class and set up everyting 
 	}
 }

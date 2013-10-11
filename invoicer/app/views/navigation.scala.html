@@ -4,6 +4,9 @@
 	<ul>
 		<li>
 			<a href="@routes.Invoices.index()">Invoices @if(!overdueInvoices.isEmpty()) {<span title="@overdueInvoices.size() overdue invoices" class="badge badge-overdue">@overdueInvoices.size()</span>}</a>	
+			<ul>
+				<li><a href="@routes.Invoices.starred()">Starred</a></li>
+			</ul>
 		</li>
 		<li>
 			<a href="@routes.Clients.index()">Clients</a>	

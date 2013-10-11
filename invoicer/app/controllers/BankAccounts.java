@@ -49,6 +49,11 @@ public class BankAccounts extends Application {
 					return badRequest(index.render(BankAccount.find.all(),
 							filledForm));
 				}
+				
+				@Override
+				public Result script() {
+					return badRequest();
+				}
 			});
 		} else {
 			final BankAccount ba = filledForm.get();
@@ -66,6 +71,11 @@ public class BankAccounts extends Application {
 				public Result html() {
 					flash("success", "Bank account was created!");
 					return goHome();
+				}
+				
+				@Override
+				public Result script() {
+					return badRequest();
 				}
 			});
 		}

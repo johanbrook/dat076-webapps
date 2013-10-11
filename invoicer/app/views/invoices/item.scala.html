@@ -1,0 +1,40 @@
+@(invoice : Invoice)
+
+<li id="invoice-@invoice.id" class="@if(invoice.wasPaidOnTime()) {	invoice-paid
+	} else {
+		@if(invoice.isOverdue()) {	invoice-overdue
+	} else {
+		@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
+	}}}">
+	<a class="delete" 
+		title="Remove invoice" 
+		href="@routes.Invoices.destroy(invoice.id)" 
+		data-remote="true" 
+		data-confirm="Are you sure you want to remove this invoice?"
+		data-method="delete">×</a>
+	<a href="@routes.Invoices.show(invoice.id)">
+		<strong class="invoice-title">@invoice.title</strong>
+		
+		<ul class="details horizontal-list">
+			<li>
+				<label>Total</label>$@invoice.totalRate
+			</li>
+			<li>
+				<label>Client</label>@invoice.client.name
+			</li>
+			<li>
+				<label>Date</label><time>@invoice.invoiceDate.format("yyyy-MM-dd")</time>
+			</li>
+			<li>
+				<label>Due date</label><time>@invoice.dueDate.format("yyyy-MM-dd")</time>
+			</li>
+		</ul>
+
+		<a
+			title="Star invoice" 
+			data-method="put"
+			data-remote="true"
+			class="star @if(invoice.starred) {starred}"
+			href="@routes.Invoices.toggleStarred(invoice.id)">★</a>
+	</a>
+</li>

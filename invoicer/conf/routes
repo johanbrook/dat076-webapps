@@ -23,16 +23,19 @@ POST    /createuser                 controllers.Users.create()
 
 GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
+GET		/invoices/starred 		controllers.Invoices.starred()
+
+# The EventSource stream
+GET		/invoices/paid			controllers.Events.getPaid()
+
 GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)
-
-# Workaround for Play not supporting bypassing HTTP methods in the Router
-POST	/invoices/:id/update		controllers.Invoices.update(id: Long)
+POST	/invoices/:id/send			controllers.Invoices.sendInvoice(id: Long)
 PUT		/invoices/:id				controllers.Invoices.update(id: Long)
+PUT		/invoices/:id/paid 	controllers.Invoices.setPaid(id: Long)
 
-# Same as above ...
-POST	/invoices/:id/delete		controllers.Invoices.destroy(id: Long)
 DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
+PUT		/invoices/:id/star		controllers.Invoices.toggleStarred(id: Long)
 
 # Bank Accounts
 
@@ -50,6 +53,7 @@ POST	/clients					controllers.Clients.create()
 GET		/clients/:id				controllers.Clients.show(id: Long)
 GET		/clients/:id/edit			controllers.Clients.edit(id: Long)
 POST	/clients/:id				controllers.Clients.update(id: Long)
+POST	/clients/:id/send			controllers.Clients.sendInvoices(id: Long)
 POST	/clients/:id/delete			controllers.Clients.destroy(id: Long)
 DELETE	/clients/:id				controllers.Clients.destroy(id: Long)
 
