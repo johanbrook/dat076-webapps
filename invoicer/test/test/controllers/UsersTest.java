@@ -61,9 +61,28 @@ public class UsersTest extends BaseTest {
 	    assertEquals("Robin Dough", user.name);
 	    assertEquals("Dough road 43", user.address);
 	    assertEquals("41121 Dough", user.postalCode);
-	    assertEquals("999999-9999", user.organizationNumber);
+	    assertEquals("123456-7890", user.organizationNumber);
 	    assertEquals("Sweden", user.country);
 		
+	}
+	
+	@Test
+	public void testShow() {
+		Result show = callAction(controllers.routes.ref.Users.show());
+		assertEquals(200, status(show));
+	}
+	
+	@Test
+	public void testEdit() {
+		Result edit = callAction(controllers.routes.ref.Users.edit());
+		assertEquals(200, status(edit));
+	}
+	
+	@Test
+	public void testUpdate() {
+		
+		Result update = callAction(controllers.routes.ref.Users.update());
+		assertEquals(303, status(update));
 	}
 	
 	
