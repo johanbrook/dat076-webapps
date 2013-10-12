@@ -7,6 +7,12 @@
 	<a href="@routes.Invoices.index()">← All invoices</a>
 </p>
 
+@if(flash.contains("success")) {
+	    <p class="success">
+	        @flash.get("success")
+	    </p>
+	}
+
 <section class="invoice">
 	<header class="group">
 		<h1 class="alignleft">@invoice.title</h1>
