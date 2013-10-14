@@ -5,11 +5,11 @@
 
 create table bank_account (
   id                        bigint not null,
+  account_type              integer not null,
   account_number            varchar(255) not null,
   bank                      varchar(255),
   iban                      varchar(255),
   bic                       varchar(255),
-  account_type              integer not null,
   constraint ck_bank_account_account_type check (account_type in (0,1,2)),
   constraint pk_bank_account primary key (id))
 ;
@@ -35,6 +35,7 @@ create table invoice (
   date_paid                 timestamp,
   owner_id                  bigint,
   client_id                 bigint,
+  bank_account_id           bigint,
   starred                   boolean,
   total_rate                double,
   constraint pk_invoice primary key (id))
@@ -65,6 +66,8 @@ alter table invoice add constraint fk_invoice_owner_1 foreign key (owner_id) ref
 create index ix_invoice_owner_1 on invoice (owner_id);
 alter table invoice add constraint fk_invoice_client_2 foreign key (client_id) references client (id) on delete restrict on update restrict;
 create index ix_invoice_client_2 on invoice (client_id);
+alter table invoice add constraint fk_invoice_bankAccount_3 foreign key (bank_account_id) references bank_account (id) on delete restrict on update restrict;
+create index ix_invoice_bankAccount_3 on invoice (bank_account_id);
 
 
 

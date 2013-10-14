@@ -18,13 +18,16 @@
 		<h1 class="alignleft">@invoice.title</h1>
 
 		<a href="@routes.Invoices.edit(invoice.id)" class="btn alignright">Edit</a>
+		@if(!invoice.isPaid()) {
 		<a
-				title="Send invoice" 
+				title="Send this invoice to the client with e-mail" 
 				data-method="post"
 				data-remote="true"
 				class="btn alignright"
+				style="margin-right: 5px"
 				href="@routes.Invoices.sendInvoice(invoice.id)">Send Invoice</a>
 			</a>
+			}
 	</header>	
 	
 	<dl class="details">
@@ -33,6 +36,9 @@
 		
 		<dt>Due date</dt>
 		<dd>@invoice.dueDate.format("yyyy-MM-dd")</dd>
+
+		<dt>Bank account</dt>
+		<dd>@invoice.bankAccount.toString()</dd>
 	</dl>
 
 	<h3>Client</h3>

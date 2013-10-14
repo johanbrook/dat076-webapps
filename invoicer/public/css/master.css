@@ -451,6 +451,7 @@ table {
 .table {
   display: table;
   width: 100%;
+  margin-top: 1.5em;
 }
 .table > * {
   display: table-cell;

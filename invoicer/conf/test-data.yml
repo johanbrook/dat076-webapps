@@ -1,3 +1,12 @@
+# BankAccounts
+
+- &account !!models.BankAccount
+  accountNumber: 1234-5678
+  bank: Swedbank
+  accountType: BG
+  iban: SE0004563215864902
+  bic: SWEDSESS
+
 # Clients
 
 - &chalmers !!models.Client
@@ -44,6 +53,7 @@
     dueDate: 2013-09-30
     starred: true
     totalRate: 5000
+    bankAccount: *account
 
 - !!models.Invoice
     title: Test invoice
@@ -51,6 +61,7 @@
     client: *chalmers
     dueDate: 2013-09-30
     totalRate: 100.10
+    bankAccount: *account
     
 - !!models.Invoice
    title: Invoice was paid on time
@@ -58,6 +69,7 @@
    datePaid: 2013-09-28
    client: *chalmers
    totalRate: 50.55
+   bankAccount: *account
    
 - !!models.Invoice
    title: Invoice was not paid on time
@@ -66,6 +78,7 @@
    dueDate: 2013-09-30
    datePaid: 2013-10-02
    totalRate: 6000
+   bankAccount: *account
 
 - !!models.Invoice
   title: Test invoice 2
@@ -73,6 +86,7 @@
   dueDate: 2013-09-30
   starred: true
   totalRate: 900
+  bankAccount: *account
 
 - !!models.Invoice
   title: Invoice was paid on time 2
@@ -80,18 +94,12 @@
   dueDate: 2013-09-30
   datePaid: 2013-09-28
   totalRate: 495.50
+  bankAccount: *account
 
 - !!models.Invoice
   title: Invoice was not paid on time 2
   owner: *robin
   dueDate: 2013-09-30
   datePaid: 2013-10-02
+  bankAccount: *account
 
-# BankAccounts
-
-- !!models.BankAccount
-    accountNumber: 1234-5678
-    bank: Swedbank
-    accountType: BG
-    iban: SE0004563215864902
-    bic: SWEDSESS

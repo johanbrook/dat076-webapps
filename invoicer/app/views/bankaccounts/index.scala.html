@@ -2,12 +2,16 @@
 @import helper._
 
 @main("BankAccounts") {
+<div class="form-container" hidden>
+		@create_form(addForm)
+	</div>
 
 	<header>
 		<h2 class="alignleft">Bank Accounts <span class="bubble">@bankAccounts.size()</span></h2>
 		<a class="alignright btn" href="#" id="add-bankaccount-btn">Add Account</a>
 		<br class="clear" />
 	</header>	
+
 	
 	@if(bankAccounts != null && !bankAccounts.isEmpty()) {
 	<ol class="bankaccount-list">

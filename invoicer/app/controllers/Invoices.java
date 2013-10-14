@@ -12,6 +12,7 @@ import play.*;
 
 import views.html.invoices.*;
 import models.Client;
+import models.BankAccount;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -58,7 +59,7 @@ public class Invoices extends Application {
 			public Result html() {
 				return ok(index.render(invoicesOfCurrentUser(),
 						paidInvoicesOfCurrentUser(),
-						overdueInvoicesOfCurrentUser(), form));
+						overdueInvoicesOfCurrentUser()));
 			}
 
 			@Override
@@ -71,6 +72,11 @@ public class Invoices extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result newInvoice() {
+		return ok(new_invoice.render(new Invoice(), form));
 	}
 	
 
@@ -91,7 +97,7 @@ public class Invoices extends Application {
 					flash("error", "There were errors in your form.");
 					return badRequest(index.render(invoicesOfCurrentUser(),
 							paidInvoicesOfCurrentUser(),
-							overdueInvoicesOfCurrentUser(), filledForm));
+							overdueInvoicesOfCurrentUser()));
 				}
 
 				@Override
@@ -105,6 +111,10 @@ public class Invoices extends Application {
 			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId(Long.parseLong(Form.form()
 					.bindFromRequest().get("client.id")));
+
+			in.bankAccount = BankAccount.find.byId(Long.parseLong(Form.form()
+					.bindFromRequest().get("bankAccount.id")));
+
 			in.setPaid(Form.form().bindFromRequest().get("ispaid") != null);
 
 			in.save();
@@ -177,6 +187,7 @@ public class Invoices extends Application {
 		 */
 
 		// invoice.client.id = filledForm.get().client.id;
+		// invoice.bankAccount.id = filledForm.get().bankAccount.id;
 
 		if (filledForm.get().title != null)
 			invoice.title = filledForm.get().title;
@@ -281,7 +292,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result html() {
-				return ok(index.render(starred, null, null, form));
+				return ok(index.render(starred, null, null));
 			}
 
 			@Override
@@ -324,7 +335,7 @@ public class Invoices extends Application {
 				flash("fail", "The client for this invoice don't got any email");
 				return badRequest(index.render(invoicesOfCurrentUser(),
 						paidInvoicesOfCurrentUser(),
-						overdueInvoicesOfCurrentUser(), filledForm));
+						overdueInvoicesOfCurrentUser()));
 			}
 		} else {
 			return noContent();

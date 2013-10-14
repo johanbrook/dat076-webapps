@@ -1,8 +1,12 @@
 package models;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -11,17 +15,20 @@ public class BankAccount extends AbstractModel {
 
 	@Required
 	@Column(nullable=false)
+	public AccountType accountType;
+	
+	@Required
+	@Pattern(value = "([0-9]{4}-[0-9]{4})|([0-9]{1,6}(-[0-9]){1})|([0-9]{4}(-[0-9]{1})[0-9]{0,9}(-[0-9]){0,1})")
+	@Column(nullable=false)
 	public String accountNumber;
 
 	public String bank;
 
+	@Pattern(value = "[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}")
 	public String iban;
 
+	@Pattern(value = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)")
 	public String bic;
-
-	@Required
-	@Column(nullable=false)
-	public AccountType accountType;
 
 	public enum AccountType{
 		PG("PG"),
@@ -57,6 +64,10 @@ public class BankAccount extends AbstractModel {
 		this(accountNumber, accountType, bank);
 		this.iban = iban;
 		this.bic = bic;
+	}
+
+	public String toString() {
+		return String.valueOf(this.accountType) + " " + this.accountNumber;
 	}
 
 }
