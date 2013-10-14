@@ -29,12 +29,27 @@
 			<label for="due-date">Due date</label>
 			<input id="due-date" type="date" name="dueDate" value="@editForm("dueDate").value" /></p>
 		
-		<label for="client">Client</label>
-		<select name="client.id" id="client">
-			@for(client <- Client.find.all()) {
-			<option value="@client.id" @if(client.id == invoice.client.id){selected}>@client.name</option>
-			}
-		</select>
+		<div class="table">
+				
+			<p>
+				<label for="client">Client</label>
+				<select name="client.id" id="client">
+					@for(client <- Client.find.all()) {
+					<option value="@client.id" @if(client.id == invoice.client.id){selected}>@client.name</option>
+					}
+				</select>
+			</p>
+			
+			<p>
+				<label for="account">Bank account</label>
+				<select name="bankAccount.id" id="account">
+					@for(account <- BankAccount.find.all()) {
+					<option value="@account.id" @if(account.id == invoice.bankAccount.id){selected}>@account.toString()</option>
+					}
+				</select>
+			</p>
+
+		</div>
 		
 		<p>
 			<label><input type="checkbox" name="ispaid" @if(invoice.isPaid()) { checked } /> Is paid?</label>

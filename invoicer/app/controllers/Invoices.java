@@ -12,6 +12,7 @@ import play.*;
 
 import views.html.invoices.*;
 import models.Client;
+import models.BankAccount;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -110,6 +111,10 @@ public class Invoices extends Application {
 			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId(Long.parseLong(Form.form()
 					.bindFromRequest().get("client.id")));
+
+			in.bankAccount = BankAccount.find.byId(Long.parseLong(Form.form()
+					.bindFromRequest().get("bankAccount.id")));
+
 			in.setPaid(Form.form().bindFromRequest().get("ispaid") != null);
 
 			in.save();
@@ -182,6 +187,7 @@ public class Invoices extends Application {
 		 */
 
 		// invoice.client.id = filledForm.get().client.id;
+		// invoice.bankAccount.id = filledForm.get().bankAccount.id;
 
 		if (filledForm.get().title != null)
 			invoice.title = filledForm.get().title;

@@ -39,15 +39,26 @@
 			<input type="date" id="due-date" name="dueDate" value="@{ (DateTime.now + 2.months).toString("yyyy-MM-dd") }" /></p>
 
 	</div>
+	
+	<div class="table">
+		<p>
+			<label for="client-dropdown">Client</label>
+			<select id="client-dropdown" name="client.id">
+			@for(client <- Client.find.all()) {
+			<option value="@client.id">@client.name</option>	
+			}
+			</select>
+		</p>
 
-	<p>
-		<label for="client-dropdown">Client</label>
-		<select id="client-dropdown" name="client.id">
-		@for(client <- Client.find.all()) {
-		<option value="@client.id">@client.name</option>	
-		}
-		</select>
-	</p>
+		<p>
+			<label for="account-dropdown">Bank account to use</label>
+			<select id="account-dropdown" name="bankAccount.id">
+			@for(account <- BankAccount.find.all()) {
+			<option value="@account.id">@account.toString()</option>	
+			}
+			</select>
+		</p>		
+	</div>
 	
 	<p>
 		<label><input type="checkbox" name="ispaid" /> Already paid</label>
