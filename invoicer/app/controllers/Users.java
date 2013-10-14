@@ -36,7 +36,6 @@ public class Users extends Application {
 	 * 
 	 * @return
 	 */
-	@Security.Authenticated(Secured.class)
 	public static Result index() {
 		return ok(index.render(form));
 	}
