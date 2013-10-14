@@ -19,6 +19,7 @@ import play.data.Form;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.clients.*;
+import play.libs.Json;
 
 @Security.Authenticated(Secured.class)
 public class Clients extends Application {
@@ -33,15 +34,32 @@ public class Clients extends Application {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			Result tmp = badRequest(index.render(Client.find.all(), filledForm));
-			if (tmp == null) {
-				Logger.info("asdf");
-			}
-			return tmp;
+			return badRequest(index.render(Client.find.all(), filledForm));
+
 		} else {
-			Client client = filledForm.get();
+			final Client client = filledForm.get();
 			client.save();
-			return goHome();
+			
+			return respondTo(new Responder() {
+
+				@Override
+				public Result json() {
+					setLocationHeader(client);
+					return created(Json.toJson(client));
+				}
+
+				@Override
+				public Result html() {
+					flash("success", "Client was created!");
+					return goHome();
+				}
+
+				@Override
+				public Result script() {
+					return created(views.js.clients.create.render(client));
+				}
+			});
+
 		}
 
 	}

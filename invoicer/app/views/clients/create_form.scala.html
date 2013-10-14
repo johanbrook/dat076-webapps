@@ -16,35 +16,35 @@
 </ul>
 }
 
-<form action="@routes.Clients.create()" class="create-form" data-remote="true"></form>
+<form action="@routes.Clients.create()" class="create-form" method="post" data-remote="true">
 	<div class="table">	
 		<p>
-			<label for="title">Client name</label>
+			<label for="title">Name</label>
 			<input type="text" id="name" name="name" /></p>
 
 		<p>
-			<label for="title">Client Organization Number</label>
+			<label for="title">Organization Number</label>
 			<input type="text" id="orgNumber" name="orgNumber" placeholder="XXXXXX-XXXX" /></p>
 
 	</div>
 		
 	<div class="table">
 	<p>
-		<label for="title">Client Address</label>
+		<label for="title">Address</label>
 		<input type="text" id="address" name="address" /></p>
 		
 	<p>
-		<label for="title">Client Postal Code</label>
+		<label for="title">Postal Code</label>
 		<input type="text" id="postalCode" name="postalCode" /></p>	
 	</div>
 		
 	<div class="table">
 		<p>
-			<label for="title">Client Contact Person</label>
+			<label for="title">Contact Person</label>
 			<input type="text" id="contactPerson" name="contactPerson" /></p>
 			
 		<p>
-			<label for="title">Client E-Mail</label>
+			<label for="title">E-Mail</label>
 			<input type="text" id="email" name="email" placeholder="example[at]gmail.com" /></p>
 
 	</div>
@@ -64,3 +64,4 @@
 		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
 	</p>
 </form>
+
