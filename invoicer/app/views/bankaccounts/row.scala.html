@@ -1,0 +1,8 @@
+@(account: BankAccount)
+
+<tr id="account-@account.id">
+	<td><a href="@routes.BankAccounts.show(account.id)">@account.accountNumber</a></td>
+	<td>@account.accountType</td>
+	<td>@account.bank</td>
+	<td><a href="@routes.BankAccounts.edit(account.id)">Edit</a></td>
+</tr>
