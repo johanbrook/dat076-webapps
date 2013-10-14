@@ -27,8 +27,6 @@ public class Secured extends Authenticator {
 			String username = User.find.byId(
 					Long.parseLong(ctx.session().get("userId"))).username;
 			
-			Logger.info("*********** " + ctx.session().get("userId"));
-			Logger.info("*********** " + username);
 			return username;
 			
 		} catch (NumberFormatException e) {
