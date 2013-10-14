@@ -3,21 +3,15 @@
 
 @main("Clients") {
 
-@if(flash.contains("success")) {
-	    <p class="success">
-	        @flash.get("success")
-	    </p>
-	}
-
-	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
-		@create_form(addForm)
-	</div>
-
 	<header class="invoices-header">
 		<h2 class="alignleft">Clients <span class="bubble">@clients.size</span></h2>
 		<a class="alignright btn" href="#" id="add-client-btn">Add client</a>
 		<br class="clear" />
 	</header>
+
+	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
+		@create_form(addForm)
+	</div>
 
 	<table class="clients-table">
 		<thead>

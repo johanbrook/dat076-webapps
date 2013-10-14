@@ -16,15 +16,19 @@
 </ul>
 }
 
-@form(routes.Clients.create(), 'class -> "create-form") {
-	<p>
-		<label for="title">Client name</label>
-		<input type="text" id="name" name="name" /></p>
+<form action="@routes.Clients.create()" class="create-form" data-remote="true"></form>
+	<div class="table">	
+		<p>
+			<label for="title">Client name</label>
+			<input type="text" id="name" name="name" /></p>
 
-	<p>
-		<label for="title">Client Organization Number</label>
-		<input type="text" id="orgNumber" name="orgNumber" placeholder="XXXXXX-XXXX" /></p>
+		<p>
+			<label for="title">Client Organization Number</label>
+			<input type="text" id="orgNumber" name="orgNumber" placeholder="XXXXXX-XXXX" /></p>
+
+	</div>
 		
+	<div class="table">
 	<p>
 		<label for="title">Client Address</label>
 		<input type="text" id="address" name="address" /></p>
@@ -32,25 +36,31 @@
 	<p>
 		<label for="title">Client Postal Code</label>
 		<input type="text" id="postalCode" name="postalCode" /></p>	
-				
-	 <select name="country">
-            	<option value="default">Select a country</option>
-				@for(country <- User.getCountries()) {
-					<option value="@country">@country</option>	
-				}
-		</select>
+	</div>
 		
-	<p>
-		<label for="title">Client Contact Person</label>
-		<input type="text" id="contactPerson" name="contactPerson" /></p>
-		
-	<p>
-		<label for="title">Client E-Mail</label>
-		<input type="text" id="email" name="email" placeholder="example[at]gmail.com" /></p>
+	<div class="table">
+		<p>
+			<label for="title">Client Contact Person</label>
+			<input type="text" id="contactPerson" name="contactPerson" /></p>
 			
+		<p>
+			<label for="title">Client E-Mail</label>
+			<input type="text" id="email" name="email" placeholder="example[at]gmail.com" /></p>
+
+	</div>
+
+	<p>
+		<label for="client-country">Country</label>
+		 <select id="client-country" name="country">
+	            	<option value="default">Select a country</option>
+					@for(country <- User.getCountries()) {
+						<option value="@country">@country</option>	
+					}
+			</select>
+	</p>
 	
 	<p class="right">
 		<input type="submit" value="Add client" />
 		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
 	</p>
-}
+</form>
