@@ -13,11 +13,14 @@ import models.User;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
 import org.mindrot.jbcrypt.BCrypt;
+
+import controllers.Application.Responder;
 
 import views.html.users.*;
 
@@ -37,7 +40,23 @@ public class Users extends Application {
 	 * @return
 	 */
 	public static Result index() {
-		return ok(index.render(form));
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return badRequest();
+			}
+
+			@Override
+			public Result html() {
+				return ok(index.render(form));
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
 	}
 	
 	/**
@@ -47,7 +66,7 @@ public class Users extends Application {
 	 */
 	public static Result create() {
 		
-		Form<User> filledForm = form.bindFromRequest();
+		final Form<User> filledForm = form.bindFromRequest();
 		
 		// Check accept conditions
         if(!"true".equals(filledForm.field("accept").value())) {
@@ -73,11 +92,29 @@ public class Users extends Application {
 		if(filledForm.hasErrors()) {
 			
 			Logger.info("Form errors " + filledForm.errors());
-			return badRequest(index.render(filledForm));
+			
+			return respondTo(new Responder() {
+
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+
+				@Override
+				public Result html() {
+					flash("error", "There were errors in your form.");
+					return badRequest(index.render(filledForm));
+				}
+
+				@Override
+				public Result script() {
+					return badRequest();
+				}
+			});
 		}
 		
 		// Form valid, create user
-		User user = filledForm.get();
+		final User user = filledForm.get();
 		
 		// set country to null if no country was chosen
 		if(filledForm.field("country").value().equals("default")) {
@@ -91,7 +128,24 @@ public class Users extends Application {
 		session("userId", String.valueOf(user.id));
 		Logger.info("*** User '" + user.username + "' created ***");
 		
-		return redirect(controllers.routes.Invoices.index());
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return created(Json.toJson(user));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "You have signed up!");
+				return redirect(controllers.routes.Invoices.index());
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
 		
 	}
 	
@@ -102,7 +156,27 @@ public class Users extends Application {
 	 */
 	@Security.Authenticated(Secured.class)
 	public static Result show() {
-		return ok(show.render());
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				
+				User user = Session.getCurrentUser();
+				setLocationHeader(user);
+				return ok(Json.toJson(Session.getCurrentUser()));
+			}
+
+			@Override
+			public Result html() {
+				return ok(show.render());
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
 	}
 	
 	/**
@@ -113,10 +187,23 @@ public class Users extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result edit() {
 		
-		// TODO: Fill in form here instead of using session in view
-		
-		// Use custom User edit form
-		return ok(edit.render(Form.form(UserEditForm.class)));
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return badRequest();
+			}
+
+			@Override
+			public Result html() {
+				return ok(edit.render(Form.form(UserEditForm.class)));
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
 	}
 	
 	
@@ -129,7 +216,7 @@ public class Users extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result update() {
 		
-		Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
+		final Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
 		Map<String, String> userMap = filledForm.data();
 		
 		// Input needed key-value pair
@@ -178,7 +265,26 @@ public class Users extends Application {
 		if(filledForm.hasErrors()) {
 			
 			Logger.info("Form errors " + filledForm.errors());
-			return badRequest(edit.render(filledForm));
+			
+			return respondTo(new Responder() {
+
+				@Override
+				public Result json() {
+					return badRequest(Json.toJson(filledForm));
+				}
+
+				@Override
+				public Result html() {
+					flash("fail",
+							"Something went wrong when trying to update your information");
+					return badRequest(edit.render(filledForm));
+				}
+
+				@Override
+				public Result script() {
+					return badRequest();
+				}
+			});
 		}
 		
 		// null all non set keys
@@ -190,7 +296,7 @@ public class Users extends Application {
 		
 		// "Fill in" the original User forms fields
 		form = form.bind(userMap);
-		User user = form.get();
+		final User user = form.get();
 		
 		user.id = Session.getCurrentUser().id;
 		user.update();
@@ -198,9 +304,24 @@ public class Users extends Application {
 		session("userId", String.valueOf(user.id));
 		Logger.info("*** User '" + user.username + "' edited ***");
 		
-		flash("success", "User updated successfully!");
-		
-		return redirect(controllers.routes.Users.show());
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return ok(Json.toJson(user));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "User updated successfully!");
+				return redirect(controllers.routes.Users.show());
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
 	}
 	
 	/**
