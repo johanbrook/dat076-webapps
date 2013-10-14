@@ -51,7 +51,8 @@ public class InvoicesTest extends BaseTest {
 						"title", "Test",
 						"invoiceDate", "2013-10-10",
 						"dueDate", "2013-11-30",
-						"client.id", "1"
+						"client.id", "1",
+						"bankAccount.id", "1"
 				))
 			);
 		
@@ -75,7 +76,8 @@ public class InvoicesTest extends BaseTest {
 				.withFormUrlEncodedBody(ImmutableMap.of(
 					"title", "New title",
 					"dueDate", "2013-12-30",
-					"client.id", "1"
+					"client.id", "1",
+					"bankAccount.id", "1"
 				))
 		);
 		Invoice updated = Invoice.find.where().eq("title", "New title").findUnique();
