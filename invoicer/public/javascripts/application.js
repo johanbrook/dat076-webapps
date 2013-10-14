@@ -66,7 +66,6 @@ Util = (function(util) {
 
 $(function() {
 
-	$("#add-invoice-btn").formExpand(".form-container");
 	$("#add-client-btn").formExpand(".form-container");
 	$("#add-bankaccount-btn").formExpand(".form-container");
 
@@ -76,7 +75,7 @@ $(function() {
 		$(".create-form").find("input, select").off("change");
 	});
 
-	//updateNewInvoiceTitle();
+	updateNewInvoiceTitle();
 
 	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
 

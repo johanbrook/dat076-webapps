@@ -58,7 +58,7 @@ public class Invoices extends Application {
 			public Result html() {
 				return ok(index.render(invoicesOfCurrentUser(),
 						paidInvoicesOfCurrentUser(),
-						overdueInvoicesOfCurrentUser(), form));
+						overdueInvoicesOfCurrentUser()));
 			}
 
 			@Override
@@ -71,6 +71,11 @@ public class Invoices extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result newInvoice() {
+		return ok(new_invoice.render(new Invoice(), form));
 	}
 	
 
@@ -91,7 +96,7 @@ public class Invoices extends Application {
 					flash("error", "There were errors in your form.");
 					return badRequest(index.render(invoicesOfCurrentUser(),
 							paidInvoicesOfCurrentUser(),
-							overdueInvoicesOfCurrentUser(), filledForm));
+							overdueInvoicesOfCurrentUser()));
 				}
 
 				@Override
@@ -281,7 +286,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result html() {
-				return ok(index.render(starred, null, null, form));
+				return ok(index.render(starred, null, null));
 			}
 
 			@Override
@@ -324,7 +329,7 @@ public class Invoices extends Application {
 				flash("fail", "The client for this invoice don't got any email");
 				return badRequest(index.render(invoicesOfCurrentUser(),
 						paidInvoicesOfCurrentUser(),
-						overdueInvoicesOfCurrentUser(), filledForm));
+						overdueInvoicesOfCurrentUser()));
 			}
 		} else {
 			return noContent();

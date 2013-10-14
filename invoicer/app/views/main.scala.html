@@ -25,7 +25,7 @@
 		<main role="main">
 
 			@if(flash.contains("success")) {
-			    <p class="positive">
+			    <p id="flash-message" class="positive">
 			        @flash.get("success")
 			    </p>
 			}
