@@ -323,13 +323,35 @@ public class Invoices extends Application {
 		final String mailPassword = "internet1<";
 		final Form<Invoice> filledForm = form.bindFromRequest();
 
-
 		Invoice invoice = Invoice.find.byId(id);
 
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				MailController.sendOneInvoice(mailUsername, mailPassword, invoice.client, invoice);
+				MailController.sendOneInvoice(mailUsername, mailPassword, invoice);
 				flash("success", "The invoice: " + invoice.title + " was sent to the client: " + invoice.client.name);
+				return goHome();
+			} else {
+				flash("fail", "The client for this invoice don't got any email");
+				return badRequest(index.render(invoicesOfCurrentUser(),
+						paidInvoicesOfCurrentUser(),
+						overdueInvoicesOfCurrentUser()));
+			}
+		} else {
+			return noContent();
+		}
+	}
+	
+	public static Result sendReminder(Long id) {
+		final String mailUsername = "andreasrolen93"; // TODO Change to users email
+		final String mailPassword = "internet1<";
+		final Form<Invoice> filledForm = form.bindFromRequest();
+
+		Invoice invoice = Invoice.find.byId(id);
+		
+		if (invoice != null) {
+			if (!invoice.client.email.isEmpty()) {
+				MailController.sendReminder(mailUsername, mailPassword, invoice);
+				flash("success", "A reminder for the invoice : " + invoice.title + " was sent to the client: " + invoice.client.name);
 				return goHome();
 			} else {
 				flash("fail", "The client for this invoice don't got any email");
