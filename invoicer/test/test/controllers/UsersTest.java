@@ -31,7 +31,7 @@ public class UsersTest extends BaseTest {
 	@Test
 	public void testIndex() {
 		Result index = callAction(controllers.routes.ref.Users.index());
-		assertEquals(200, status(index));
+		assertEquals(303, status(index));
 	}
 	
 	@Test
@@ -61,44 +61,57 @@ public class UsersTest extends BaseTest {
 	    assertEquals("Robin Dough", user.name);
 	    assertEquals("Dough road 43", user.address);
 	    assertEquals("41121 Dough", user.postalCode);
-	    assertEquals("123456-7890", user.organizationNumber);
+	    assertEquals("999999-9999", user.organizationNumber);
 	    assertEquals("Sweden", user.country);
 		
 	}
 	
 	@Test
 	public void testShow() {
-		Result show = callAction(controllers.routes.ref.Users.show());
+		
+		// Get id from database (User id changes between tests)
+		String userId = String.valueOf(User.find.where().eq
+				("username", "robindough").findUnique().id);
+		
+		Result show = callAction(controllers.routes.ref.Users.show(), fakeRequest()
+				.withSession("userId", userId));
 		assertEquals(200, status(show));
 	}
 	
 	@Test
 	public void testEdit() {
-		Result edit = callAction(controllers.routes.ref.Users.edit());
+		
+		String userId = String.valueOf(User.find.where().eq
+				("username", "robindough").findUnique().id);
+		
+		Result edit = callAction(controllers.routes.ref.Users.edit(), fakeRequest()
+				.withSession("userId", userId));
 		assertEquals(200, status(edit));
 	}
 	
 	@Test
 	public void testUpdate() {
 		
-		Result update = callAction(
-				controllers.routes.ref.Users.create(),
-				fakeRequest()
-				.withSession("userId", "2")
-				.withFormUrlEncodedBody(ImmutableMap.of(
-						"username", "robindough",
-						"name", "Robin Dough",
-						"address", "Dough road 43",
-						"postalCode", "41121 Dough",
-						"organizationNumber", "123456-7890",
-						"oldPassword", "secret",
-						"newPassword", "not",
-						"newRepeatedPassword", "not",
-						"country", "Sweden"
-				))
-			);
+		String userId = String.valueOf(User.find.where().eq
+				("username", "robindough").findUnique().id);
 		
-		String userId = Helpers.session(update).get("userId");
+		Map<String,String> formData = new HashMap<String, String>();
+		formData.put("username", "robindough");
+		formData.put("name", "Robin Dough");
+		formData.put("address", "Dough road 43");
+		formData.put("postalCode", "41121 Dough");
+		formData.put("organizationNumber", "123456-7890");
+		formData.put("oldPassword", "secret");
+		formData.put("newPassword", "not");
+		formData.put("newRepeatedPassword", "not");
+		formData.put("country", "Sweden");
+		
+		Result update = callAction(
+				controllers.routes.ref.Users.update(),
+				fakeRequest()
+				.withSession("userId", userId)
+				.withFormUrlEncodedBody(formData));
+		
 	    User user = User.find.where().eq("username", "robindough").findUnique();
 	    
 	    assertEquals(303, status(update));
@@ -110,25 +123,28 @@ public class UsersTest extends BaseTest {
 	    assertEquals("123456-7890", user.organizationNumber);
 	    assertEquals("Sweden", user.country);
 	    
-	    Result update = callAction(
-				controllers.routes.ref.Users.create(),
-				fakeRequest()
-				.withSession("userId", "2")
-				.withFormUrlEncodedBody(ImmutableMap.of(
-						"username", "robindough",
-						"name", "Robin",
-						"address", "Doughroad 43",
-						"postalCode", "009911 Dough",
-						"organizationNumber", "098765-4321",
-						"oldPassword", "not",
-						"newPassword", "secret",
-						"newRepeatedPassword", "secret",
-						"country", "Sweden"
-				))
-			);
+	    Map<String,String> formDataS = new HashMap<String, String>();
 	    
+	    formData.put("username", "robindough");
+		formData.put("name", "Robin");
+		formData.put("address", "Doughroad 43");
+		formData.put("postalCode", "009911 Dough");
+		formData.put("organizationNumber", "098765-4321");
+		formData.put("oldPassword", "not");
+		formData.put("newPassword", "secret");
+		formData.put("newRepeatedPassword", "secret");
+		formData.put("country", "Sweden");
+		
+	    update = callAction(
+				controllers.routes.ref.Users.update(),
+				fakeRequest()
+				.withSession("userId", userId)
+				.withFormUrlEncodedBody(formData));
+	    
+	    user = User.find.where().eq("username", "robindough").findUnique();
+	     
 	    assertEquals("robindough", user.username);
-	    assertTrue(BCrypt.checkpw("not", user.password));
+	    assertTrue(BCrypt.checkpw("secret", user.password));
 	    assertEquals("Robin", user.name);
 	    assertEquals("Doughroad 43", user.address);
 	    assertEquals("009911 Dough", user.postalCode);
