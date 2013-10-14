@@ -42,17 +42,23 @@ Util = (function(util) {
 		}
 	};
 
+	var Constants = {
+		messageMap: {
+			positive: "Success",
+			notice: "Notice",
+			negative: "Error"
+		}
+	};
+
 	// Create 'show-' methods dynamically:
 
-	$.each(["Notice", "Success", "Error"], function(i, type) {
-		// Map method types to notification classes:
-		var map = {error: "negative", success: "positive", notice: "notice"};
-		methods["show"+type] = function(text) {
-			new Notification(text, map[type.toLowerCase()] ).reveal();
+	$.each(["positive", "notice", "negative"], function(i, type) {
+		methods["show" + Constants.messageMap[type.toLowerCase()]] = function(text) {
+			new Notification(text, type).reveal();
 		}
 	});
 
-	return exports = methods;
+	return exports = $.extend({}, methods, Constants);
 })(window.Util);
 
 
@@ -70,8 +76,18 @@ $(function() {
 		$(".create-form").find("input, select").off("change");
 	});
 
-	updateNewInvoiceTitle();
+	//updateNewInvoiceTitle();
 
 	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
+
+	// Check if there are notice messages on the page
+	// in order to show them with our own system:
+	if($("#flash-message").length !== 0) {
+		var self = $("#flash-message"),
+				method = "show" + Util.messageMap[self.attr("class")]
+		
+		Util[method](self.text());
+		self.hide();
+	}
 });
 
