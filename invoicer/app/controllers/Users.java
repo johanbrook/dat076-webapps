@@ -15,6 +15,7 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -35,6 +36,7 @@ public class Users extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result index() {
 		return ok(index.render(form));
 	}
@@ -99,6 +101,7 @@ public class Users extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result show() {
 		return ok(show.render());
 	}
@@ -108,6 +111,7 @@ public class Users extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result edit() {
 		
 		// TODO: Fill in form here instead of using session in view
@@ -123,6 +127,7 @@ public class Users extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result update() {
 		
 		Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
