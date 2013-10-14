@@ -308,11 +308,17 @@ public class Invoices extends Application {
 		final ActorRef actor = Events.actorInstance;
 
 		if(invoice != null) {
-			invoice.setPaid();
-			invoice.save();
-			
-			actor.tell(Json.toJson(invoice), null);
-			return ok();
+			if(!invoice.isPaid()) {
+				invoice.setPaid();
+				invoice.save();
+				
+				actor.tell(Json.toJson(invoice), null);
+				return ok();
+							
+			}
+			else {
+				return noContent();
+			}
 		}
 
 		return notFound();
