@@ -5,15 +5,20 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import models.Client;
+import models.Invoice;
 import models.User;
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 import org.mindrot.jbcrypt.BCrypt;
+
 import views.html.users.*;
 
 /**
@@ -26,7 +31,7 @@ public class Users extends Application {
 	
 	
 	/**
-	 * (Action called from GET to /createuser)
+	 * (Action called from GET to /user)
 	 * 
 	 * 
 	 * @return
@@ -36,7 +41,7 @@ public class Users extends Application {
 	}
 	
 	/**
-	 * (Action called from POST to /createuser)
+	 * (Action called from POST to /user)
 	 * 
 	 * @return
 	 */
@@ -89,5 +94,131 @@ public class Users extends Application {
 		return redirect(controllers.routes.Invoices.index());
 		
 	}
+	
+	/**
+	 * (Action called from GET to /user/show)
+	 * 
+	 * @return
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result show() {
+		return ok(show.render());
+	}
+	
+	/**
+	 * (Action called from GET to /user/edit)
+	 * 
+	 * @return
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result edit() {
+		
+		// TODO: Fill in form here instead of using session in view
+		
+		// Use custom User edit form
+		return ok(edit.render(Form.form(UserEditForm.class)));
+	}
+	
+	
+	// TODO: Use id in action for users or just always use the one stored in session?
+	/**
+	 * (Action called from POST to /user/edit)
+	 * 
+	 * @return
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result update() {
+		
+		Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
+		Map<String, String> userMap = filledForm.data();
+		
+		// Input needed key-value pair
+		userMap.put("password", Session.getCurrentUser().password);
+		
+        // Check password
+		String oldPassword = filledForm.field("oldPassword").value();
+		String newPassword = filledForm.field("newPassword").value();
+		String newRepeatedPassword = filledForm.field("newRepeatedPassword").value();
+		 
+		if(oldPassword != null && !oldPassword.equals("")) {
+			
+			// Check if old password was correct
+			if(User.authenticateUser(filledForm.field("username").value(), oldPassword) != null) {
+				
+				// Check if new password has been entered
+				if(newPassword.equals("") || newPassword == null) {
+					filledForm.reject("newPassword", "You need to enter a new password");
+					
+				// Check if new password was repeated correctly
+				} else if(!newPassword.equals(newRepeatedPassword)) {
+					filledForm.reject("newRepeatedPassword", "Passwords don't match");
+				}
+		    	
+		    	// Successfull password change
+		    	else {
+		    	
+		        	// Insert hashed password key-value pair
+		        	userMap.put("password",
+		        			BCrypt.hashpw(filledForm.field("newPassword").value(),
+		        					BCrypt.gensalt()));
+		    	}
+			}
+			
+			else {
+				filledForm.reject("oldPassword", "Incorrect password!");
+			}
+			
+		// Reject if new password inserted but not the old one
+		} else if(!(newPassword.equals("") || newPassword == null) ||
+				!(newRepeatedPassword.equals("") || newRepeatedPassword == null)) {
+			
+			filledForm.reject("oldPassword", "You need to fill in your old password");
+		}
+		
+		if(filledForm.hasErrors()) {
+			
+			Logger.info("Form errors " + filledForm.errors());
+			return badRequest(edit.render(filledForm));
+		}
+		
+		// null all non set keys
+		for(String key : userMap.keySet()) {
+			if(userMap.get(key).equals("")) {
+				userMap.put(key, null);
+			}
+		}
+		
+		// "Fill in" the original User forms fields
+		form = form.bind(userMap);
+		User user = form.get();
+		
+		user.id = Session.getCurrentUser().id;
+		user.update();
+		
+		session("userId", String.valueOf(user.id));
+		Logger.info("*** User '" + user.username + "' edited ***");
+		
+		flash("success", "User updated successfully!");
+		
+		return redirect(controllers.routes.Users.show());
+	}
+	
+	/**
+     * Inner class for handling user edit (sent as parameter to the edit form)
+     * Used because field requirements are different than User model
+     * 
+     * @author Robin
+     */
+    public static class UserEditForm {
+    	public String username;
+    	public String name;
+    	public String address;
+    	public String postalCode;
+    	public String organizationNumber;
+    	public String oldPassword;
+    	public String newPassword;
+    	public String newRepeatedPassword;
+    	public String country;
+    }
 
 }

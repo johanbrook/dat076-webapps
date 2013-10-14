@@ -41,16 +41,13 @@ public class SecuredTest extends BaseTest {
 	@Test
 	public void testGetUsername() {
 		
-		
-		User user = User.find.where().like("username", "robindough").findUnique();
-		
-		// Calls the main page with Session attribute set
+		// Calls a secured page with Session attribute set
 	    Result result = callAction(
-	        controllers.routes.ref.Invoices.index(),
-	        fakeRequest().withSession("userId", String.valueOf(user.id))
-	    );
-	    assertEquals(303, status(result));
-	    assertEquals("/invoices", header("Location", result));
+	        controllers.routes.ref.Users.show(),
+	        fakeRequest().withSession("userId", super.userId));
+	    
+	    assertEquals(200, status(result));
+	    assertEquals("/users/show", header("Location", result));
 	}
 	
 	/*

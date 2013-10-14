@@ -11,6 +11,7 @@ package test.controllers;
 import static org.junit.Assert.*;
 
 import models.Invoice;
+import models.User;
 
 import org.fest.assertions.Assertions;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class InvoicesTest extends BaseTest {
 		Result create = callAction(
 				controllers.routes.ref.Invoices.create(),
 				fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withFormUrlEncodedBody(ImmutableMap.of(
 						"title", "Test",
 						"invoiceDate", "2013-10-10",
@@ -76,7 +77,7 @@ public class InvoicesTest extends BaseTest {
 		Result update = callAction(
 			controllers.routes.ref.Invoices.update(existing.id),
 			fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withFormUrlEncodedBody(ImmutableMap.of(
 					"title", "New title",
 					"dueDate", "2013-12-30",
@@ -97,7 +98,7 @@ public class InvoicesTest extends BaseTest {
 		Long existingId = Invoice.find.all().get(0).id;
 		Result destroy = callAction(
 			controllers.routes.ref.Invoices.destroy(existingId),
-			fakeRequest().withSession("userId", "1")
+			fakeRequest().withSession("userId", super.userId)
 		);
 		
 		assertEquals(303, status(destroy));
@@ -111,7 +112,7 @@ public class InvoicesTest extends BaseTest {
 		Result index = callAction(
 			controllers.routes.ref.Invoices.index(),
 			fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withHeader(ACCEPT, "application/json")
 		);
 		
@@ -124,7 +125,7 @@ public class InvoicesTest extends BaseTest {
 		Result show = callAction(
 				controllers.routes.ref.Invoices.show(i.id),
 				fakeRequest()
-					.withSession("userId", "1")
+					.withSession("userId", super.userId)
 					.withHeader(ACCEPT, "application/json")
 			);
 		
@@ -141,7 +142,7 @@ public class InvoicesTest extends BaseTest {
 		Result starred = callAction(
 			controllers.routes.ref.Invoices.toggleStarred(invoice.id),
 			fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withHeader(ACCEPT, "application/script")
 		);
 
@@ -154,7 +155,7 @@ public class InvoicesTest extends BaseTest {
 		Result starred = callAction(
 					controllers.routes.ref.Invoices.starred(),
 					fakeRequest()
-						.withSession("userId", "1")
+						.withSession("userId", super.userId)
 				);
 
 		assertEquals(OK, status(starred));

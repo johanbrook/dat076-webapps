@@ -1,0 +1,63 @@
+@import helper._
+
+@main("User information") {
+
+	<section class="invoice">
+		<header class="group">
+			<h1 class="alignleft">User information</h1>
+	
+			<a href="@routes.Users.edit()" class="btn alignright">Edit</a>
+		</header>	
+		
+		@defining(Session.getCurrentUser) { user =>
+		
+		<dl>
+			
+			<dt>Username</dt>
+			<dd>@user.username</dd>
+			
+			<dt>Name</dt>
+			<dd>
+				@if(user.name == null) {
+					-
+				}
+				@user.name
+			</dd>
+			
+			<dt>Address</dt>
+			<dd>
+				@if(user.address == null) {
+					-
+				}
+				@user.address
+			</dd>
+			
+			<dt>Postal Code</dt>
+			<dd>
+				@if(user.postalCode == null) {
+					-
+				}
+				@user.postalCode
+			</dd>
+			
+			<dt>Organization Number</dt>
+			<dd>
+				@if(user.organizationNumber == null) {
+					-
+				}
+				@user.organizationNumber
+			</dd>
+			
+			<dt>Country</dt>
+			<dd>
+				@if(user.country == null) {
+					-
+				}
+				@user.country
+			</dd>
+		</dl>
+		
+		}
+	
+	</section>
+}

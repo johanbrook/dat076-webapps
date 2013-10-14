@@ -48,7 +48,7 @@ public class ClientsTest extends BaseTest {
 		// Testing to add a correct Client
 		Result result = callAction(
 				controllers.routes.ref.Clients.create(),
-				fakeRequest().withSession("userId", "1")
+				fakeRequest().withSession("userId", super.userId)
 						.withFormUrlEncodedBody(
 								(ImmutableMap.of("name", "testName",
 										"orgNumber", "666666-6666"))));
@@ -56,7 +56,7 @@ public class ClientsTest extends BaseTest {
 		// Testing the validation of the orgNumber
 		Result badResult = callAction(
 				controllers.routes.ref.Clients.create(),
-				fakeRequest().withSession("userId", "1")
+				fakeRequest().withSession("userId", super.userId)
 						.withFormUrlEncodedBody(
 								(ImmutableMap.of("name", "badInput",
 										"orgNumber", "444-444"))));
@@ -83,7 +83,7 @@ public class ClientsTest extends BaseTest {
 
 		Result result = callAction(
 				controllers.routes.ref.Clients.update(oldClient.id),
-				fakeRequest().withSession("userId", "1")
+				fakeRequest().withSession("userId", super.userId)
 						.withFormUrlEncodedBody(
 								(ImmutableMap.of("name", "newName",
 										"orgNumber", "777777-7777"))));
@@ -107,14 +107,14 @@ public class ClientsTest extends BaseTest {
 				.findUnique().id;
 		Result resultWithoutInvoice = callAction(
 				controllers.routes.ref.Clients.destroy(id), fakeRequest()
-						.withSession("userId", "1"));
+						.withSession("userId", super.userId));
 
 		// Testing to remove a Client with invoices (The invoices should also be deleted)
 		Long invoiceId = Invoice.find.where()
 				.eq("title", "Test client destroy").findUnique().id;
 		Result resultWithInvoice = callAction(
 				controllers.routes.ref.Invoices.destroy(invoiceId),
-				fakeRequest().withSession("userId", "1"));
+				fakeRequest().withSession("userId", super.userId));
 
 		Invoice tmpInvoice = Invoice.find.where()
 				.eq("title", "Test client destroy").findUnique();
