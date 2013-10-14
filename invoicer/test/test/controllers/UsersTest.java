@@ -68,32 +68,20 @@ public class UsersTest extends BaseTest {
 	
 	@Test
 	public void testShow() {
-		
-		// Get id from database (User id changes between tests)
-		String userId = String.valueOf(User.find.where().eq
-				("username", "robindough").findUnique().id);
-		
 		Result show = callAction(controllers.routes.ref.Users.show(), fakeRequest()
-				.withSession("userId", userId));
+				.withSession("userId", super.userId));
 		assertEquals(200, status(show));
 	}
 	
 	@Test
 	public void testEdit() {
-		
-		String userId = String.valueOf(User.find.where().eq
-				("username", "robindough").findUnique().id);
-		
 		Result edit = callAction(controllers.routes.ref.Users.edit(), fakeRequest()
-				.withSession("userId", userId));
+				.withSession("userId", super.userId));
 		assertEquals(200, status(edit));
 	}
 	
 	@Test
 	public void testUpdate() {
-		
-		String userId = String.valueOf(User.find.where().eq
-				("username", "robindough").findUnique().id);
 		
 		Map<String,String> formData = new HashMap<String, String>();
 		formData.put("username", "robindough");
@@ -109,7 +97,7 @@ public class UsersTest extends BaseTest {
 		Result update = callAction(
 				controllers.routes.ref.Users.update(),
 				fakeRequest()
-				.withSession("userId", userId)
+				.withSession("userId", super.userId)
 				.withFormUrlEncodedBody(formData));
 		
 	    User user = User.find.where().eq("username", "robindough").findUnique();
@@ -138,7 +126,7 @@ public class UsersTest extends BaseTest {
 	    update = callAction(
 				controllers.routes.ref.Users.update(),
 				fakeRequest()
-				.withSession("userId", userId)
+				.withSession("userId", super.userId)
 				.withFormUrlEncodedBody(formData));
 	    
 	    user = User.find.where().eq("username", "robindough").findUnique();
