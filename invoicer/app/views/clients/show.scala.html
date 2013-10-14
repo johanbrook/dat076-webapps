@@ -13,10 +13,11 @@
 
 		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>	
 			<a
-				title="Send invoices" 
+				title="Send all invoices of this client with e-mail" 
 				data-method="post"
 				data-remote="true"
 				class="btn alignright"
+				style="margin-right: 5px"
 				href="@routes.Clients.sendInvoices(client.id)">Send Invoices</a>
 			</a>
 	</header>	
