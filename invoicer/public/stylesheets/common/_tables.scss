@@ -20,3 +20,9 @@ td {
 tr:nth-child(even) {
 	background-color: #f4f4f4;
 }
+
+tr {
+	&.added {
+		-webkit-animation: pop 1s ease;
+	}
+}

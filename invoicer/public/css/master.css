@@ -410,6 +410,13 @@ table {
   color: #fff;
 }
 
+table .delete {
+  visibility: hidden;
+}
+table tr:hover .delete {
+  visibility: visible;
+}
+
 #notification {
   display: none;
   position: absolute;
@@ -481,6 +488,10 @@ table {
 }
 .table > * {
   display: table-cell;
+}
+.table input[type="text"],
+.table input[type="number"] {
+  width: 90%;
 }
 
 .details {
@@ -819,6 +830,10 @@ tr:nth-child(even) {
   background-color: #f4f4f4;
 }
 
+tr.added {
+  -webkit-animation: pop 1s ease;
+}
+
 /*	=FOOTER
 ----------------------------------------------------------------------*/
 /*	=HEADER
@@ -897,15 +912,6 @@ tr:nth-child(even) {
 .sidebar {
   width: 25%;
   padding-right: 4%;
-}
-
-/* CLIENTS INDEX
----------------------------------- */
-.clients-table .delete {
-  visibility: hidden;
-}
-.clients-table tr:hover .delete {
-  visibility: visible;
 }
 
 /*	=FRONT PAGE

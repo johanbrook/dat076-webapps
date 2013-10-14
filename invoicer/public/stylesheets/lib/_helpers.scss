@@ -32,6 +32,16 @@
 	}
 }
 
+table {
+	.delete {
+		visibility: hidden;
+	}
+
+	tr:hover .delete {
+		visibility: visible;
+	}
+}
+
 #notification {
 	display: none;
 	position: absolute;
@@ -99,6 +109,11 @@
 
 	& > * {
 		display: table-cell;
+	}
+
+	input[type="text"],
+	input[type="number"] {
+		width: 90%;
 	}
 }
 
