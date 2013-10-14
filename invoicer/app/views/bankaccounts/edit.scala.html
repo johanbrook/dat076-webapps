@@ -2,7 +2,7 @@
 @import helper._
 
 @main("Edit bank account") {
-	<h1>Editing @bankAccount.toString() (@bankAccount.bank)</h1>
+	<h1>Editing <small>@bankAccount.toString() (@bankAccount.bank)</small></h1>
 	<p class="back">
 		<a href="@routes.BankAccounts.show(bankAccount.id)">← Back to account</a>
 	</p>
@@ -22,21 +22,33 @@
 	}	
 	
 	@form(routes.BankAccounts.update(bankAccount.id)) {  
-		<input type="hidden" name="_method" value="PUT" />
-		@helper.select(
-			editForm("accountType"), 
-			options = models.BankAccount.AccountType.values.toSeq.map {c => c.toString -> c.getName()},
-			'_label -> "Account type" 
-		)
+
+		<p>
+			<label for="acc-nr">Account number</label>
+			<input type="text" id="acc-nr" name="accountNumber" value="@editForm("accountNumber").value" /></p>
 		
-		<p><input type="text" name="accountNumber" value="@editForm("accountNumber").value" /></p>
-		<p><input type="text" name="bank" value="@editForm("bank").value" /></p>
-		<p><input type="text" name="iban" value="@editForm("iban").value" /></p>
-		<p><input type="text" name="bic" value="@editForm("bic").value" /></p>
+		<p>
+			<label for="acc-bank">Bank</label>
+			<input type="text" id="acc-bank" name="bank" value="@editForm("bank").value" /></p>
 		
+		<p>
+			<label for="acc-iban">IBAN</label>
+			<input type="text" id="acc-iban" name="iban" value="@editForm("iban").value" /></p>
+		
+		<p>
+			<label for="acc-bic">BIC</label>
+			<input type="text" id="acc-bic" name="bic" value="@editForm("bic").value" /></p>
 	
-		
-		
+
+		<p>
+			<label for="acc-type">Account type</label>
+			<select name="accountType" id="acc-type">
+				@for(t <- BankAccount.AccountType.values) {
+				<option value="@t.toString()" @if(t.toString().equals(bankAccount.accountType.toString())) {selected}>@t.getName()</option>
+				}
+			</select>	
+		</p>
+
 		<p>
 			<input type="submit" value="Update" />
 		</p>
