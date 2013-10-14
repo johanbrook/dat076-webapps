@@ -3,6 +3,12 @@
 
 @main("Clients") {
 
+@if(flash.contains("success")) {
+	    <p class="success">
+	        @flash.get("success")
+	    </p>
+	}
+
 	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
 		@create_form(addForm)
 	</div>

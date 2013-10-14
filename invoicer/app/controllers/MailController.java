@@ -59,7 +59,7 @@ public class MailController {
 				// i.owner.bankAccount[0].bank + "\n" + "Account number: " +
 				// i.owner.bankAccount[0].accountNumber)
 				message.append("Sum to pay: " + i.totalRate);
-				message.append("\n");
+				message.append("\n" + " ");
 			}
 		} else {
 			message.append("Congratulations you don't have any invoices to pay");
