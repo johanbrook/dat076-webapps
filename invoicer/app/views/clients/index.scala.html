@@ -19,29 +19,30 @@
 		<br class="clear" />
 	</header>
 
-	<table id="clientTable" class="tablesorter" border=1>
-
-	<thead>
-		<tr>
-				<th>Client name </th>
-				<th>Client orgNbr.</th>
-		</tr>
-	</thead>
-	<tbody>
-		@for(client <- clients) {
+	<table class="clients-table">
+		<thead>
 			<tr>
-				<td>@client.name</td>
-				<td>@client.orgNumber</td>
-				<td><a href="@routes.Clients.edit(client.id)">Edit</a></td>
-				<td>@form(routes.Clients.destroy(client.id)){
-					<input type="submit" value="Delete" onClick="if(confirm('Are you sure you want to delete @client.name?'))
-																	return true;
-																	else return false" />
-					}</td>
-				<td><a href="@routes.Clients.show(client.id)">Show</a></td>	
+					<th>Name </th>
+					<th>Organization no.</th>
 			</tr>
-		}
-	</tbody>
+		</thead>
+		<tbody>
+			@for(client <- clients) {
+				<tr id="client-@client.id">
+					<td><a href="@routes.Clients.show(client.id)">@client.name</td>
+					<td>@client.orgNumber</td>
+					<td><a href="@routes.Clients.edit(client.id)">Edit</a></td>
+					<td>
+						<a class="delete" 
+							title="Remove client" 
+							href="@routes.Clients.destroy(client.id)" 
+							data-remote="true" 
+							data-confirm="Are you sure you want to remove this client? This will also remove all invoices connected to the client as well."
+							data-method="delete">×</a>
+					</td>
+				</tr>
+			}
+		</tbody>
 	
 	</table>    
 }

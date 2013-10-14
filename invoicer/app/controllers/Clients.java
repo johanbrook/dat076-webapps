@@ -83,19 +83,32 @@ public class Clients extends Application {
 	}
 
 	public static Result destroy(Long id) {
-		Client tmpClient = Client.find.byId(id);
-
-		List<Invoice> list = Invoice.find.where().eq("client_id", id)
-				.findList();
+		final Client tmpClient = Client.find.byId(id);
+		final List<Invoice> list = Invoice.find.where().eq("client_id", id).findList();
 
 		if (list != null) {
 			Ebean.delete(list);
 		}
 		if (tmpClient != null) {
 			tmpClient.delete();
-			flash("success", "The client: " + tmpClient.name
-					+ " was successfully deleted.");
-			return goHome();
+
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					return noContent();
+				}
+
+				@Override
+				public Result html() {
+					flash("success", "The client was deleted (along with "+list.size()+" invoices");
+					return goHome();
+				}
+
+				@Override
+				public Result script() {
+					return ok(views.js.clients.destroy.render(tmpClient));
+				}
+			});
 		} else {
 			return badRequest(views.html.clients.index.render(
 					Client.find.all(), newForm));
