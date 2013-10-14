@@ -141,9 +141,8 @@ public class InvoicesTest extends BaseTest {
 
 		Result starred = callAction(
 			controllers.routes.ref.Invoices.toggleStarred(invoice.id),
-			fakeRequest()
-				.withSession("userId", super.userId)
-				.withHeader(ACCEPT, "application/script")
+			fakeRequest(PUT, controllers.routes.Invoices.toggleStarred(invoice.id).url())
+				.withSession("userId", "1")
 		);
 
 		assertEquals(OK, status(starred));
@@ -170,7 +169,7 @@ public class InvoicesTest extends BaseTest {
 		Result paid = callAction(
 					controllers.routes.ref.Invoices.setPaid(unPaidInvoice.id),
 					fakeRequest()
-						.withSession("userId", "1")
+						.withSession("userId", super.userId)
 				);
 
 		assertEquals(OK, status(paid));
