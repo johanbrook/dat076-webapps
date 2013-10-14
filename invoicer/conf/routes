@@ -41,12 +41,12 @@ PUT		/invoices/:id/star		controllers.Invoices.toggleStarred(id: Long)
 
 # Bank Accounts
 
-GET     /bankaccounts      			controllers.BankAccounts.index()
-POST    /bankaccounts      			controllers.BankAccounts.create()
-GET     /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
-POST    /bankaccounts/:id      		controllers.BankAccounts.update(id: Long)
-GET		/bankaccounts/:id/edit		controllers.BankAccounts.edit(id: Long)
-GET		/bankaccounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
+GET     /accounts      			controllers.BankAccounts.index()
+POST    /accounts      			controllers.BankAccounts.create()
+GET     /accounts/:id      		controllers.BankAccounts.show(id: Long)
+POST    /accounts/:id      		controllers.BankAccounts.update(id: Long)
+GET		/accounts/:id/edit		controllers.BankAccounts.edit(id: Long)
+GET		/accounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
 
 # Clients
 
