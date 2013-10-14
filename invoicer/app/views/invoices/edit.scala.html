@@ -3,6 +3,10 @@
 
 @main("Edit invoice") {
 	<h1>Editing invoice <small>@invoice.title</small></h1>
+
+	<p class="back">
+		<a href="@routes.Invoices.show(invoice.id)">← Back to invoice</a>
+	</p>
 	
 	@if(editForm.hasErrors()){
 	<h3>Errors</h3>

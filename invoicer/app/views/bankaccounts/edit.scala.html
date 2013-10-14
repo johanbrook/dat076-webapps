@@ -2,8 +2,11 @@
 @import helper._
 
 @main("Edit bank account") {
-	<h1>Editing @bankAccount.accountNumber</h1>
-	
+	<h1>Editing @bankAccount.toString() (@bankAccount.bank)</h1>
+	<p class="back">
+		<a href="@routes.BankAccounts.show(bankAccount.id)">← Back to account</a>
+	</p>
+
 	@if(editForm.hasErrors()){
 	<h3>Errors</h3>
 	<ul class="negative">
