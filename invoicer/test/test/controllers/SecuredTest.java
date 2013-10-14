@@ -3,15 +3,8 @@
  */
 package test.controllers;
 
+import static play.test.Helpers.*;
 import static org.junit.Assert.assertEquals;
-import static play.test.Helpers.callAction;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.fakeGlobal;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.header;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.start;
-import static play.test.Helpers.status;
 
 import java.util.List;
 
@@ -44,10 +37,10 @@ public class SecuredTest extends BaseTest {
 		// Calls a secured page with Session attribute set
 	    Result result = callAction(
 	        controllers.routes.ref.Users.show(),
-	        fakeRequest().withSession("userId", super.userId));
+	        fakeRequest().withSession("userId", super.userId).withHeader(ACCEPT, "text/html"));
 	    
 	    assertEquals(200, status(result));
-	    assertEquals("/users/show", header("Location", result));
+	    assertEquals("/users/show", header(LOCATION, result));
 	}
 	
 	/*
@@ -64,7 +57,7 @@ public class SecuredTest extends BaseTest {
 	    );
 	    
 	    assertEquals(303, status(result));
-	    assertEquals("/login", header("Location", result));
+	    assertEquals("/login", header(LOCATION, result));
 	}
 
 }

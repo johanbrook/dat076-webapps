@@ -58,7 +58,7 @@ public class InvoicesTest extends BaseTest {
 						"dueDate", "2013-11-30",
 						"client.id", "1",
 						"bankAccount.id", "1"
-				))
+				)).withHeader(ACCEPT, "text/html")
 			);
 		
 		assertEquals(303, status(create));
@@ -83,7 +83,7 @@ public class InvoicesTest extends BaseTest {
 					"dueDate", "2013-12-30",
 					"client.id", "1",
 					"bankAccount.id", "1"
-				))
+				)).withHeader(ACCEPT, "text/html")
 		);
 		Invoice updated = Invoice.find.where().eq("title", "New title").findUnique();
 		assertNotNull(updated);
@@ -98,7 +98,8 @@ public class InvoicesTest extends BaseTest {
 		Long existingId = Invoice.find.all().get(0).id;
 		Result destroy = callAction(
 			controllers.routes.ref.Invoices.destroy(existingId),
-			fakeRequest().withSession("userId", super.userId)
+			fakeRequest().withSession("userId", super.userId).
+			withHeader(ACCEPT, "text/html")
 		);
 		
 		assertEquals(303, status(destroy));
@@ -142,7 +143,8 @@ public class InvoicesTest extends BaseTest {
 		Result starred = callAction(
 			controllers.routes.ref.Invoices.toggleStarred(invoice.id),
 			fakeRequest(PUT, controllers.routes.Invoices.toggleStarred(invoice.id).url())
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
+				.withHeader(ACCEPT, "text/html")
 		);
 
 		assertEquals(OK, status(starred));
@@ -155,6 +157,7 @@ public class InvoicesTest extends BaseTest {
 					controllers.routes.ref.Invoices.starred(),
 					fakeRequest()
 						.withSession("userId", super.userId)
+						.withHeader(ACCEPT, "text/html")
 				);
 
 		assertEquals(OK, status(starred));
@@ -170,6 +173,7 @@ public class InvoicesTest extends BaseTest {
 					controllers.routes.ref.Invoices.setPaid(unPaidInvoice.id),
 					fakeRequest()
 						.withSession("userId", super.userId)
+						.withHeader(ACCEPT, "text/html")
 				);
 
 		assertEquals(OK, status(paid));

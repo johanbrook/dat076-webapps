@@ -16,6 +16,7 @@ import play.mvc.*;
 import play.libs.*;
 import play.test.*;
 import test.BaseTest;
+import static play.mvc.Http.HeaderNames.ACCEPT;
 import static play.test.Helpers.*;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -30,7 +31,7 @@ public class UsersTest extends BaseTest {
 	
 	@Test
 	public void testIndex() {
-		Result index = callAction(controllers.routes.ref.Users.index());
+		Result index = callAction(controllers.routes.ref.Users.index(), fakeRequest().withHeader(ACCEPT, "text/html"));
 		assertEquals(200, status(index));
 	}
 	
@@ -50,7 +51,7 @@ public class UsersTest extends BaseTest {
 		
 		Result result = callAction( controllers.routes.ref.
 				Users.create(), fakeRequest().withFormUrlEncodedBody(		
-		        			formData));
+		        			formData).withHeader(ACCEPT, "text/html"));
 		
 		String userId = Helpers.session(result).get("userId");
 	    User user = User.find.where().eq("username", "robinhodough").findUnique();
@@ -69,14 +70,16 @@ public class UsersTest extends BaseTest {
 	@Test
 	public void testShow() {
 		Result show = callAction(controllers.routes.ref.Users.show(), fakeRequest()
-				.withSession("userId", super.userId));
+				.withSession("userId", super.userId)
+				.withHeader(ACCEPT, "text/html"));
 		assertEquals(200, status(show));
 	}
 	
 	@Test
 	public void testEdit() {
 		Result edit = callAction(controllers.routes.ref.Users.edit(), fakeRequest()
-				.withSession("userId", super.userId));
+				.withSession("userId", super.userId)
+				.withHeader(ACCEPT, "text/html"));
 		assertEquals(200, status(edit));
 	}
 	
@@ -98,7 +101,8 @@ public class UsersTest extends BaseTest {
 				controllers.routes.ref.Users.update(),
 				fakeRequest()
 				.withSession("userId", super.userId)
-				.withFormUrlEncodedBody(formData));
+				.withFormUrlEncodedBody(formData)
+				.withHeader(ACCEPT, "text/html"));
 		
 	    User user = User.find.where().eq("username", "robindough").findUnique();
 	    
@@ -127,7 +131,8 @@ public class UsersTest extends BaseTest {
 				controllers.routes.ref.Users.update(),
 				fakeRequest()
 				.withSession("userId", super.userId)
-				.withFormUrlEncodedBody(formData));
+				.withFormUrlEncodedBody(formData)
+				.withHeader(ACCEPT, "text/html"));
 	    
 	    user = User.find.where().eq("username", "robindough").findUnique();
 	     
