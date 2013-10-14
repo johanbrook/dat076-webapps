@@ -47,7 +47,7 @@
 	    <legend>Personal information</legend>
 	    
 	    <p><label for="name">Name</label><input type="text" name="name" value="@Session.getCurrentUser().name"></p>
-	    <p><label for="address">address</label><textarea rows="2" name="address" value="@Session.getCurrentUser().address"></textarea></p>
+	    <p><label for="address">Address</label><textarea rows="2" name="address">@Session.getCurrentUser().address</textarea></p>
 	    <p><label for="postalCode">Postal code</label><input type="text" name="postalCode" value="@Session.getCurrentUser().postalCode"></p>
 	    <p><label for="organizationNumber">Organization number</label><input type="text" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber">
 	    	<span class="negative">
