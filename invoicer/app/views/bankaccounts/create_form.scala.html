@@ -3,7 +3,7 @@
 @import com.github.nscala_time.time.Imports._
 
 @if(addForm.hasErrors()){
-<h3>Errors</h3>
+<h3>There were some errors</h3>
 <ul class="negative">
 	@addForm.errors().map { 
 		case (prop, errors) => {
@@ -16,10 +16,19 @@
 </ul>
 }
 
-@form(routes.BankAccounts.create(), 'class -> "create-form") {
-	<p>
-		<label for="account-number">Account number</label>
-		<input type="text" id="account-number" name="accountNumber" /></p>
+<form action="@routes.BankAccounts.create()" class="create-form" method="post" data-remote="true">
+
+	<div class="table">
+		<p>
+			<label for="account-number">Account number</label>
+			<input type="text" id="account-number" name="accountNumber" />
+		</p>
+
+		<p>
+			<label for="bank">Bank</label>
+			<input type="text" id="bank" name="bank" />
+		</p>
+	</div>
 
 	<div class="table">
 		<p>
@@ -30,23 +39,19 @@
 		<p>
 			<label for="bic">BIC</label>
 			<input type="text" id="bic" name="bic" /></p>
-		
-		<p>
-			<label for="bank">Bank</label>
-			<input type="text" id="bank" name="bank" /></p>
-		<p>
-			<label for="account-type-dropdown">Account type</label>
-			<select id="account-type-dropdown" name="accountType">
-			@for(accountType <- BankAccount.AccountType.values) {
-			<option value="@accountType.toString()">@accountType.getName()</option>	
-			}
-			</select>
-		</p>
-
 	</div>
+
+	<p>
+		<label for="account-type-dropdown">Account type</label>
+		<select id="account-type-dropdown" name="accountType">
+		@for(accountType <- BankAccount.AccountType.values) {
+		<option value="@accountType.toString()">@accountType.getName()</option>	
+		}
+		</select>
+	</p>
 	
 	<p class="right">
 		<input type="submit" value="Add bank account" />
 		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
 	</p>
-}
+</form>
