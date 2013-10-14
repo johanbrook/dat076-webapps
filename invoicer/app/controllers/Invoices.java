@@ -305,7 +305,7 @@ public class Invoices extends Application {
 	public static Result setPaid(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		// Fetch reference to Akka actor and send event
-		final ActorRef actor = Events.InvoiceActor.instance;
+		final ActorRef actor = Events.actorInstance;
 
 		if(invoice != null) {
 			invoice.setPaid();
