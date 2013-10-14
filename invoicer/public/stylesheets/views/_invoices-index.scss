@@ -133,25 +133,9 @@
 	}
 
 	.delete {
-		@include transition(none);
 		display: none;
 		position: absolute;
 		top: 3px;
 		right: 5px;
-		font-weight: bold;
-		text-decoration: none;
-		color: darken(red, 10%);
-		font-size: to_em(17);
-		z-index: 999;
-		@include border-radius(100%);
-		height: 1em;
-		width: 1em;
-		line-height: .8;
-		text-align: center;
-
-		&:hover {
-			background-color: darken(red, 10%);
-			color: #fff;
-		}
 	}
 }

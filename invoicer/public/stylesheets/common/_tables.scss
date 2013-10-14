@@ -8,6 +8,15 @@ table {
 }
 
 th {
-	color: $grey;
-	font-size: to_em(13);
+	font-size: to_em(14);
+	padding-bottom: 10px;
+}
+
+td {
+	padding: 2px .5em;
+	border: 0;
+}
+
+tr:nth-child(even) {
+	background-color: #f4f4f4;
 }
