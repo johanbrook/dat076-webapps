@@ -51,6 +51,7 @@ public class Session extends Application {
     	
     	Logger.info("*** User '" + user.username + "' logged in ***");
     	
+    	//TODO: Where to redirect? Instead of Invoices.index why not a universal "home" 
     	return redirect(controllers.routes.Invoices.index());
     }
    
