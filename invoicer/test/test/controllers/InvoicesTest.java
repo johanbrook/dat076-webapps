@@ -16,8 +16,12 @@ import org.fest.assertions.Assertions;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
+
+import controllers.Events;
 import play.mvc.*;
 import static play.test.Helpers.*;
+
+import akka.actor.Props;
 
 import test.BaseTest;
 
@@ -156,6 +160,19 @@ public class InvoicesTest extends BaseTest {
 		assertEquals(OK, status(starred));
 		assertEquals("/invoices/starred", header("Location", starred));
 		Assertions.assertThat(contentAsString(starred)).contains("Test invoice");
+	}
+
+	@Test
+	public void testEventSetPaid() {
+		Invoice unPaidInvoice = Invoice.find.where().isNull("datePaid").findList().get(0);
+
+		Result paid = callAction(
+					controllers.routes.ref.Invoices.setPaid(unPaidInvoice.id),
+					fakeRequest()
+						.withSession("userId", "1")
+				);
+
+		assertEquals(OK, status(paid));
 	}
 }
 
