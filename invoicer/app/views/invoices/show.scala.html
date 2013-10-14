@@ -7,6 +7,12 @@
 	<a href="@routes.Invoices.index()">← All invoices</a>
 </p>
 
+@if(flash.contains("success")) {
+	    <p class="success">
+	        @flash.get("success")
+	    </p>
+	}
+
 <section class="invoice">
 	<header class="group">
 		<h1 class="alignleft">@invoice.title</h1>
@@ -20,6 +26,14 @@
 				class="btn alignright"
 				style="margin-right: 5px"
 				href="@routes.Invoices.sendInvoice(invoice.id)">Send Invoice</a>
+			</a>
+		<a
+				title="Send reminder for this invoice" 
+				data-method="post"
+				data-remote="true"
+				class="btn alignright"
+				style="margin-right: 5px"
+				href="@routes.Invoices.sendReminder(invoice.id)">Send Reminder</a>
 			</a>
 			}
 	</header>	

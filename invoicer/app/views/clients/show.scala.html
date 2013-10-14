@@ -3,6 +3,13 @@
 
 @main(client.name) {
 
+
+@if(flash.contains("success")) {
+	    <p class="success">
+	        @flash.get("success")
+	    </p>
+	}
+	
 <p class="back back-invoices">
 	<a href="@routes.Clients.index()">← All clients</a>
 </p>

@@ -113,8 +113,7 @@ public class Clients extends Application {
 
 		if (!client.email.isEmpty()) {
 			if (invoiceList != null && client != null) {
-				MailController.sendAllInvoices(mailUsername, mailPassword,
-						client, invoiceList);
+				MailController.sendAllInvoices(mailUsername, mailPassword, invoiceList);
 				flash("success", "A mail has been sent to: " + client.name);
 				return goHome();
 			} else {
