@@ -42,6 +42,7 @@ public class Events extends Controller {
 			socket.onDisconnected(new Callback0() {
 			    public void invoke() {
 			        getContext().self().tell(socket, null);
+			        removeSocket(socket);
 			    }
 			});
 			// New browser connected
@@ -51,6 +52,7 @@ public class Events extends Controller {
 
 		private void removeSocket(EventSource socket) {
 			// Browser is disconnected
+			socket.close();
 			sockets.remove(socket);
 			Logger.info("* Browser disconnected (" + sockets.size() + " browsers currently connected)");
 		}
