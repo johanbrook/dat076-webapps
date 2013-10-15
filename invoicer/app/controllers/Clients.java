@@ -135,8 +135,6 @@ public class Clients extends Application {
 	}
 
 	public static Result sendInvoices(Long id) {
-		final String mailUsername = "andreasrolen93"; //TODO Change to users email
-		final String mailPassword = "internet1<";
 		
 		Client client = Client.find.byId(id);
 		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id)

@@ -346,8 +346,6 @@ public class Invoices extends Application {
 	}
 	
 	public static Result sendReminder(Long id) {
-		final String mailUsername = "andreasrolen93"; // TODO Change to users email
-		final String mailPassword = "internet1<";
 		final Form<Invoice> filledForm = form.bindFromRequest();
 
 		Invoice invoice = Invoice.find.byId(id);
