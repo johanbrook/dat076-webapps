@@ -20,6 +20,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import views.html.clients.*;
 import play.libs.Json;
+import service.Mailer;
 
 @Security.Authenticated(Secured.class)
 public class Clients extends Application {
@@ -137,12 +138,16 @@ public class Clients extends Application {
 	public static Result sendInvoices(Long id) {
 		
 		Client client = Client.find.byId(id);
-		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id).eq("owner_id", Session.getCurrentUser().id)
+		List<Invoice> invoiceList = Invoice.find.where()
+				.eq("client_id", id)
+				.eq("owner_id", Session.getCurrentUser().id)
 				.findList();
+		
+		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		
 		if (!client.email.isEmpty()) {
 			if (invoiceList != null && client != null) {
-				MailController.sendAllInvoices(invoiceList);
+				mailer.sendAllInvoices(invoiceList);
 				flash("success", "A mail has been sent to: " + client.name);
 				return goHome();
 			} else {

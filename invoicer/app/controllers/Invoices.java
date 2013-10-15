@@ -324,13 +324,12 @@ public class Invoices extends Application {
 	
 	public static Result sendInvoice(Long id) {
 		
-		Mailer mailer = new Mailer();
-		
+		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		final Invoice invoice = Invoice.find.byId(id);
 
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				final boolean didSend = mailer.sendOneInvoice(invoice);
+				final boolean didSend = mailer.send(invoice, "You have a new invoice", views.html.mails.invoice.ref());
 				
 				return respondTo(new Responder() {
 					
@@ -369,11 +368,11 @@ public class Invoices extends Application {
 	public static Result sendReminder(Long id) {
 
 		final Invoice invoice = Invoice.find.byId(id);
-		Mailer mailer = new Mailer();
+		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				final boolean didSend = mailer.sendReminder(invoice);
+				final boolean didSend = mailer.send(invoice, "You have an unpayed invoice", views.html.mails.reminder.ref());
 				
 				return respondTo(new Responder() {
 					

@@ -18,10 +18,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
+import service.Mailable;
 import util.CustomDateSerializer;
 
 @Entity
-public class Invoice extends AbstractModel {
+public class Invoice extends AbstractModel implements Mailable {
 	
 	public String title;
 	
@@ -125,5 +126,10 @@ public class Invoice extends AbstractModel {
 
 	public void toggleStarred() {
 		this.starred = !this.starred;
+	}
+
+	@Override
+	public String getRecieverAddress() {
+		return this.client.email;
 	}
 }

@@ -13,6 +13,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import play.Logger;
+import play.api.templates.Html;
+import play.api.templates.Template1;
 
 import util.GoogleMail;
 import models.AbstractModel;
@@ -20,25 +22,14 @@ import models.BankAccount;
 import models.Client;
 import models.Invoice;
 
-public class Mailer {
+public class Mailer<T extends Mailable> {
 	
 
-	public boolean sendOneInvoice(Invoice invoice) {
-		StringBuilder message = new StringBuilder();
-		message.append("Hi " + invoice.client.name + "\n");
-		message.append("You got a new invoice to pay" + "\n");
-		message.append("Invoice name: " + invoice.title + "\n" + "Due date: "
-				+ invoice.dueDate + "\n");
-		message.append("Account type: "
-				+ invoice.bankAccount.accountType.getName() + "\nBank: "
-				+ invoice.bankAccount.bank + "\nAccount nr: "
-				+ invoice.bankAccount.accountNumber + "\nBIC: "
-				+ invoice.bankAccount.bic + "\nIBAN: " + invoice.bankAccount.iban
-				+ "\n");
-		message.append("Sum to pay: " + invoice.totalRate);
+	public boolean send(T item, String subject, Template1<T, Html> template) {
+		Html html = template.render(item);
 
 		try {
-			GoogleMail.send(invoice.client.email, "You got a new invoice", message.toString());
+			GoogleMail.send(item.getRecieverAddress(), subject, html.toString());
 			return true;
 			
 		} catch (AddressException e) {
@@ -76,28 +67,6 @@ public class Mailer {
 		}
 		try {
 			GoogleMail.send(invoiceList.get(0).client.email, "All your invoices", message.toString());
-			return true;
-			
-		} catch (AddressException e) {
-			Logger.info("Email address parse failed");
-			e.printStackTrace();
-			return false;
-			
-		} catch (MessagingException e) {
-			Logger.info("Connection is dead");
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public boolean sendReminder(Invoice invoice) {
-		StringBuilder message = new StringBuilder("Hi " + invoice.client.name
-				+ "\n");
-		message.append("Remember that you got an unpayed invoice (" + invoice.title + ") to pay due to "
-				+ invoice.dueDate + "\n");
-		message.append("Amount to pay: " + invoice.totalRate);
-		try {
-			GoogleMail.send(invoice.client.email, "Reminder: Invoice to pay", message.toString());
 			return true;
 			
 		} catch (AddressException e) {

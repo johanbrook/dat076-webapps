@@ -33,7 +33,8 @@ public class GoogleMail {
     }
 
    
-    public static void send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
+    public static void send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) 
+    		throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
@@ -59,7 +60,7 @@ public class GoogleMail {
         }
 
         msg.setSubject(title);
-        msg.setText(message, "utf-8");
+        msg.setText(message, "utf-8", "html");
         msg.setSentDate(new Date());
 
         SMTPTransport t = (SMTPTransport)session.getTransport("smtps");

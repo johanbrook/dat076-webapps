@@ -1,0 +1,37 @@
+@(invoice : Invoice)
+
+<strong>Hi @invoice.client.name</strong>
+
+<p>You have a new invoice to pay.</p>
+
+<dl>
+	<dt>Name</dt>
+	<dd>@invoice.title</dd>
+	<dt>Invoice date</dt>
+	<dd>@invoice.invoiceDate.format("yyyy-MM-dd")</dd>
+	<dt>Due date</dt>
+	<dd>@invoice.dueDate.format("yyyy-MM-dd")</dd>
+</dl>
+
+<h2>Bank details</h2>
+
+<dl>
+	<dt>Account type</dt>
+	<dd>@invoice.bankAccount.accountType.getName()</dd>
+	<dt>Account number</dt>
+	<dd>@invoice.bankAccount.accountNumber</dd>
+	<dt>Bank</dt>
+	<dd>@invoice.bankAccount.bank</dd>
+	<dt>IBAN</dt>
+	<dd>@invoice.bankAccount.iban</dd>
+	<dt>BIC</dt>
+	<dd>invoice.bankAccount.bic</dd>
+</dl>
+
+<p>Total sum to pay: <strong>@invoice.totalRate</strong></p>
+
+<p>
+Kind regards,<br />
+<br />
+@invoice.owner.username
+</p>
