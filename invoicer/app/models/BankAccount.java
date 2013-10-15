@@ -66,4 +66,8 @@ public class BankAccount extends AbstractModel {
 		this.bic = bic;
 	}
 
+	public String toString() {
+		return String.valueOf(this.accountType) + " " + this.accountNumber;
+	}
+
 }

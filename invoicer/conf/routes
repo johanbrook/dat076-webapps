@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Invoices.index()
+GET     /                           controllers.Application.index()
 
 # Login page
 
@@ -14,15 +14,19 @@ POST    /login                      controllers.Session.createSession()
 
 GET     /logout                     controllers.Session.destroy()
 
-# Create user page
+# User pages
 
-GET     /createuser                 controllers.Users.index()
-POST    /createuser                 controllers.Users.create()
+GET     /user                       controllers.Users.index()
+POST    /user                       controllers.Users.create()
+GET		/user/show                  controllers.Users.show()
+GET     /user/edit                  controllers.Users.edit()
+POST    /user/edit                  controllers.Users.update()
 
 # Invoices
 
 GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
+GET 	/invoices/new 			controllers.Invoices.newInvoice()
 GET		/invoices/starred 		controllers.Invoices.starred()
 
 # The EventSource stream
@@ -31,6 +35,7 @@ GET		/invoices/paid			controllers.Events.getPaid()
 GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)
 POST	/invoices/:id/send			controllers.Invoices.sendInvoice(id: Long)
+POST	/invoices/:id/reminder		controllers.Invoices.sendReminder(id: Long)
 PUT		/invoices/:id				controllers.Invoices.update(id: Long)
 PUT		/invoices/:id/paid 	controllers.Invoices.setPaid(id: Long)
 
@@ -39,12 +44,12 @@ PUT		/invoices/:id/star		controllers.Invoices.toggleStarred(id: Long)
 
 # Bank Accounts
 
-GET     /bankaccounts      			controllers.BankAccounts.index()
-POST    /bankaccounts      			controllers.BankAccounts.create()
-GET     /bankaccounts/:id      		controllers.BankAccounts.show(id: Long)
-POST    /bankaccounts/:id      		controllers.BankAccounts.update(id: Long)
-GET		/bankaccounts/:id/edit		controllers.BankAccounts.edit(id: Long)
-GET		/bankaccounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
+GET     /accounts      			controllers.BankAccounts.index()
+POST    /accounts      			controllers.BankAccounts.create()
+GET     /accounts/:id      		controllers.BankAccounts.show(id: Long)
+POST    /accounts/:id      		controllers.BankAccounts.update(id: Long)
+GET		/accounts/:id/edit		controllers.BankAccounts.edit(id: Long)
+GET		/accounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
 
 # Clients
 
@@ -54,7 +59,6 @@ GET		/clients/:id				controllers.Clients.show(id: Long)
 GET		/clients/:id/edit			controllers.Clients.edit(id: Long)
 POST	/clients/:id				controllers.Clients.update(id: Long)
 POST	/clients/:id/send			controllers.Clients.sendInvoices(id: Long)
-POST	/clients/:id/delete			controllers.Clients.destroy(id: Long)
 DELETE	/clients/:id				controllers.Clients.destroy(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path

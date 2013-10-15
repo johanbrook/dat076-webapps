@@ -11,13 +11,18 @@ package test.controllers;
 import static org.junit.Assert.*;
 
 import models.Invoice;
+import models.User;
 
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
+
+import controllers.Events;
 import play.mvc.*;
 import static play.test.Helpers.*;
+
+import akka.actor.Props;
 
 import test.BaseTest;
 
@@ -46,12 +51,13 @@ public class InvoicesTest extends BaseTest {
 		Result create = callAction(
 				controllers.routes.ref.Invoices.create(),
 				fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withFormUrlEncodedBody(ImmutableMap.of(
 						"title", "Test",
 						"invoiceDate", "2013-10-10",
 						"dueDate", "2013-11-30",
-						"client.id", "1"
+						"client.id", "1",
+						"bankAccount.id", "1"
 				))
 			);
 		
@@ -71,11 +77,12 @@ public class InvoicesTest extends BaseTest {
 		Result update = callAction(
 			controllers.routes.ref.Invoices.update(existing.id),
 			fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withFormUrlEncodedBody(ImmutableMap.of(
 					"title", "New title",
 					"dueDate", "2013-12-30",
-					"client.id", "1"
+					"client.id", "1",
+					"bankAccount.id", "1"
 				))
 		);
 		Invoice updated = Invoice.find.where().eq("title", "New title").findUnique();
@@ -91,7 +98,7 @@ public class InvoicesTest extends BaseTest {
 		Long existingId = Invoice.find.all().get(0).id;
 		Result destroy = callAction(
 			controllers.routes.ref.Invoices.destroy(existingId),
-			fakeRequest().withSession("userId", "1")
+			fakeRequest().withSession("userId", super.userId)
 		);
 		
 		assertEquals(303, status(destroy));
@@ -105,7 +112,7 @@ public class InvoicesTest extends BaseTest {
 		Result index = callAction(
 			controllers.routes.ref.Invoices.index(),
 			fakeRequest()
-				.withSession("userId", "1")
+				.withSession("userId", super.userId)
 				.withHeader(ACCEPT, "application/json")
 		);
 		
@@ -118,7 +125,7 @@ public class InvoicesTest extends BaseTest {
 		Result show = callAction(
 				controllers.routes.ref.Invoices.show(i.id),
 				fakeRequest()
-					.withSession("userId", "1")
+					.withSession("userId", super.userId)
 					.withHeader(ACCEPT, "application/json")
 			);
 		
@@ -134,12 +141,11 @@ public class InvoicesTest extends BaseTest {
 
 		Result starred = callAction(
 			controllers.routes.ref.Invoices.toggleStarred(invoice.id),
-			fakeRequest()
-				.withSession("userId", "1")
-				.withHeader(ACCEPT, "application/script")
+			fakeRequest(PUT, controllers.routes.Invoices.toggleStarred(invoice.id).url())
+				.withSession("userId", super.userId)
 		);
 
-		assertEquals(OK, status(starred));
+		assertEquals(303, status(starred));
 		assertEquals(!isStarred, invoice.starred);
 	}
 
@@ -148,12 +154,25 @@ public class InvoicesTest extends BaseTest {
 		Result starred = callAction(
 					controllers.routes.ref.Invoices.starred(),
 					fakeRequest()
-						.withSession("userId", "1")
+						.withSession("userId", super.userId)
 				);
 
 		assertEquals(OK, status(starred));
 		assertEquals("/invoices/starred", header("Location", starred));
 		Assertions.assertThat(contentAsString(starred)).contains("Test invoice");
+	}
+
+	@Test
+	public void testEventSetPaid() {
+		Invoice unPaidInvoice = Invoice.find.where().isNull("datePaid").findList().get(0);
+
+		Result paid = callAction(
+					controllers.routes.ref.Invoices.setPaid(unPaidInvoice.id),
+					fakeRequest()
+						.withSession("userId", super.userId)
+				);
+
+		assertEquals(OK, status(paid));
 	}
 }
 

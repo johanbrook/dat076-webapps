@@ -1,0 +1,15 @@
+@(client: Client)
+
+<tr id="client-@client.id">
+	<td><a href="@routes.Clients.show(client.id)">@client.name</td>
+	<td>@client.orgNumber</td>
+	<td><a href="@routes.Clients.edit(client.id)">Edit</a></td>
+	<td>
+		<a class="delete" 
+			title="Remove client" 
+			href="@routes.Clients.destroy(client.id)" 
+			data-remote="true" 
+			data-confirm="Are you sure you want to remove this client? This will also remove all invoices connected to the client as well."
+			data-method="delete">×</a>
+	</td>
+</tr>

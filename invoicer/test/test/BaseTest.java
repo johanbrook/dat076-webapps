@@ -26,6 +26,7 @@ public class BaseTest {
 	public static FakeApplication app;
 	public static String createDdl = "";
 	public static String dropDdl = "";
+	public String userId;
 
 	@BeforeClass
 	public static void startApp() throws IOException {
@@ -59,6 +60,10 @@ public class BaseTest {
 			user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
 			user.update();
 		}
+		
+		// Get id from database (User id changes between tests)
+				userId = String.valueOf(User.find.where().eq
+					("username", "robindough").findUnique().id); 
 		
 	}
 

@@ -1,22 +1,23 @@
 @( bankAccount: BankAccount )
 @import helper._
 
-@main(bankAccount.accountNumber) {
-
-<p class="back back-bankAccounts">
-	<a href="@routes.BankAccounts.index()">← All bank accounts</a>
-</p>
-
+@main(bankAccount.toString()) {
 <section class="bankAccount">
 	<header class="group">
-		<h1 class="alignleft">@bankAccount.accountNumber</h1>
+		<h1 class="alignleft">Bank account <small>@bankAccount.toString()</small></h1>
 
 		<a href="@routes.BankAccounts.edit(bankAccount.id)" class="btn alignright">Edit</a>
-		<a href="@routes.BankAccounts.destroy(bankAccount.id)" class="btn alignright">Delete</a>
 	</header>	
-	
-	<dl>
-	 <dt>Account type</dt>
+
+	<p class="back back-bankAccounts">
+		<a href="@routes.BankAccounts.index()">← All bank accounts</a>
+	</p>
+
+	<dl class="details">
+		<dt>Account number</dt>
+		<dd>@bankAccount.accountNumber</dd>
+
+	 	<dt>Account type</dt>
 		<dd>@bankAccount.accountType.getName()</dd>
 		
 		<dt>Bank</dt>

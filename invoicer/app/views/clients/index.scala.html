@@ -3,39 +3,28 @@
 
 @main("Clients") {
 
-	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
-		@create_form(addForm)
-	</div>
-
 	<header class="invoices-header">
 		<h2 class="alignleft">Clients <span class="bubble">@clients.size</span></h2>
 		<a class="alignright btn" href="#" id="add-client-btn">Add client</a>
 		<br class="clear" />
 	</header>
 
-	<table id="clientTable" class="tablesorter" border=1>
+	<div class="form-container" @if(!addForm.hasErrors()){hidden}>
+		@create_form(addForm)
+	</div>
 
-	<thead>
-		<tr>
-				<th>Client name </th>
-				<th>Client orgNbr.</th>
-		</tr>
-	</thead>
-	<tbody>
-		@for(client <- clients) {
+	<table class="clients-table">
+		<thead>
 			<tr>
-				<td>@client.name</td>
-				<td>@client.orgNumber</td>
-				<td><a href="@routes.Clients.edit(client.id)">Edit</a></td>
-				<td>@form(routes.Clients.destroy(client.id)){
-					<input type="submit" value="Delete" onClick="if(confirm('Are you sure you want to delete @client.name?'))
-																	return true;
-																	else return false" />
-					}</td>
-				<td><a href="@routes.Clients.show(client.id)">Show</a></td>	
+					<th>Name </th>
+					<th>Organization no.</th>
 			</tr>
-		}
-	</tbody>
+		</thead>
+		<tbody>
+			@for(client <- clients) {
+				@row(client)
+			}
+		</tbody>
 	
 	</table>    
 }

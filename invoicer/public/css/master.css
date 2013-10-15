@@ -384,6 +384,39 @@ table {
   margin: -1px 0 0 0;
 }
 
+.delete {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  color: #cc0000;
+  font-size: 1.0625em;
+  z-index: 999;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
+  border-radius: 100%;
+  height: 1em;
+  width: 1em;
+  line-height: .8;
+  text-align: center;
+}
+.delete:hover {
+  background-color: #cc0000;
+  color: #fff;
+}
+
+table .delete {
+  visibility: hidden;
+}
+table tr:hover .delete {
+  visibility: visible;
+}
+
 #notification {
   display: none;
   position: absolute;
@@ -451,9 +484,14 @@ table {
 .table {
   display: table;
   width: 100%;
+  margin-top: 1.5em;
 }
 .table > * {
   display: table-cell;
+}
+.table input[type="text"],
+.table input[type="number"] {
+  width: 90%;
 }
 
 .details {
@@ -779,8 +817,21 @@ table {
 }
 
 th {
-  color: #8c9aa2;
-  font-size: 0.8125em;
+  font-size: 0.875em;
+  padding-bottom: 10px;
+}
+
+td {
+  padding: 2px .5em;
+  border: 0;
+}
+
+tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+tr.added {
+  -webkit-animation: pop 1s ease;
 }
 
 /*	=FOOTER
@@ -1015,32 +1066,10 @@ th {
   color: green;
 }
 .invoice-list .delete {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
-  transition: none;
   display: none;
   position: absolute;
   top: 3px;
   right: 5px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #cc0000;
-  font-size: 1.0625em;
-  z-index: 999;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  -ms-border-radius: 100%;
-  -o-border-radius: 100%;
-  border-radius: 100%;
-  height: 1em;
-  width: 1em;
-  line-height: .8;
-  text-align: center;
-}
-.invoice-list .delete:hover {
-  background-color: #cc0000;
-  color: #fff;
 }
 
 /* =LOGIN VIEW
