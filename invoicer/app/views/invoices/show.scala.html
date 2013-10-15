@@ -47,14 +47,7 @@
 		<strong class="@if(invoice.wasPaidOnTime()){positive}else{negative}">Paid on <time>@invoice.datePaid.format("yyyy-MM-dd")</time></strong>
 		
 		} else {
-		<a
-				title="Send this invoice to the client with e-mail" 
-				data-method="post"
-				data-remote="true"
-				class="btn alignright"
-				style="margin-right: 5px"
-				href="@routes.Invoices.sendInvoice(invoice.id)">Send Invoice</a>
-			</a>
+		@if(invoice.isOverdue()) {
 		<a
 				title="Send reminder for this invoice" 
 				data-method="post"
@@ -63,6 +56,17 @@
 				style="margin-right: 5px"
 				href="@routes.Invoices.sendReminder(invoice.id)">Send Reminder</a>
 			</a>
+			} else {
+		<a
+			title="Send this invoice to the client with e-mail" 
+			data-method="post"
+			data-remote="true"
+			class="btn alignright"
+			style="margin-right: 5px"
+			href="@routes.Invoices.sendInvoice(invoice.id)">Send Invoice</a>
+		</a>
+		
+			}
 		}
 		</p>
 
