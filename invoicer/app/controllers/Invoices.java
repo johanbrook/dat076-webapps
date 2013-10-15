@@ -8,23 +8,16 @@
 
 package controllers;
 
-import play.*;
-
 import views.html.invoices.*;
 import models.Client;
 import models.BankAccount;
 import java.util.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import models.Invoice;
-import play.api.templates.Html;
 import play.data.Form;
 import play.libs.*;
-import play.libs.Json;
 import play.mvc.*;
-import play.mvc.Result;
-import play.mvc.Security;
+import service.Mailer;
 
 import akka.actor.*;
 
@@ -330,15 +323,38 @@ public class Invoices extends Application {
 	}
 	
 	public static Result sendInvoice(Long id) {
-		final Form<Invoice> filledForm = form.bindFromRequest();
-
-		Invoice invoice = Invoice.find.byId(id);
+		
+		Mailer mailer = new Mailer();
+		
+		final Invoice invoice = Invoice.find.byId(id);
 
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				MailController.sendOneInvoice(invoice);
-				flash("success", "The invoice: " + invoice.title + " was sent to the client: " + invoice.client.name);
-				return goHome();
+				final boolean didSend = mailer.sendOneInvoice(invoice);
+				
+				return respondTo(new Responder() {
+					
+					@Override
+					public Result script() {
+						return (didSend) ? ok(views.js.invoices.send_invoice.render(invoice, didSend)) 
+								: internalServerError(views.js.invoices.send_invoice.render(invoice, didSend));
+					}
+					
+					@Override
+					public Result json() {
+						return (didSend) ? noContent() : internalServerError();
+					}
+					
+					@Override
+					public Result html() {
+						if(didSend)
+							flash("success", "The invoice: " + invoice.title + " was sent to the client: " + invoice.client.name);
+						else
+							flash("fail", "The invoice couldn't be sent");
+						return goHome();
+					}
+				});
+				
 			} else {
 				flash("fail", "The client for this invoice don't got any email");
 				return badRequest(index.render(invoicesOfCurrentUser(),
@@ -351,15 +367,37 @@ public class Invoices extends Application {
 	}
 	
 	public static Result sendReminder(Long id) {
-		final Form<Invoice> filledForm = form.bindFromRequest();
 
-		Invoice invoice = Invoice.find.byId(id);
+		final Invoice invoice = Invoice.find.byId(id);
+		Mailer mailer = new Mailer();
 		
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				MailController.sendReminder(invoice);
-				flash("success", "A reminder for the invoice : " + invoice.title + " was sent to the client: " + invoice.client.name);
-				return goHome();
+				final boolean didSend = mailer.sendReminder(invoice);
+				
+				return respondTo(new Responder() {
+					
+					@Override
+					public Result script() {
+						return (didSend) ? ok(views.js.invoices.send_invoice.render(invoice, didSend)) 
+								: internalServerError(views.js.invoices.send_invoice.render(invoice, didSend));
+					}
+					
+					@Override
+					public Result json() {
+						return (didSend) ? noContent() : internalServerError();
+					}
+					
+					@Override
+					public Result html() {
+						if(didSend)
+							flash("success", "A reminder for the invoice : " + invoice.title + " was sent to the client: " + invoice.client.name);
+						else
+							flash("fail", "The invoice couldn't be sent");
+						return goHome();
+					}
+				});
+				
 			} else {
 				flash("fail", "The client for this invoice don't got any email");
 				return badRequest(index.render(invoicesOfCurrentUser(),

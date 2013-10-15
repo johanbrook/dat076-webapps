@@ -73,6 +73,7 @@ alter table invoice add constraint fk_invoice_bankAccount_4 foreign key (bank_ac
 create index ix_invoice_bankAccount_4 on invoice (bank_account_id);
 
 
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
