@@ -1,11 +1,9 @@
 @(invoice : Invoice)
 
-<li id="invoice-@invoice.id" class="@if(invoice.wasPaidOnTime()) {	invoice-paid
+<li id="invoice-@invoice.id" class="@if(invoice.isPaid()) {	invoice-paid
 	} else {
-		@if(invoice.isOverdue()) {	invoice-overdue
-	} else {
-		@if(invoice.isPaid() && !invoice.wasPaidOnTime()) {	invoice-late
-	}}}">
+		@if(invoice.isOverdue()) {	invoice-overdue }
+	}">
 	<a class="delete" 
 		title="Remove invoice" 
 		href="@routes.Invoices.destroy(invoice.id)" 
