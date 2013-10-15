@@ -12,6 +12,10 @@ import play.mvc.*;
 
 public abstract class Application extends Controller {
 	
+	public static Result index() {
+		return redirect(controllers.routes.Invoices.index());
+	}
+	
 	/**
 	 * Interface for returning proper content responses in controller actions.
 	 * 

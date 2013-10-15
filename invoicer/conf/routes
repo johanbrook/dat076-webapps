@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Invoices.index()
+GET     /                           controllers.Application.index()
 
 # Login page
 
