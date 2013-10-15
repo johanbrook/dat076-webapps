@@ -133,6 +133,7 @@ public class Invoice extends AbstractModel implements Mailable {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getReceiverAddress() {
 		return this.client.email;
 	}
