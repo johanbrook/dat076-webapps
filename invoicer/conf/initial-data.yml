@@ -1,3 +1,21 @@
+# Users
+
+- &henke !!models.User
+  username: henke
+  password: secret
+
+- &johan !!models.User
+  username: johan
+  password: secret
+
+- &robin !!models.User
+  username: robin
+  password: secret
+
+- &rolen !!models.User
+  username: rolen
+  password: secret
+
 # Clients
 
 - &chalmers !!models.Client
@@ -26,6 +44,7 @@
   accountType: BG
   iban: SE0004563215864902
   bic: SWEDSESS
+  owner: *johan
 
 - &account2 !!models.BankAccount
   accountNumber: 2131-1201
@@ -33,24 +52,7 @@
   accountType: PG
   iban: SE0004563215864902
   bic: SWEDSESS
-
-# Users
-
-- &henke !!models.User
-  username: henke
-  password: secret
-
-- &johan !!models.User
-  username: johan
-  password: secret
-
-- &robin !!models.User
-  username: robin
-  password: secret
-
-- &rolen !!models.User
-  username: rolen
-  password: secret
+  owner: *johan
 
 # Invoices
 
