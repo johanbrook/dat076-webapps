@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
+import models.Client;
 import models.Invoice;
 import models.User;
 
@@ -134,6 +135,16 @@ public class InvoiceTest extends BaseTest {
 		assertNotNull(invoices);
 		assertTrue(invoices.contains(testInvoice));
 		assertTrue(invoices.get(0).owner.equals(user));
+	}
+	
+	@Test
+	public void testInvoicesOfClient() {
+		Client chalmers = Client.find.where().eq("name", "chalmers").findUnique();
+		List<Invoice> invoices = Invoice.getInvoicesOfClient(chalmers);
+		
+		assertNotNull(invoices);
+		assertFalse(invoices.isEmpty());
+		assertEquals(chalmers, invoices.get(0).client);
 	}
 
 	@Test
