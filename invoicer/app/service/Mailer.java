@@ -45,7 +45,7 @@ public class Mailer<T extends Mailable> {
 
 	public boolean send(T item, String subject, Template1<T, Html> template) {
 		Html html = template.render(item);
-		return this.send(item.getRecieverAddress(), subject, html.toString());
+		return this.send(item.getReceiverAddress(), subject, html.toString());
 	}
 
 	public <S extends Mailable> boolean sendMany(
@@ -55,6 +55,6 @@ public class Mailer<T extends Mailable> {
 			Template2<S, List<T>, Html> template) {
 		
 		Html html = template.render(receiver, items);
-		return this.send(receiver.getRecieverAddress(), subject, html.toString());
+		return this.send(receiver.getReceiverAddress(), subject, html.toString());
 	}
 }

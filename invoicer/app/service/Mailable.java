@@ -10,5 +10,5 @@ package service;
 
 public interface Mailable {
 	
-	public String getRecieverAddress();
+	public String getReceiverAddress();
 }

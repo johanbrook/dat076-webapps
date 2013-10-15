@@ -48,7 +48,7 @@ public class Client extends AbstractModel implements Mailable {
 	}
 
 	@Override
-	public String getRecieverAddress() {
+	public String getReceiverAddress() {
 		return this.email;
 	}
 
