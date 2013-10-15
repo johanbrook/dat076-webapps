@@ -140,7 +140,6 @@ public class Clients extends Application {
 		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id)
 				.findList();
 		
-	//	if(!invoiceList.get(0).owner.)
 		if (!client.email.isEmpty()) {
 			if (invoiceList != null && client != null) {
 				MailController.sendAllInvoices(invoiceList);
