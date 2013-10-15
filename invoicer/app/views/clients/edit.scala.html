@@ -41,12 +41,16 @@
 			<label for="title">Postal Code</label>
 			<input type="text" id="postalCode" name="postalCode" value="@editForm("postalCode").value" /></p>	
 				
-		 <select name="country">
-            	<option value="default">Select a country</option>
-				@for(country <- User.getCountries()) {
-					<option value="@country" selected="@editForm("country").value">@country</option>	
+		 <select name="country" >
+	    	<option value="">Select a country</option>
+			@for(country <- User.getCountries()) {
+				@if(editForm("country").value == country){
+					<option value="@country" selected="selected">@country</option>
+				} else {
+					<option value="@country">@country</option>
 				}
-			</select>
+			}
+		</select>
 		
 		<p>
 			<label for="title">Contact Person</label>
