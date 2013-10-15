@@ -1,0 +1,20 @@
+@(receiver : Client, invoices : List[Invoice])
+
+<strong>Hi @receiver.name</strong>
+
+<p>You have new @invoices.size() invoices to pay.</p>
+
+<ul>
+@for(invoice <- invoices) {
+	<li>
+		<strong>@invoice.title</strong><br />
+		Due date: @invoice.dueDate.format("yyyy-MM-dd")
+	</li>
+}
+</ul>
+
+<p>
+Kind regards,<br />
+<br />
+@invoices.get(0).owner.username
+</p>

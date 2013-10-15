@@ -137,30 +137,70 @@ public class Clients extends Application {
 
 	public static Result sendInvoices(Long id) {
 		
-		Client client = Client.find.byId(id);
-		List<Invoice> invoiceList = Invoice.find.where()
-				.eq("client_id", id)
-				.eq("owner_id", Session.getCurrentUser().id)
-				.findList();
+		final Client client = Client.find.byId(id);
+		final List<Invoice> invoiceList = Invoice.invoicesOfUser(Session.getCurrentUser().id)
+				.where().eq("client_id", client.id).findList();
 		
 		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		
-		if (!client.email.isEmpty()) {
-			if (invoiceList != null && client != null) {
-				mailer.sendAllInvoices(invoiceList);
-				flash("success", "A mail has been sent to: " + client.name);
-				return goHome();
+		if (client != null) {
+			if (!invoiceList.isEmpty()) {
+				final boolean didSend = mailer.sendMany(client, invoiceList, "You have new invoices", views.html.mails.invoiceList.ref());
+				
+				return respondTo(new Responder() {
+					
+					@Override
+					public Result script() {
+						if(didSend) {
+							return ok(views.js.invoices.send_invoices.render(invoiceList, didSend));
+						}
+						else {
+							return internalServerError(views.js.invoices.send_invoices.render(invoiceList, didSend));
+						}
+					}
+					
+					@Override
+					public Result json() {
+						return noContent();
+					}
+					
+					@Override
+					public Result html() {
+						if(didSend) {
+							flash("success", "A mail has been sent to: " + client.name);
+							return goHome();
+						}
+						else {
+							flash("fail", "An error occurred when trying to send the e-mail");
+							return internalServerError(index.render(Client.find.all(), newForm));
+						}
+						
+					}
+				});
+				
 			} else {
-				Logger.info("Null client or invoice");
-				flash("fail", "The client doesn't exist or got no invoices");
-				return badRequest(index.render(Client.find.all(), newForm));
+				return respondTo(new Responder() {
+					
+					@Override
+					public Result script() {
+						return badRequest("No invoices for client");
+					}
+					
+					@Override
+					public Result json() {
+						return badRequest("No invoices for client");
+					}
+					
+					@Override
+					public Result html() {
+						flash("fail", "The client doesn't own any invoices");
+						return badRequest(index.render(Client.find.all(), newForm));
+					}
+				});
 			}
-		} else {
-			Logger.info("No client mail");
-			flash("fail", "The client: " + client.name + " don't got any email");
-			return badRequest(index.render(Client.find.all(), newForm));
 		}
-
+		
+		return badRequest(index.render(Client.find.all(), newForm));
 	}
 
 	private static Result goHome() {

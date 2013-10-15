@@ -15,6 +15,7 @@ import javax.mail.internet.AddressException;
 import play.Logger;
 import play.api.templates.Html;
 import play.api.templates.Template1;
+import play.api.templates.Template2;
 
 import util.GoogleMail;
 import models.AbstractModel;
@@ -24,12 +25,9 @@ import models.Invoice;
 
 public class Mailer<T extends Mailable> {
 	
-
-	public boolean send(T item, String subject, Template1<T, Html> template) {
-		Html html = template.render(item);
-
+	private boolean send(String receiver, String subject, String message) {
 		try {
-			GoogleMail.send(item.getRecieverAddress(), subject, html.toString());
+			GoogleMail.send(receiver, subject, message);
 			return true;
 			
 		} catch (AddressException e) {
@@ -43,41 +41,20 @@ public class Mailer<T extends Mailable> {
 			return false;
 		}
 	}
+	
 
-	public boolean sendAllInvoices(List<Invoice> invoiceList) {
-		StringBuilder message = new StringBuilder();
-		if (invoiceList.size() > 0) {
-			message.append("Hi " + invoiceList.get(0).client.name + "! \n\n");
-			message.append("Here is all your invoices to pay from the user "
-					+ invoiceList.get(0).owner.name + "\n\n--------------------------------- \n");
-			for (Invoice i : invoiceList) {
-				message.append("Invoice name: " + i.title + "\n" + "Due date: "
-						+ i.dueDate + "\n\n");
-				message.append("Account type: "
-						+ i.bankAccount.accountType.getName() + "\nBank: "
-						+ i.bankAccount.bank + "\nAccount nr: "
-						+ i.bankAccount.accountNumber + "\nBIC: "
-						+ i.bankAccount.bic + "\nIBAN: " + i.bankAccount.iban
-						+ "\n");
-				message.append("Sum to pay: " + i.totalRate);
-				message.append("\n--------------------------------- \n");
-			}
-		} else {
-			message.append("Congratulations you don't have any invoices to pay");
-		}
-		try {
-			GoogleMail.send(invoiceList.get(0).client.email, "All your invoices", message.toString());
-			return true;
-			
-		} catch (AddressException e) {
-			Logger.info("Email address parse failed");
-			e.printStackTrace();
-			return false;
-			
-		} catch (MessagingException e) {
-			Logger.info("Connection is dead");
-			e.printStackTrace();
-			return false;
-		}
+	public boolean send(T item, String subject, Template1<T, Html> template) {
+		Html html = template.render(item);
+		return this.send(item.getRecieverAddress(), subject, html.toString());
+	}
+
+	public <S extends Mailable> boolean sendMany(
+			S receiver, 
+			List<T> items, 
+			String subject, 
+			Template2<S, List<T>, Html> template) {
+		
+		Html html = template.render(receiver, items);
+		return this.send(receiver.getRecieverAddress(), subject, html.toString());
 	}
 }
