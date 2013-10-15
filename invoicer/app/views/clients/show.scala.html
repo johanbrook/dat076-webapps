@@ -1,21 +1,24 @@
 @( client: Client)
 @import helper._
 
-@main(client.name) {
+@main("Client: "+client.name) {
 
 <section class="client">
 	<header class="group">
 		<h1 class="alignleft">Client <small>@client.name</small></h1>
 
 		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>	
-			<a
-				title="Send all invoices of this client with e-mail" 
-				data-method="post"
-				data-remote="true"
-				class="btn alignright"
-				style="margin-right: 5px"
-				href="@routes.Clients.sendInvoices(client.id)">Send Invoices</a>
-			</a>
+		
+		@if(!Invoice.getInvoicesOfClient(client).isEmpty()) {	
+		<a
+			title="Send all invoices of this client with e-mail" 
+			data-method="post"
+			data-remote="true"
+			class="btn alignright"
+			style="margin-right: 5px"
+			href="@routes.Clients.sendInvoices(client.id)">Send Invoices</a>
+		</a>
+		}
 	</header>
 
 	<p class="back">

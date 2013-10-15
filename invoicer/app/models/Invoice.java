@@ -18,10 +18,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
+import service.Mailable;
 import util.CustomDateSerializer;
 
 @Entity
-public class Invoice extends AbstractModel {
+public class Invoice extends AbstractModel implements Mailable {
 	
 	public String title;
 	
@@ -99,6 +100,10 @@ public class Invoice extends AbstractModel {
 			.findList();
 	}
 	
+	public static List<Invoice> getInvoicesOfClient(Client client) {
+		return Invoice.find.where().eq("client_id", client.id).findList();
+	}
+	
 	public boolean wasPaidOnTime() {
 		return this.isPaid() && !this.isOverdue(this.datePaid);
 	}
@@ -125,5 +130,11 @@ public class Invoice extends AbstractModel {
 
 	public void toggleStarred() {
 		this.starred = !this.starred;
+	}
+
+	@Override
+	@JsonIgnore
+	public String getReceiverAddress() {
+		return this.client.email;
 	}
 }

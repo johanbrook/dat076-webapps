@@ -11,12 +11,15 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model.Finder;
+import service.Mailable;
 
 @Entity
-public class Client extends AbstractModel {
+public class Client extends AbstractModel implements Mailable {
 	
 	@Required
 	@Column(nullable=false)
@@ -44,6 +47,12 @@ public class Client extends AbstractModel {
 	public Client(String name, String orgNumber) {
 		this.name = name;
 		this.orgNumber = orgNumber;
+	}
+
+	@Override
+	@JsonIgnore
+	public String getReceiverAddress() {
+		return this.email;
 	}
 
 }

@@ -1,0 +1,13 @@
+@(invoice: Invoice)
+
+Hi @invoice.client.name!
+
+<p>Remember that you have an unpayed invoice ("@invoice.title") to pay, due <strong>@invoice.dueDate.format("yyyy-MM-dd")</strong></p>
+
+<p>Amount to pay: <strong>@invoice.totalRate</strong></p>
+
+<p>
+Kind regards,<br />
+<br />
+@invoice.owner.username
+</p>
