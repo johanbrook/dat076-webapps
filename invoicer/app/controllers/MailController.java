@@ -48,8 +48,8 @@ public class MailController {
 	public static void sendAllInvoices(List<Invoice> invoiceList) {
 		StringBuilder message = new StringBuilder();
 		if(invoiceList.size() > 0) {
-			message.append("Hi " + invoiceList.get(0).client.name + "\n");
-			message.append("Here is all your invoices to pay" + "\n");
+			message.append("Hi " + invoiceList.get(0).client.name + "! \n\n");
+			message.append("Here is all your invoices to pay from the user " + invoiceList.get(0).owner.name + "\n\n");
 			for(Invoice i : invoiceList) {
 				message.append("Invoice name: " + i.title + "\n" + "Due date: "
 						+ i.dueDate + "\n");
@@ -59,7 +59,7 @@ public class MailController {
 				// i.owner.bankAccount[0].bank + "\n" + "Account number: " +
 				// i.owner.bankAccount[0].accountNumber)
 				message.append("Sum to pay: " + i.totalRate);
-				message.append("\n" + " ");
+				message.append("\n" + "\n");
 			}
 		} else {
 			message.append("Congratulations you don't have any invoices to pay");

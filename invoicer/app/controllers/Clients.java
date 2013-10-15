@@ -137,7 +137,7 @@ public class Clients extends Application {
 	public static Result sendInvoices(Long id) {
 		
 		Client client = Client.find.byId(id);
-		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id)
+		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id).eq("owner_id", Session.getCurrentUser().id)
 				.findList();
 		
 		if (!client.email.isEmpty()) {
@@ -146,10 +146,12 @@ public class Clients extends Application {
 				flash("success", "A mail has been sent to: " + client.name);
 				return goHome();
 			} else {
+				Logger.info("Null client or invoice");
 				flash("fail", "The client doesn't exist or got no invoices");
 				return badRequest(index.render(Client.find.all(), newForm));
 			}
 		} else {
+			Logger.info("No client mail");
 			flash("fail", "The client: " + client.name + " don't got any email");
 			return badRequest(index.render(Client.find.all(), newForm));
 		}
