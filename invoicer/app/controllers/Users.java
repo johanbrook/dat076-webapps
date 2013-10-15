@@ -164,7 +164,7 @@ public class Users extends Application {
 				
 				User user = Session.getCurrentUser();
 				setLocationHeader(user);
-				return ok(Json.toJson(Session.getCurrentUser()));
+				return ok(Json.toJson(user));
 			}
 
 			@Override
