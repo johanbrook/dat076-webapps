@@ -141,10 +141,11 @@ public class Clients extends Application {
 		Client client = Client.find.byId(id);
 		List<Invoice> invoiceList = Invoice.find.where().eq("client_id", id)
 				.findList();
-
+		
+	//	if(!invoiceList.get(0).owner.)
 		if (!client.email.isEmpty()) {
 			if (invoiceList != null && client != null) {
-				MailController.sendAllInvoices(mailUsername, mailPassword, invoiceList);
+				MailController.sendAllInvoices(invoiceList);
 				flash("success", "A mail has been sent to: " + client.name);
 				return goHome();
 			} else {

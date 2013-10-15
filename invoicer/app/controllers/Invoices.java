@@ -325,15 +325,13 @@ public class Invoices extends Application {
 	}
 	
 	public static Result sendInvoice(Long id) {
-		final String mailUsername = "andreasrolen93"; // TODO Change to users email
-		final String mailPassword = "internet1<";
 		final Form<Invoice> filledForm = form.bindFromRequest();
 
 		Invoice invoice = Invoice.find.byId(id);
 
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				MailController.sendOneInvoice(mailUsername, mailPassword, invoice);
+				MailController.sendOneInvoice(invoice);
 				flash("success", "The invoice: " + invoice.title + " was sent to the client: " + invoice.client.name);
 				return goHome();
 			} else {
@@ -356,7 +354,7 @@ public class Invoices extends Application {
 		
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				MailController.sendReminder(mailUsername, mailPassword, invoice);
+				MailController.sendReminder(invoice);
 				flash("success", "A reminder for the invoice : " + invoice.title + " was sent to the client: " + invoice.client.name);
 				return goHome();
 			} else {
