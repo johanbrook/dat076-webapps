@@ -8,6 +8,10 @@
 
 package models;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 import javax.persistence.*;
@@ -19,6 +23,8 @@ import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 @Entity
 public class User extends AbstractModel {
@@ -38,7 +44,7 @@ public class User extends AbstractModel {
 	@OneToMany(orphanRemoval=true, mappedBy="owner", cascade=CascadeType.ALL)
 	public List<Invoice> invoices;
 	
-	@Pattern(value = "^[0-9]{6}-[0-9]{4}$", message = "error.organizationNumberPattern")	//TODO: Verify that constraint works
+	@Pattern(value = "^[0-9]{6}-[0-9]{4}$", message = "error.organizationNumberPattern")
 	public String organizationNumber;
 	
 	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
@@ -67,47 +73,29 @@ public class User extends AbstractModel {
 	}
 	
 	
-	// TODO: Handle countries better?
 	/**
 	 * (Used in views.users to display list of available countries)
 	 * Returns a list of available countries
 	 * @return A list of available countries
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<String> getCountries() {
 		// This is done because we don't want the countries to persist
-		List<String> countries = new ArrayList<String>();
-        countries.add("France");
-        countries.add("Austria");
-        countries.add("Belgium");
-        countries.add("Bulgaria");
-        countries.add("Cyprus");
-        countries.add("Czech Republic");
-        countries.add("Denmark");
-        countries.add("Estonia");
-        countries.add("Finland");
-        countries.add("French Guiana");
-        countries.add("Germany");
-        countries.add("Gibraltar");
-        countries.add("Greece");
-        countries.add("Guadeloupe");
-        countries.add("Hungary");
-        countries.add("Ireland");
-        countries.add("Italy");
-        countries.add("Latvia");
-        countries.add("Lithuania");
-        countries.add("Luxembourg");
-        countries.add("Malta");
-        countries.add("Martinique");
-        countries.add("Netherlands");
-        countries.add("Poland");
-        countries.add("Portugal");
-        countries.add("Reunion");
-        countries.add("Romania");
-        countries.add("Slovak (Republic)");
-        countries.add("Slovenia");
-        countries.add("Spain");
-        countries.add("Sweden");
-        countries.add("United Kingdom");
-        return countries;
+		
+		try {
+			InputStream input = new FileInputStream(
+					new File("conf/countries.yml"));
+			
+			Yaml yaml = new Yaml(new SafeConstructor());
+			List<String> list = (List<String>) yaml.load(input);
+			
+			return list;
+			
+		} catch(FileNotFoundException e) {
+			Logger.info("file 'countries.yml' not found");
+			return null;
+		}
+		
+        
 	}
 }
