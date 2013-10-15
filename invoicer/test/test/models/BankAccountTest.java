@@ -10,6 +10,7 @@ import org.junit.Test;
 import test.BaseTest;
 import models.BankAccount;
 import models.BankAccount.AccountType;
+import models.User;
 
 public class BankAccountTest extends BaseTest{
 	
@@ -29,7 +30,7 @@ public class BankAccountTest extends BaseTest{
 	
 	@Test
 	public void testCreateBankAccount() {
-		BankAccount ba = new BankAccount("112233-4", AccountType.PG, "Swedbank", "SE0004563215864902", "SWEDSESS");
+		BankAccount ba = new BankAccount(new User("test", "password"),"112233-4", AccountType.PG, "Swedbank", "SE0004563215864902", "SWEDSESS");
 		ba.save();
 		
 		assertNotNull(ba);

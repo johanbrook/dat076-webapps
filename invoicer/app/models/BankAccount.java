@@ -2,9 +2,14 @@ package models;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
@@ -13,6 +18,11 @@ import play.db.ebean.Model;
 @Entity
 public class BankAccount extends AbstractModel {
 
+	@Column(nullable=false)
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JsonIgnore
+	public User owner;
+	
 	@Required
 	@Column(nullable=false)
 	public AccountType accountType;
@@ -42,7 +52,6 @@ public class BankAccount extends AbstractModel {
 		}
 		
 		public String getName(){
-			System.out.println(super.toString());
 			return name;
 		}
 		
@@ -51,19 +60,28 @@ public class BankAccount extends AbstractModel {
 	// Finder object
 	public static Model.Finder<Long, BankAccount> find = new Model.Finder<Long, BankAccount>(Long.class, BankAccount.class);
 
-	public BankAccount(String accountNumber, AccountType accountType) {
+	public BankAccount(User owner, String accountNumber, AccountType accountType) {
+		this.owner = owner;
 		this.accountNumber = accountNumber;
 		this.accountType = accountType;
 	}
-	public BankAccount(String accountNumber, AccountType accountType, String bank){
-		this(accountNumber, accountType);
+	public BankAccount(User owner, String accountNumber, AccountType accountType, String bank){
+		this(owner, accountNumber, accountType);
 		this.bank = bank;
 	}
 
-	public BankAccount(String accountNumber, AccountType accountType, String bank, String iban, String bic){
-		this(accountNumber, accountType, bank);
+	public BankAccount(User owner, String accountNumber, AccountType accountType, String bank, String iban, String bic){
+		this(owner, accountNumber, accountType, bank);
 		this.iban = iban;
 		this.bic = bic;
+	}
+	
+	public static com.avaje.ebean.Query<BankAccount> bankAccountsOfUser(Long userId) {
+		return find.where().like("owner", String.valueOf(userId)).orderBy("accountType");
+	}
+	
+	public static List<BankAccount> getBankAccountsOfUser(Long userId) {
+		return bankAccountsOfUser(userId).findList();
 	}
 
 	public String toString() {

@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import controllers.Application.Responder;
 import play.data.Form;
 import play.libs.Json;
@@ -12,26 +14,29 @@ import play.mvc.Security;
 
 import views.html.bankaccounts.*;
 
-@Security.Authenticated(Secured.class)
+
 public class BankAccounts extends Application {
 
 	public static Form<BankAccount> form = Form.form(BankAccount.class);
 
 	public BankAccounts() {
 	}
-
+	
+	@Security.Authenticated(Secured.class)
 	public static Result index() {
 
-		return ok(index.render(BankAccount.find.all(), form));
+		return ok(index.render(bankAccountsOfCurrentUser(), form));
 
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 
 		return ok(show.render(BankAccount.find.byId(id)));
 
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || !validate(filledForm)) {
@@ -41,6 +46,7 @@ public class BankAccounts extends Application {
 			
 		} else {
 			final BankAccount ba = filledForm.get();
+			ba.owner = Session.getCurrentUser();
 			ba.save();
 
 			return respondTo(new Responder() {
@@ -66,6 +72,7 @@ public class BankAccounts extends Application {
 
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		BankAccount bankAccount = BankAccount.find.byId(id);
 		Form<BankAccount> editForm = form.fill(bankAccount);
@@ -73,6 +80,7 @@ public class BankAccounts extends Application {
 		return ok(edit.render(bankAccount, editForm));
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		BankAccount bankAccount = BankAccount.find.byId(id);
 		Form<BankAccount> filledForm = form.bindFromRequest();
@@ -98,6 +106,7 @@ public class BankAccounts extends Application {
 		return goHome();
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		final BankAccount bankAccount = BankAccount.find.byId(id);
 
@@ -124,6 +133,10 @@ public class BankAccounts extends Application {
 		} else {
 			return notFound(show.render(bankAccount));
 		}
+	}
+	
+	private static List<BankAccount> bankAccountsOfCurrentUser() {
+		return BankAccount.getBankAccountsOfUser(Session.getCurrentUser().id);
 	}
 
 	private static Result goHome() {

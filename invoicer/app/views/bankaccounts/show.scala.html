@@ -12,13 +12,13 @@
 	<p class="back back-bankAccounts">
 		<a href="@routes.BankAccounts.index()">← All bank accounts</a>
 	</p>
-	
+
 	<dl class="details">
 		<dt>Account number</dt>
 		<dd>@bankAccount.accountNumber</dd>
 
 	 	<dt>Account type</dt>
-		<dd>@bankAccount.accountType.toString()</dd>
+		<dd>@bankAccount.accountType.getName()</dd>
 		
 		<dt>Bank</dt>
 		<dd>@bankAccount.bank</dd>
