@@ -54,6 +54,11 @@ public class Invoice extends AbstractModel {
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
 
+	@Required
+	@Column(nullable=false)
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+	public BankAccount bankAccount;
+
 	// Embed the 'starred' attribute directly in the model. If we were to handle
 	// many more invoice records, I would've created a new table for keeping track
 	// of starred invoices instead of having a redundant column in the Invoices table.

@@ -2,7 +2,8 @@
 @import helper._
 
 @main("BankAccounts") {
-<div class="form-container" hidden>
+	
+	<div class="form-container" @if(!addForm.hasErrors()) {hidden}>
 		@create_form(addForm)
 	</div>
 
@@ -14,20 +15,22 @@
 
 	
 	@if(bankAccounts != null && !bankAccounts.isEmpty()) {
-	<ol class="bankaccount-list">
-		@for(bankAccount <- bankAccounts) {
-		<li>
-			<a href="@routes.BankAccounts.show(bankAccount.id)">
-				<strong class="bankaccount-accountnumber">@bankAccount.accountNumber</strong>
-				
-				<label>Account type</label>@bankAccount.accountType.getName
-				<label>Bank</label>@bankAccount.bank
-				<label>IBAN</label>@bankAccount.iban
-				<label>BIC</label>@bankAccount.bic
-			</a>
-			</li>
+
+	<table class="accounts-table">
+		<thead>
+			<tr>
+				<th>Number</th>
+				<th>Type</th>
+				<th>Bank</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		@for(account <- bankAccounts) {
+			@row(account)
 		}
-	</ol>
-	}	
+		</tbody>
+	}
+	</table>
     
 }

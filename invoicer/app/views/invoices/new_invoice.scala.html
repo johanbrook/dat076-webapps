@@ -1,0 +1,10 @@
+@(invoice: Invoice, newForm: Form[Invoice])
+
+@main("Add invoice") {
+
+	<p class="back back-invoices">
+		<a href="@routes.Invoices.index()">← All invoices</a>
+	</p>
+	
+	@create_form(newForm)
+}

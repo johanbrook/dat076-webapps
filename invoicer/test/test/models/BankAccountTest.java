@@ -42,7 +42,7 @@ public class BankAccountTest extends BaseTest{
 		assertEquals("SWEDSESS", ba.bic);
 	}
 	
-	@Test
+	@Test(expected = javax.persistence.PersistenceException.class)
 	public void testDeleteBankAccount() {
 		this.bankAccount.delete();
 		BankAccount newBA = BankAccount.find.where().eq("accountNumber", "1234-5678").findUnique();

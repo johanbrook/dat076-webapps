@@ -3,6 +3,10 @@
 
 @main("Edit invoice") {
 	<h1>Editing invoice <small>@invoice.title</small></h1>
+
+	<p class="back">
+		<a href="@routes.Invoices.show(invoice.id)">← Back to invoice</a>
+	</p>
 	
 	@if(editForm.hasErrors()){
 	<h3>Errors</h3>
@@ -29,19 +33,38 @@
 			<label for="due-date">Due date</label>
 			<input id="due-date" type="date" name="dueDate" value="@editForm("dueDate").value" /></p>
 		
-		<label for="client">Client</label>
-		<select name="client.id" id="client">
-			@for(client <- Client.find.all()) {
-			<option value="@client.id" @if(client.id == invoice.client.id){selected}>@client.name</option>
-			}
-		</select>
+		<div class="table">
+				
+			<p>
+				<label for="client">Client</label>
+				<select name="client.id" id="client">
+					@for(client <- Client.find.all()) {
+					<option value="@client.id" @if(client.id == invoice.client.id){selected}>@client.name</option>
+					}
+				</select>
+			</p>
+			
+			<p>
+				<label for="account">Bank account</label>
+				<select name="bankAccount.id" id="account">
+					@for(account <- BankAccount.find.all()) {
+					<option value="@account.id" @if(account.id == invoice.bankAccount.id){selected}>@account.toString()</option>
+					}
+				</select>
+			</p>
+
+		</div>
 		
 		<p>
 			<label><input type="checkbox" name="ispaid" @if(invoice.isPaid()) { checked } /> Is paid?</label>
 		</p>
 		
 		<p>
-			<input type="submit" value="Update" /> or <a href="@routes.Invoices.show(invoice.id)">Cancel</a>
+			<input type="submit" value="Update" />
+		</p>
+
+		<p class="back">
+			<a href="@routes.Invoices.show(invoice.id)">← Back to invoice</a>
 		</p>
 	</form>
 }

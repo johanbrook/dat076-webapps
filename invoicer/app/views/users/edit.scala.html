@@ -1,0 +1,15 @@
+@(editForm: Form[Users.UserEditForm])
+
+@import helper._
+
+@main("User information") {
+
+	<section class="invoice">
+		<header class="group">
+			<h1 class="alignleft">User information</h1>
+		</header>	
+		
+		@edit_form(editForm)
+	
+	</section>
+}

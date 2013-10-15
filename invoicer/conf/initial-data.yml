@@ -18,6 +18,22 @@
   contactPerson: Johan Albrecht Pripps
   email: andreasrolen93@gmail.com
 
+# BankAccounts
+
+- &account1 !!models.BankAccount
+  accountNumber: 1234-5678
+  bank: Swedbank
+  accountType: BG
+  iban: SE0004563215864902
+  bic: SWEDSESS
+
+- &account2 !!models.BankAccount
+  accountNumber: 2131-1201
+  bank: ICA
+  accountType: PG
+  iban: SE0004563215864902
+  bic: SWEDSESS
+
 # Users
 
 - &henke !!models.User
@@ -46,6 +62,7 @@
   invoiceDate: 2013-09-01
   starred: true
   totalRate: 120
+  bankAccount: *account1
 
 - !!models.Invoice
   title: Test invoice 2
@@ -53,6 +70,7 @@
   client: *chalmers
   dueDate: 2013-10-30
   totalRate: 5000
+  bankAccount: *account2
 
 - !!models.Invoice
   title: Test invoice 3
@@ -63,6 +81,7 @@
   datePaid: 2013-08-25
   starred: true
   totalRate: 10000
+  bankAccount: *account1
 
 - !!models.Invoice
   title: Test invoice 4
@@ -72,6 +91,7 @@
   dueDate: 2013-10-30
   datePaid: 2013-11-02
   totalRate: 50.55
+  bankAccount: *account2
 
 - !!models.Invoice
   title: Test invoice 5
@@ -80,6 +100,7 @@
   invoiceDate: 2013-09-01
   dueDate: 2013-10-30
   totalRate: 100.10
+  bankAccount: *account1
 
 - !!models.Invoice
   title: Test invoice 6
@@ -87,12 +108,4 @@
   client: *pripps
   invoiceDate: 2013-10-01
   dueDate: 2013-10-30
-
-# BankAccounts
-
-- !!models.BankAccount
-  accountNumber: 1234-5678
-  bank: Swedbank
-  accountType: BG
-  iban: SE0004563215864902
-  bic: SWEDSESS
+  bankAccount: *account2

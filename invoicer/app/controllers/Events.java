@@ -21,20 +21,20 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class Events extends Controller {
 
-	public final static ActorRef invoice = InvoiceActor.instance;
+	public final static ActorRef actorInstance = InvoiceActor.instance;
 	
 	public static Result getPaid() {
 		return ok(new EventSource() {
 			public void onConnected() {
 				Logger.info("Connected to event stream ...");
 				// Connect browser
-				invoice.tell(this, null);
+				actorInstance.tell(this, null);
 			}
 		});
 	}
 
-	public static class InvoiceActor extends UntypedActor {
-		static ActorRef instance = Akka.system().actorOf(Props.create(InvoiceActor.class));
+	private static class InvoiceActor extends UntypedActor {
+		private final static ActorRef instance = Akka.system().actorOf(Props.create(InvoiceActor.class));
 
 		private List<EventSource> sockets = new ArrayList<EventSource>();
 
@@ -42,6 +42,7 @@ public class Events extends Controller {
 			socket.onDisconnected(new Callback0() {
 			    public void invoke() {
 			        getContext().self().tell(socket, null);
+			        removeSocket(socket);
 			    }
 			});
 			// New browser connected
@@ -51,6 +52,7 @@ public class Events extends Controller {
 
 		private void removeSocket(EventSource socket) {
 			// Browser is disconnected
+			socket.close();
 			sockets.remove(socket);
 			Logger.info("* Browser disconnected (" + sockets.size() + " browsers currently connected)");
 		}

@@ -12,6 +12,7 @@ import play.*;
 
 import views.html.invoices.*;
 import models.Client;
+import models.BankAccount;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -63,7 +64,7 @@ public class Invoices extends Application {
 			public Result html() {
 				return ok(index.render(invoicesOfCurrentUser(),
 						paidInvoicesOfCurrentUser(),
-						overdueInvoicesOfCurrentUser(), form));
+						overdueInvoicesOfCurrentUser()));
 			}
 
 			@Override
@@ -76,6 +77,11 @@ public class Invoices extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result newInvoice() {
+		return ok(new_invoice.render(new Invoice(), form));
 	}
 	
 
@@ -96,7 +102,7 @@ public class Invoices extends Application {
 					flash("error", "There were errors in your form.");
 					return badRequest(index.render(invoicesOfCurrentUser(),
 							paidInvoicesOfCurrentUser(),
-							overdueInvoicesOfCurrentUser(), filledForm));
+							overdueInvoicesOfCurrentUser()));
 				}
 
 				@Override
@@ -110,6 +116,10 @@ public class Invoices extends Application {
 			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId(Long.parseLong(Form.form()
 					.bindFromRequest().get("client.id")));
+
+			in.bankAccount = BankAccount.find.byId(Long.parseLong(Form.form()
+					.bindFromRequest().get("bankAccount.id")));
+
 			in.setPaid(Form.form().bindFromRequest().get("ispaid") != null);
 
 			in.save();
@@ -182,6 +192,7 @@ public class Invoices extends Application {
 		 */
 
 		// invoice.client.id = filledForm.get().client.id;
+		// invoice.bankAccount.id = filledForm.get().bankAccount.id;
 
 		if (filledForm.get().title != null)
 			invoice.title = filledForm.get().title;
@@ -286,7 +297,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result html() {
-				return ok(index.render(starred, null, null, form));
+				return ok(index.render(starred, null, null));
 			}
 
 			@Override
@@ -299,37 +310,61 @@ public class Invoices extends Application {
 	public static Result setPaid(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		// Fetch reference to Akka actor and send event
-		final ActorRef actor = Events.InvoiceActor.instance;
+		final ActorRef actor = Events.actorInstance;
 
 		if(invoice != null) {
-			invoice.setPaid();
-			invoice.save();
-			
-			actor.tell(Json.toJson(invoice), null);
-			return ok();
+			if(!invoice.isPaid()) {
+				invoice.setPaid();
+				invoice.save();
+				
+				actor.tell(Json.toJson(invoice), null);
+				return ok();
+							
+			}
+			else {
+				return noContent();
+			}
 		}
 
 		return notFound();
 	}
 	
 	public static Result sendInvoice(Long id) {
-		final String mailUsername = "andreasrolen93"; // TODO Change to users email
-		final String mailPassword = "internet1<";
 		final Form<Invoice> filledForm = form.bindFromRequest();
-
 
 		Invoice invoice = Invoice.find.byId(id);
 
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {
-				MailController.sendOneInvoice(mailUsername, mailPassword, invoice.client, invoice);
+				MailController.sendOneInvoice(invoice);
 				flash("success", "The invoice: " + invoice.title + " was sent to the client: " + invoice.client.name);
 				return goHome();
 			} else {
 				flash("fail", "The client for this invoice don't got any email");
 				return badRequest(index.render(invoicesOfCurrentUser(),
 						paidInvoicesOfCurrentUser(),
-						overdueInvoicesOfCurrentUser(), filledForm));
+						overdueInvoicesOfCurrentUser()));
+			}
+		} else {
+			return noContent();
+		}
+	}
+	
+	public static Result sendReminder(Long id) {
+		final Form<Invoice> filledForm = form.bindFromRequest();
+
+		Invoice invoice = Invoice.find.byId(id);
+		
+		if (invoice != null) {
+			if (!invoice.client.email.isEmpty()) {
+				MailController.sendReminder(invoice);
+				flash("success", "A reminder for the invoice : " + invoice.title + " was sent to the client: " + invoice.client.name);
+				return goHome();
+			} else {
+				flash("fail", "The client for this invoice don't got any email");
+				return badRequest(index.render(invoicesOfCurrentUser(),
+						paidInvoicesOfCurrentUser(),
+						overdueInvoicesOfCurrentUser()));
 			}
 		} else {
 			return noContent();

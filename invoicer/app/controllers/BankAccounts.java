@@ -41,25 +41,9 @@ public class BankAccounts extends Application {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
 		if (filledForm.hasErrors() || !validate(filledForm)) {
 
-			return respondTo(new Responder() {
-
-				@Override
-				public Result json() {
-					return badRequest();
-				}
-
-				@Override
-				public Result html() {
-					flash("error", "There were errors in your form.");
-					return badRequest(index.render(BankAccount.find.all(),
-							filledForm));
-				}
-				
-				@Override
-				public Result script() {
-					return badRequest();
-				}
-			});
+			flash("error", "There were errors in your form.");
+			return badRequest(index.render(BankAccount.find.all(), filledForm));
+			
 		} else {
 			final BankAccount ba = filledForm.get();
 			ba.owner = Session.getCurrentUser();
@@ -81,7 +65,7 @@ public class BankAccounts extends Application {
 				
 				@Override
 				public Result script() {
-					return badRequest();
+					return created(views.js.bankaccounts.create.render(ba));
 				}
 			});
 		}
@@ -124,12 +108,28 @@ public class BankAccounts extends Application {
 
 	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
-		BankAccount bankAccount = BankAccount.find.byId(id);
+		final BankAccount bankAccount = BankAccount.find.byId(id);
 
 		if (bankAccount != null) {
 			bankAccount.delete();
-			flash("success", "The bankAccount was deleted.");
-			return goHome();
+			
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					return noContent();
+				}
+
+				@Override
+				public Result html() {
+					flash("success", "The bank account was deleted");
+					return goHome();
+				}
+
+				@Override
+				public Result script() {
+					return ok(views.js.bankaccounts.destroy.render(bankAccount));
+				}
+			});
 		} else {
 			return notFound(show.render(bankAccount));
 		}

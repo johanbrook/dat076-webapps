@@ -3,6 +3,7 @@
 
 @main(client.name) {
 
+	
 <p class="back back-invoices">
 	<a href="@routes.Clients.index()">← All clients</a>
 </p>
@@ -13,13 +14,18 @@
 
 		<a href="@routes.Clients.edit(client.id)" class="btn alignright">Edit</a>	
 			<a
-				title="Send invoices" 
+				title="Send all invoices of this client with e-mail" 
 				data-method="post"
 				data-remote="true"
 				class="btn alignright"
+				style="margin-right: 5px"
 				href="@routes.Clients.sendInvoices(client.id)">Send Invoices</a>
 			</a>
-	</header>	
+	</header>
+
+	<p class="back">
+		<a href="@routes.Clients.index()">← All clients</a>
+	</p>
 	
 	<dl class="details">
 		<dt>Name</dt>

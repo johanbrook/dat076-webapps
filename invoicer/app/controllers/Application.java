@@ -12,6 +12,10 @@ import play.mvc.*;
 
 public abstract class Application extends Controller {
 	
+	public static Result index() {
+		return redirect(controllers.routes.Invoices.index());
+	}
+	
 	/**
 	 * Interface for returning proper content responses in controller actions.
 	 * 
@@ -83,17 +87,15 @@ public abstract class Application extends Controller {
 	protected static Result respondTo(Responder respond) {
 		String types = request().acceptedTypes().toString();
 		
-		if(types.indexOf("text/html") != -1){
-			return respond.html();
-		}
-		else if(types.indexOf("application/json") != -1){
+		if(types.indexOf("application/json") != -1){
 			return respond.json();
 		}
 		else if(types.indexOf("text/script") != -1 || types.indexOf("application/javascript") != -1) {
 			return respond.script();
 		}
-
-		return badRequest();
+		else {
+			return respond.html();
+		}
 	}
 	
 	protected static <T extends AbstractModel> void setLocationHeader(T resource) {
