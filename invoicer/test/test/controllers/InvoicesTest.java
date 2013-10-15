@@ -144,6 +144,8 @@ public class InvoicesTest extends BaseTest {
 			fakeRequest(PUT, controllers.routes.Invoices.toggleStarred(invoice.id).url())
 				.withSession("userId", super.userId)
 		);
+		
+		invoice.refresh();
 
 		assertEquals(303, status(starred));
 		assertEquals(!isStarred, invoice.starred);
