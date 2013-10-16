@@ -22,15 +22,27 @@ import views.html.clients.*;
 import play.libs.Json;
 import service.Mailer;
 
+/**
+ * Controller class for handling the Clients.
+ * 
+ * @author Andreas Rolén
+ *
+ */
 @Security.Authenticated(Secured.class)
 public class Clients extends Application {
 
 	public static Form<Client> newForm = Form.form(Client.class);
 
+	/**
+	 * GET /clients
+	 */
 	public static Result index() {
 		return ok(index.render(Client.find.all(), newForm));
 	}
 
+	/**
+	 * POST /clients
+	 */
 	public static Result create() {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
@@ -65,10 +77,16 @@ public class Clients extends Application {
 
 	}
 
+	/**
+	 * GET /clients/:id
+	 */
 	public static Result show(Long id) {
 		return ok(show.render(Client.find.byId(id)));
 	}
 
+	/**
+	 * GET /clients/:id/edit 
+	 */
 	public static Result edit(Long id) {
 		Client client = Client.find.byId(id);
 		Form<Client> form = newForm.fill(client);
@@ -76,6 +94,9 @@ public class Clients extends Application {
 		return ok(edit.render(client, form));
 	}
 
+	/**
+	 * POST /clients/:id 
+	 */
 	public static Result update(Long id) {
 		Client client = Client.find.byId(id);
 		Form<Client> form = newForm.bindFromRequest();
@@ -101,10 +122,15 @@ public class Clients extends Application {
 		}
 	}
 
+	/**
+	 * DELETE /clients/:id
+	 */
 	public static Result destroy(Long id) {
+		// Gets the client for the given ID and all invoices set to that client.
 		final Client tmpClient = Client.find.byId(id);
 		final List<Invoice> list = Invoice.find.where().eq("client_id", id).findList();
 
+		// If the client got any invoices those must be deleted due to the dependency between a client and invoice. Must clean up manually.
 		if (list != null) {
 			Ebean.delete(list);
 		}
@@ -135,9 +161,13 @@ public class Clients extends Application {
 
 	}
 
+	/**
+	 * POST /clients/:id/send
+	 */
 	public static Result sendInvoices(Long id) {
 		
 		final Client client = Client.find.byId(id);
+		// Gets a list of invoices owned by the current user and is set to the client with the given ID.
 		final List<Invoice> invoiceList = Invoice.invoicesOfUser(Session.getCurrentUser().id)
 				.where().eq("client_id", client.id).findList();
 		
@@ -149,6 +179,7 @@ public class Clients extends Application {
 				
 				return respondTo(new Responder() {
 					
+					// Renders a js to show that the mail has been sent or not.
 					@Override
 					public Result script() {
 						if(didSend) {
