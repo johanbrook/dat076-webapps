@@ -8,7 +8,6 @@ var expect = chai.expect;
 
 describe("Notification", function() {
 	afterEach(function() {
-		console.log($("#notification"));
 		$("#notification").remove();
 	});
 
@@ -78,6 +77,75 @@ describe("Notification", function() {
 		n1.hide();
 
 		expect(spy).to.have.been.called.twice;
+	});
+});
+
+
+describe("Util", function() {
+
+	it("should be in global namespace", function() {
+		expect(window.Util).not.to.be.undefined;
+	});
+
+	it("should be able to template", function() {
+		var template = "This is a template value: {{value}}";
+		var data = {
+			value: "wohoo"
+		};
+
+		var rendered = Util.template(template, data);
+		expect(rendered).to.equal("This is a template value: wohoo");
+	});
+
+	it("should decrement counter properly", function() {
+		var $counter = $("<div />", {text: "1"});
+
+		Util.setCounterElement($counter);
+		Util.decrementInvoices();
+
+		expect($counter).to.have.text("0");
+	});
+
+	it("should increment counter properly", function() {
+		var $counter = $("<div />", {text: "1"});
+
+		Util.setCounterElement($counter);
+		Util.incrementInvoices();
+
+		expect($counter).to.have.text("2");
+	});
+
+	it("should have dynamically generated notification methods", function() {
+		expect(Util.showError).not.to.be.undefined;
+		expect(Util.showSuccess).not.to.be.undefined;
+		expect(Util.showNotice).not.to.be.undefined;
+	});
+
+	it("should show showError()", function() {
+		var not = Util.showError("Test");
+
+		expect(not).not.to.be.undefined;
+		expect(not.element).to.be.visible;
+		expect(not.element).to.have.text("Test");
+		expect(not.settings.type).to.equal("negative");
+	});
+
+	it("should show showNotice()", function() {
+		var not = Util.showNotice("Test");
+
+		expect(not).not.to.be.undefined;
+		expect(not.element).to.be.visible;
+		expect(not.element).to.have.text("Test");
+		expect(not.settings.type).to.equal("notice");
+	});
+
+	it("should show showError()", function() {
+		var not = Util.showSuccess("Test");
+
+		expect(not).not.to.be.undefined;
+		expect(not.element).to.be.visible;
+		expect(not.element).to.have.text("Test");
+		expect(not.settings.type).to.equal("positive");
 	});
 });
 
