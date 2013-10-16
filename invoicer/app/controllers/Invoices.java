@@ -394,7 +394,15 @@ public class Invoices extends Application {
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("invoice");
 		
-		if (filePart != null) {
+		if (filePart == null){
+			flash("error", "Missing file");
+		}
+		
+		else if(!filePart.getContentType().equals("application/json")) {
+			flash("error", "Only JSON files allowed");
+		}
+		
+		else {
 			File file = filePart.getFile();
 			
 			try {
@@ -457,8 +465,6 @@ public class Invoices extends Application {
 				flash("error", "Upload failed");
 			}
 			
-		} else {
-			flash("error", "Missing file");
 		}
 		
 		return respondTo(new Responder() {
