@@ -13,6 +13,13 @@ import play.libs.*;
 import play.mvc.Action;
 import play.mvc.Http;
 
+import service.*;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
+
 /**
  *	Global.java
  *
@@ -22,6 +29,8 @@ import play.mvc.Http;
  */
 
 public class Global extends GlobalSettings {
+	
+	private Injector injector;
 	
 	@Override
 	public Action onRequest(Http.Request request, Method actionMethod) {
@@ -37,6 +46,8 @@ public class Global extends GlobalSettings {
 	public void onStart(Application app) {
 		Logger.info("Starting Invoicer ... ");
 		
+		injector = Guice.createInjector();
+		
 		if(Invoice.find.findRowCount() == 0) {
 			Ebean.save((List) Yaml.load("initial-data.yml"));
 			
@@ -48,5 +59,10 @@ public class Global extends GlobalSettings {
 				user.save();
 			}
 		}
+	}
+	
+	@Override
+	public <T> T getControllerInstance(Class<T> clazz) throws Exception {
+		return injector.getInstance(clazz);
 	}
 }

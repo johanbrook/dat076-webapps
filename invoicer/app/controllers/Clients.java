@@ -20,12 +20,17 @@ import play.mvc.Result;
 import play.mvc.Security;
 import views.html.clients.*;
 import play.libs.Json;
+import service.GMailService;
 import service.Mailer;
+import com.google.inject.Inject;
 
 @Security.Authenticated(Secured.class)
 public class Clients extends Application {
 
 	public static Form<Client> newForm = Form.form(Client.class);
+	
+	@Inject
+	private Mailer<Invoice> mailer;
 
 	public static Result index() {
 		return ok(index.render(Client.find.all(), newForm));
@@ -135,13 +140,11 @@ public class Clients extends Application {
 
 	}
 
-	public static Result sendInvoices(Long id) {
+	public Result sendInvoices(Long id) {
 		
 		final Client client = Client.find.byId(id);
 		final List<Invoice> invoiceList = Invoice.invoicesOfUser(Session.getCurrentUser().id)
 				.where().eq("client_id", client.id).findList();
-		
-		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		
 		if (client != null) {
 			if (!invoiceList.isEmpty()) {
