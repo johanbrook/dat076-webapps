@@ -27,6 +27,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
+import controllers.routes.ref;
+
 import models.Invoice;
 import play.api.templates.Html;
 import play.data.Form;
@@ -403,6 +405,22 @@ public class Invoices extends Application {
 				JsonNode jsonNode = Json.parse(content);
 				
 				final Invoice in = new Invoice(jsonNode);
+				
+				in.owner = Session.getCurrentUser();
+				in.bankAccount = new BankAccount(jsonNode.findPath("bankAccount"));
+				
+				Client client = new Client(jsonNode.findPath("client"));
+				Client dbClient = Client.find.where().eq("orgNumber", client.orgNumber).findUnique();
+				
+				if(dbClient == null) {
+					in.client = client;
+				}
+				else {
+					in.client = dbClient;
+				}
+				
+				Logger.info("************** " + in.client.name + " *************");
+				
 				in.save();
 				
 				return respondTo(new Responder() {
