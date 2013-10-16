@@ -18,9 +18,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model.Finder;
+import play.libs.Json;
 
 @Entity
-public class Client extends AbstractModel implements IJSONParsable{
+public class Client extends AbstractModel {
 	
 	@Required
 	@Column(nullable=false)
@@ -48,23 +49,6 @@ public class Client extends AbstractModel implements IJSONParsable{
 	public Client(String name, String orgNumber) {
 		this.name = name;
 		this.orgNumber = orgNumber;
-	}
-	
-	public Client(JsonNode jsonNode) throws ParseException {
-		this.parseJSON(jsonNode);
-	}
-
-	@Override
-	public void parseJSON(JsonNode jsonNode) throws ParseException {
-		
-		this.name = jsonNode.findPath("name").asText();
-		this.address = jsonNode.findPath("address").asText();
-		this.postalCode = jsonNode.findPath("postalCode").asText();
-		this.country = jsonNode.findPath("country").asText();
-		this.orgNumber = jsonNode.findPath("orgNumber").asText();
-		this.contactPerson = jsonNode.findPath("contactPerson").asText();
-		this.email = jsonNode.findPath("email").asText();
-		
 	}
 	
 }

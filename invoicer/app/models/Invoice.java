@@ -26,7 +26,7 @@ import play.data.format.*;
 import util.CustomDateSerializer;
 
 @Entity
-public class Invoice extends AbstractModel implements IJSONParsable {
+public class Invoice extends AbstractModel {
 	
 	public String title;
 	
@@ -88,10 +88,6 @@ public class Invoice extends AbstractModel implements IJSONParsable {
 	public Invoice(User owner, Client client) {
 		this(new Date(), owner, client);
 	}
-	
-	public Invoice(JsonNode jsonNode) throws ParseException {
-		this.parseJSON(jsonNode);
-	}
 
 	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
 		return find.where().like("owner", String.valueOf(userId)).orderBy("dueDate");
@@ -134,18 +130,5 @@ public class Invoice extends AbstractModel implements IJSONParsable {
 
 	public void toggleStarred() {
 		this.starred = !this.starred;
-	}
-
-	@Override
-	public void parseJSON(JsonNode jsonNode) throws ParseException {
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-		
-		this.title = jsonNode.findPath("title").asText();
-		this.invoiceDate = dateFormat.parse( jsonNode.findPath("invoiceDate").asText() );
-		this.dueDate = dateFormat.parse( jsonNode.findPath("dueDate").asText() );
-		this.datePaid = dateFormat.parse( jsonNode.findPath("datePaid").asText() );
-		this.starred = jsonNode.findPath("starred").asBoolean();
-		this.totalRate = jsonNode.findPath("totalRate").asDouble();
 	}
 }

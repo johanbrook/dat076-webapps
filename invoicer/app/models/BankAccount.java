@@ -18,7 +18,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
-public class BankAccount extends AbstractModel implements IJSONParsable{
+public class BankAccount extends AbstractModel {
 
 	@Column(nullable=false)
 	@ManyToOne(cascade=CascadeType.PERSIST)
@@ -78,9 +78,6 @@ public class BankAccount extends AbstractModel implements IJSONParsable{
 		this.bic = bic;
 	}
 	
-	public BankAccount(JsonNode jsonNode) throws ParseException {
-		this.parseJSON(jsonNode);
-	}
 	public static com.avaje.ebean.Query<BankAccount> bankAccountsOfUser(Long userId) {
 		return find.where().like("owner", String.valueOf(userId)).orderBy("accountType");
 	}
@@ -91,14 +88,5 @@ public class BankAccount extends AbstractModel implements IJSONParsable{
 
 	public String toString() {
 		return String.valueOf(this.accountType) + " " + this.accountNumber;
-	}
-	
-	@Override
-	public void parseJSON(JsonNode jsonNode) throws ParseException {
-		this.accountType = AccountType.valueOf(jsonNode.findPath("accountType").asText());
-		this.accountNumber = jsonNode.findPath("accountNumber").asText();
-		this.bank = jsonNode.findPath("bank").asText();
-		this.iban = jsonNode.findPath("iban").asText();
-		this.bic = jsonNode.findPath("bic").asText();
 	}
 }
