@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -394,17 +395,22 @@ public class Invoices extends Application {
 			
 			try {
 				String content = Files.toString(file, Charsets.UTF_8);
-				return ok(content);
+				JsonNode jsonNode = Json.parse(content);
+				
+				return ok(jsonNode.toString());
+				
+			} catch (JsonParseException e) {
+				flash("error", "Couldn't parse file to Json"); 
+				
 			} catch (IOException e) {
-				e.printStackTrace();
-				flash("error", "Couldn't read file");    
+				flash("error", "Couldn't read file");
+			} catch (RuntimeException e) {
+				flash("error", "Upload failed");
 			}
-			
-			
 			
 		} else {
 			flash("error", "Missing file");    
 		}
-		return redirect(routes.Application.index());
+		return redirect(routes.Invoices.newInvoice());
 	}
 }
