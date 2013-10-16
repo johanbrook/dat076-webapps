@@ -28,6 +28,7 @@ GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
 GET 	/invoices/new 			controllers.Invoices.newInvoice()
 GET		/invoices/starred 		controllers.Invoices.starred()
+POST    /invoices/upload            controllers.Invoices.upload()
 
 # The EventSource stream
 GET		/invoices/paid			controllers.Events.getPaid()

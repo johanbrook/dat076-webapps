@@ -13,6 +13,8 @@ import play.*;
 import views.html.invoices.*;
 import models.Client;
 import models.BankAccount;
+
+import java.io.File;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,10 +23,9 @@ import models.Invoice;
 import play.api.templates.Html;
 import play.data.Form;
 import play.libs.*;
-import play.libs.Json;
 import play.mvc.*;
-import play.mvc.Result;
-import play.mvc.Security;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 
 import akka.actor.*;
 
@@ -373,5 +374,24 @@ public class Invoices extends Application {
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());
+	}
+
+	
+	public static Result upload() {
+		
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart invoice = body.getFile("invoice");
+		
+		if (invoice != null) {
+			String fileName = invoice.getFilename();
+			String contentType = invoice.getContentType();
+			File file = invoice.getFile();
+			
+			return ok("File uploaded");
+			
+		} else {
+			flash("error", "Missing file");
+			return redirect(routes.Application.index());    
+		}
 	}
 }

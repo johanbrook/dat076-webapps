@@ -101,6 +101,5 @@ public abstract class Application extends Controller {
 	protected static <T extends AbstractModel> void setLocationHeader(T resource) {
 		response().setHeader("Location", controllers.routes.Invoices.show(resource.id).absoluteURL(request()));
 	}
-    
-	
+
 }

@@ -63,10 +63,20 @@
 	<p>
 		<label><input type="checkbox" name="ispaid" /> Already paid</label>
 	</p>
-
-
+	
 	<p class="alignright">
 		<input type="submit" value="Add invoice" />
 		<small>or <a href="@routes.Invoices.index()" class="btn-cancel">Cancel</a></small>
 	</p>
 </form>
+
+@form(action = routes.Invoices.upload, 'enctype -> "multipart/form-data") {
+	
+	<p>Or upload file</p>
+	<input type="file" name="invoice">
+	
+	<p>
+	    <input type="submit">
+	</p>
+
+}
