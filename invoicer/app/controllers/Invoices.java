@@ -412,26 +412,7 @@ public class Invoices extends Application {
 				String content = Files.toString(file, Charsets.UTF_8);
 				JsonNode jsonNode = Json.parse(content);
 				
-				final Invoice in = new Invoice();
-				
-				SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-				
-				in.title = jsonNode.findPath("title").asText();
-				in.invoiceDate = dateFormat.parse( jsonNode.findPath("invoiceDate").asText() );
-				in.dueDate = dateFormat.parse( jsonNode.findPath("dueDate").asText() );
-				in.datePaid = dateFormat.parse( jsonNode.findPath("datePaid").asText() );
-
-				// TODO: Set from json
-				in.client = Client.find.byId((long) 1);
-				
-				in.owner = Session.getCurrentUser();
-				
-				// TODO: Set from json
-				in.bankAccount = BankAccount.find.byId((long) 1);
-				
-				in.starred = jsonNode.findPath("starred").asBoolean();
-				in.totalRate = jsonNode.findPath("totalRate").asDouble();
-
+				final Invoice in = new Invoice(jsonNode);
 				in.save();
 				
 				return respondTo(new Responder() {

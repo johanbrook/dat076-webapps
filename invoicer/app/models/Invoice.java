@@ -8,20 +8,25 @@
 
 package models;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import controllers.IJSONParsable;
+import controllers.Session;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
 import util.CustomDateSerializer;
 
 @Entity
-public class Invoice extends AbstractModel {
+public class Invoice extends AbstractModel implements IJSONParsable {
 	
 	public String title;
 	
@@ -79,6 +84,10 @@ public class Invoice extends AbstractModel {
 		this.owner = owner;
 		this.client = client;
 	}
+	
+	public Invoice(JsonNode jsonNode) {
+		this.parseJSON(jsonNode);
+	}
 
 	public Invoice(User owner, Client client) {
 		this(new Date(), owner, client);
@@ -125,5 +134,28 @@ public class Invoice extends AbstractModel {
 
 	public void toggleStarred() {
 		this.starred = !this.starred;
+	}
+
+	@Override
+	public boolean parseJSON(JsonNode jsonNode) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
+		
+		this.title = jsonNode.findPath("title").asText();
+		this.invoiceDate = dateFormat.parse( jsonNode.findPath("invoiceDate").asText() );
+		this.dueDate = dateFormat.parse( jsonNode.findPath("dueDate").asText() );
+		this.datePaid = dateFormat.parse( jsonNode.findPath("datePaid").asText() );
+
+		// TODO: Set from json node
+		this.client = Client.find.byId((long) 1);
+		
+		this.owner = Session.getCurrentUser();
+		
+		// TODO: Set from json node
+		this.bankAccount = BankAccount.find.byId((long) 1);
+		
+		this.starred = jsonNode.findPath("starred").asBoolean();
+		this.totalRate = jsonNode.findPath("totalRate").asDouble();
+		
+		return true;
 	}
 }
