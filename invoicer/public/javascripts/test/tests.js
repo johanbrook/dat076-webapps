@@ -153,18 +153,11 @@ describe("Util", function() {
 
 describe("XHR Adapter", function() {
 
-	beforeEach(function() {
-		// Stub $.ajax
-    sinon.stub($, 'ajax').yieldsTo('success');
-  });
-
-	afterEach(function() {
-		// Restore $.ajax to original state
-		$.ajax.restore();
-	});
-
 	describe("link", function() {
 		it("action should succeed", function(done) {
+			// Stub $.ajax
+	    sinon.stub($, 'ajax').yieldsTo('success');
+
 			var el = $("<a />", {
 				"data-remote": true,
 				"href": "#"
@@ -177,7 +170,28 @@ describe("XHR Adapter", function() {
 
 			el.on("ajax:success", spy);
 			$.adapter.handleRemote(el);
+
+			$.ajax.restore();
 		});
+
+		it("remote action requesting JSON", function(done) {
+			var el = $("<a />", {
+				"data-remote": true,
+				"href": "http://localhost:9000/invoices",
+				"data-type": "json"
+			});
+
+			el.on("ajax:success", function(evt, data, status, xhr) {
+				expect(xhr.getResponseHeader("Content-Type")).to.contain("application/json");
+				expect(status).to.equal("success");
+				expect(data[0].title).to.equal("Test invoice");
+
+				done();
+			});
+
+			$.adapter.handleRemote(el);
+		});
+
 	});
 
 });
