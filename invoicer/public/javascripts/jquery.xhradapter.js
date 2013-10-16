@@ -29,7 +29,9 @@
 		stopEverything: function(evt) {
 			evt.stopImmediatePropagation();
 			return false;
-		}
+		},
+
+		handleRemote: handleRemote
 	};
 
 	/*
