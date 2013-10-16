@@ -456,7 +456,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result html() {
-				return goHome();
+				return redirect(controllers.routes.Invoices.newInvoice());
 			}
 
 			@Override
