@@ -13,15 +13,21 @@ import models.Client;
 import models.BankAccount;
 import java.util.*;
 
+import com.google.inject.Inject;
+
 import models.Invoice;
 import play.data.Form;
 import play.libs.*;
 import play.mvc.*;
+import service.GMailService;
 import service.Mailer;
 
 import akka.actor.*;
 
 public class Invoices extends Application {
+	
+	@Inject
+	private Mailer<Invoice> mailer;
 
 	public static Form<Invoice> form = Form.form(Invoice.class);
 
@@ -322,9 +328,8 @@ public class Invoices extends Application {
 		return notFound();
 	}
 	
-	public static Result sendInvoice(Long id) {
+	public Result sendInvoice(Long id) {
 		
-		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		final Invoice invoice = Invoice.find.byId(id);
 
 		if (invoice != null) {
@@ -365,10 +370,9 @@ public class Invoices extends Application {
 		}
 	}
 	
-	public static Result sendReminder(Long id) {
+	public Result sendReminder(Long id) {
 
 		final Invoice invoice = Invoice.find.byId(id);
-		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		
 		if (invoice != null) {
 			if (!invoice.client.email.isEmpty()) {

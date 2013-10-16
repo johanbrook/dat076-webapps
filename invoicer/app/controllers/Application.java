@@ -2,8 +2,6 @@ package controllers;
 
 import models.AbstractModel;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import play.api.templates.Html;
 import play.api.templates.JavaScript;
 import play.api.templates.Template1;
