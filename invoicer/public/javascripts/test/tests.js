@@ -7,6 +7,7 @@
 var expect = chai.expect;
 
 describe("Notification", function() {
+
 	afterEach(function() {
 		$("#notification").remove();
 	});
@@ -147,5 +148,37 @@ describe("Util", function() {
 		expect(not.element).to.have.text("Test");
 		expect(not.settings.type).to.equal("positive");
 	});
+});
+
+
+describe("XHR Adapter", function() {
+
+	beforeEach(function() {
+		// Stub $.ajax
+    sinon.stub($, 'ajax').yieldsTo('success');
+  });
+
+	afterEach(function() {
+		// Restore $.ajax to original state
+		$.ajax.restore();
+	});
+
+	describe("link", function() {
+		it("action should succeed", function(done) {
+			var el = $("<a />", {
+				"data-remote": true,
+				"href": "#"
+			});
+
+			var spy = chai.spy(function() {
+				expect(spy).to.have.been.called();
+				done();
+			});
+
+			el.on("ajax:success", spy);
+			$.adapter.handleRemote(el);
+		});
+	});
+
 });
 
