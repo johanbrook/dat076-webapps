@@ -49,6 +49,7 @@
 			method = element.data("method");
 			url = element.attr("href");
 			data = element.data("params") || null;
+			dataType = element.data("type");
 		}
 
 		options = {
