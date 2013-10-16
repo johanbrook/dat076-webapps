@@ -16,7 +16,11 @@ import models.BankAccount;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -393,11 +397,44 @@ public class Invoices extends Application {
 			String contentType = invoice.getContentType();
 			File file = invoice.getFile();
 			
+//			"invoiceDate":"2013-10-16",
+//		      "dueDate":"2013-11-28",
+//		      "datePaid":"lol",
+//			  "client":"lol",
+//		      "bankAccount":"lol",
+//		      "starred":"lol",
+//			  "totalRate":"lol"
+//			"starred":false,
+//			"totalRate":0.0,
+//			"overdue":false,
+//			"paid":false
 			try {
 				String content = Files.toString(file, Charsets.UTF_8);
 				JsonNode jsonNode = Json.parse(content);
 				
-				return ok(jsonNode.toString());
+				final Invoice in = new Invoice();
+				
+				SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
+				
+				in.title = jsonNode.findPath("title").asText();
+				in.invoiceDate = dateFormat.parse( jsonNode.findPath("invoiceDate").asText() );
+				in.dueDate = dateFormat.parse( jsonNode.findPath("dueDate").asText() );
+				in.datePaid = dateFormat.parse( jsonNode.findPath("datePaid").asText() );
+
+				// TODO: Set from json
+				in.client = Client.find.byId((long) 1);
+				
+				in.owner = Session.getCurrentUser();
+				
+				// TODO: Set from json
+				in.bankAccount = BankAccount.find.byId((long) 1);
+				
+				in.starred = jsonNode.findPath("starred").asBoolean();
+				in.totalRate = jsonNode.findPath("totalRate").asDouble();
+
+				in.save();
+
+				return created(Json.toJson(in));
 				
 			} catch (JsonParseException e) {
 				flash("error", "Couldn't parse file to Json"); 
@@ -408,11 +445,15 @@ public class Invoices extends Application {
 			// The above exceptions are not caught, why?
 			} catch (RuntimeException e) {
 				flash("error", "Upload failed");
+				
+			} catch (ParseException e) {
+				flash("error", "Error reading file");
 			}
 			
 		} else {
 			flash("error", "Missing file");
 		}
+		
 		return redirect(routes.Invoices.newInvoice());
 	}
 }
