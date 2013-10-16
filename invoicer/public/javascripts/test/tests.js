@@ -121,7 +121,7 @@ describe("Util", function() {
 		expect(Util.showNotice).not.to.be.undefined;
 	});
 
-	it("should show showError()", function() {
+	it("should use showError", function() {
 		var not = Util.showError("Test");
 
 		expect(not).not.to.be.undefined;
@@ -130,7 +130,7 @@ describe("Util", function() {
 		expect(not.settings.type).to.equal("negative");
 	});
 
-	it("should show showNotice()", function() {
+	it("should use showNotice", function() {
 		var not = Util.showNotice("Test");
 
 		expect(not).not.to.be.undefined;
@@ -139,7 +139,7 @@ describe("Util", function() {
 		expect(not.settings.type).to.equal("notice");
 	});
 
-	it("should show showError()", function() {
+	it("should use showError", function() {
 		var not = Util.showSuccess("Test");
 
 		expect(not).not.to.be.undefined;
