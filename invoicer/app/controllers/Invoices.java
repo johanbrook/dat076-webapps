@@ -10,6 +10,7 @@ package controllers;
 
 import play.*;
 
+import util.FileUploader;
 import views.html.invoices.*;
 import models.Client;
 import models.BankAccount;
@@ -387,103 +388,79 @@ public class Invoices extends Application {
 		return redirect(controllers.routes.Invoices.index());
 	}
 
-	
+	/**
+	 * (Action called from POST to invoices/upload)
+	 * 
+	 * @return
+	 */
 	public static Result upload() {
 		
-		// Parse request body to java object
-		MultipartFormData body = request().body().asMultipartFormData();
-		FilePart filePart = body.getFile("invoice");
+		final Invoice in = FileUploader.uploadJSON(request(), Invoice.class, "invoice");
 		
-		if (filePart == null){
-			flash("error", "Missing file");
-		}
-		
-		else if(!filePart.getContentType().equals("application/json")) {
-			flash("error", "Only JSON files allowed");
+		if(in != null) {
+			
+			// Replace bank account if identical found in DB
+			BankAccount dbBankAccount = BankAccount.find.where()
+					.eq("accountNumber", in.bankAccount.accountNumber)
+					.eq("bank", in.bankAccount.bank).findUnique();
+			
+			if(dbBankAccount != null) {
+				in.bankAccount = dbBankAccount;
+			}
+			
+			// Replace client ..
+			Client dbClient = Client.find.where()
+					.eq("orgNumber", in.client.orgNumber).findUnique();
+			
+			if(dbClient != null) {
+				in.client = dbClient;
+			}
+			
+			in.owner = Session.getCurrentUser();
+			in.save();
+			
+			return respondTo(new Responder() {
+	
+				@Override
+				public Result json() {
+					setLocationHeader(in);
+					return created(Json.toJson(in));
+				}
+	
+				@Override
+				public Result html() {
+					flash("success", "Invoice '" + in.title + "' created!");
+					return goHome();
+				}
+	
+				@Override
+				public Result script() {
+					return created(views.js.invoices.create.render(in));
+				}
+			});
 		}
 		
 		else {
-			File file = filePart.getFile();
-			
-			try {
-				
-				String content = Files.toString(file, Charsets.UTF_8);
-				JsonNode jsonNode = Json.parse(content);
-				
-				final Invoice in = Json.fromJson(jsonNode, Invoice.class);
-				
-				// Replace bank account if identical found in DB
-				BankAccount dbBankAccount = BankAccount.find.where()
-						.eq("accountNumber", in.bankAccount.accountNumber)
-						.eq("bank", in.bankAccount.bank).findUnique();
-				
-				if(dbBankAccount != null) {
-					in.bankAccount = dbBankAccount;
-				}
-				
-				// Replace client ..
-				Client dbClient = Client.find.where()
-						.eq("orgNumber", in.client.orgNumber).findUnique();
-				
-				if(dbClient != null) {
-					in.client = dbClient;
-				}
-				
-				in.owner = Session.getCurrentUser();
-				in.save();
-				
-				return respondTo(new Responder() {
-
-					@Override
-					public Result json() {
-						setLocationHeader(in);
-						return created(Json.toJson(in));
-					}
-
-					@Override
-					public Result html() {
-						flash("success", "Invoice " + in.title + " created!");
-						return goHome();
-					}
-
-					@Override
-					public Result script() {
-						return created(views.js.invoices.create.render(in));
-					}
-				});
-				
-			} catch (JsonParseException e) {
-				flash("error", "Couldn't parse file to Json"); 
-				
-			} catch (IOException e) {
-				flash("error", "Couldn't read file");
-				
-			// The above exceptions are not caught when thrown, why?
-			} catch (RuntimeException e) {
-				Logger.info("Runtime failed");
-				e.printStackTrace();
-				flash("error", "Upload failed");
-			}
-			
-		}
 		
-		return respondTo(new Responder() {
-
-			@Override
-			public Result json() {
-				return badRequest();
-			}
-
-			@Override
-			public Result html() {
-				return redirect(controllers.routes.Invoices.newInvoice());
-			}
-
-			@Override
-			public Result script() {
-				return badRequest();
-			}
-		});
+			return respondTo(new Responder() {
+	
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+	
+				@Override
+				public Result html() {
+					flash("error", "Please select a JSON file");
+					return redirect(controllers.routes.Invoices.newInvoice());
+				}
+	
+				@Override
+				public Result script() {
+					return badRequest();
+				}
+			});
+		}
 		
 	}
 }
