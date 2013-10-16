@@ -433,8 +433,26 @@ public class Invoices extends Application {
 				in.totalRate = jsonNode.findPath("totalRate").asDouble();
 
 				in.save();
+				
+				return respondTo(new Responder() {
 
-				return created(Json.toJson(in));
+					@Override
+					public Result json() {
+						setLocationHeader(in);
+						return created(Json.toJson(in));
+					}
+
+					@Override
+					public Result html() {
+						flash("success", "Invoice was created!");
+						return goHome();
+					}
+
+					@Override
+					public Result script() {
+						return created(views.js.invoices.create.render(in));
+					}
+				});
 				
 			} catch (JsonParseException e) {
 				flash("error", "Couldn't parse file to Json"); 
@@ -454,6 +472,23 @@ public class Invoices extends Application {
 			flash("error", "Missing file");
 		}
 		
-		return redirect(routes.Invoices.newInvoice());
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return badRequest();
+			}
+
+			@Override
+			public Result html() {
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
+		
 	}
 }
