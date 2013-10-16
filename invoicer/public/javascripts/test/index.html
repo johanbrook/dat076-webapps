@@ -15,6 +15,7 @@
   <script src="vendor/mocha.js"></script>
   <script src="vendor/chai.js"></script>
   <script src="vendor/chai-jquery.js"></script>
+  <script src="vendor/chai-spies.js"></script>
   
   <!-- Sources -->
   <script src="../notifications.js"></script>
@@ -26,8 +27,10 @@
   <script src="tests.js"></script>
 
   <script>
+  $(function() {
     mocha.globals(["jQuery"]);
     mocha.run();
+  });
   </script>
 </body>
 </html>
