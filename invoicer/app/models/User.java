@@ -29,8 +29,6 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
 @Entity
 public class User extends AbstractModel {
 	
-	@Id
-	public Long id;
 	@Required @Column(unique=true)
 	public String username;
 	@Required
