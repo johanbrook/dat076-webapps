@@ -404,12 +404,14 @@ public class Invoices extends Application {
 				
 			} catch (IOException e) {
 				flash("error", "Couldn't read file");
+				
+			// The above exceptions are not caught, why?
 			} catch (RuntimeException e) {
 				flash("error", "Upload failed");
 			}
 			
 		} else {
-			flash("error", "Missing file");    
+			flash("error", "Missing file");
 		}
 		return redirect(routes.Invoices.newInvoice());
 	}
