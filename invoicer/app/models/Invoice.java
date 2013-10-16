@@ -8,6 +8,7 @@
 
 package models;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -18,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import controllers.IJSONParsable;
 import controllers.Session;
 
 import play.data.validation.Constraints.Required;
@@ -84,13 +84,13 @@ public class Invoice extends AbstractModel implements IJSONParsable {
 		this.owner = owner;
 		this.client = client;
 	}
-	
-	public Invoice(JsonNode jsonNode) {
-		this.parseJSON(jsonNode);
-	}
 
 	public Invoice(User owner, Client client) {
 		this(new Date(), owner, client);
+	}
+	
+	public Invoice(JsonNode jsonNode) throws ParseException {
+		this.parseJSON(jsonNode);
 	}
 
 	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
@@ -137,25 +137,15 @@ public class Invoice extends AbstractModel implements IJSONParsable {
 	}
 
 	@Override
-	public boolean parseJSON(JsonNode jsonNode) {
+	public void parseJSON(JsonNode jsonNode) throws ParseException {
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
 		
 		this.title = jsonNode.findPath("title").asText();
 		this.invoiceDate = dateFormat.parse( jsonNode.findPath("invoiceDate").asText() );
 		this.dueDate = dateFormat.parse( jsonNode.findPath("dueDate").asText() );
 		this.datePaid = dateFormat.parse( jsonNode.findPath("datePaid").asText() );
-
-		// TODO: Set from json node
-		this.client = Client.find.byId((long) 1);
-		
-		this.owner = Session.getCurrentUser();
-		
-		// TODO: Set from json node
-		this.bankAccount = BankAccount.find.byId((long) 1);
-		
 		this.starred = jsonNode.findPath("starred").asBoolean();
 		this.totalRate = jsonNode.findPath("totalRate").asDouble();
-		
-		return true;
 	}
 }
