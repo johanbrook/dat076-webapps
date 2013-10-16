@@ -433,9 +433,13 @@ public class Invoices extends Application {
 				
 			// The above exceptions are not caught, why?
 			} catch (RuntimeException e) {
+				Logger.info("Runtime failed");
+				e.printStackTrace();
 				flash("error", "Upload failed");
 				
 			} catch (ParseException e) {
+				Logger.info("Parsing file failed");
+				e.printStackTrace();
 				flash("error", "Error reading file");
 			}
 			
