@@ -68,6 +68,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result json() {
+				
 				return ok(Json.toJson(Invoice.find.all()));
 			}
 
@@ -391,36 +392,36 @@ public class Invoices extends Application {
 		
 		// Parse request body to java object
 		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart filePart = body.getFile("invoice");
 		
-		FilePart invoice = body.getFile("invoice");
-		
-		if (invoice != null) {
-			String fileName = invoice.getFilename();
-			String contentType = invoice.getContentType();
-			File file = invoice.getFile();
+		if (filePart != null) {
+			File file = filePart.getFile();
 			
 			try {
 				
 				String content = Files.toString(file, Charsets.UTF_8);
 				JsonNode jsonNode = Json.parse(content);
 				
-				final Invoice in = new Invoice(jsonNode);
+				final Invoice in = Json.fromJson(jsonNode, Invoice.class);
 				
-				in.owner = Session.getCurrentUser();
-				in.bankAccount = new BankAccount(jsonNode.findPath("bankAccount"));
+				// Replace bank account if identical found in DB
+				BankAccount dbBankAccount = BankAccount.find.where()
+						.eq("accountNumber", in.bankAccount.accountNumber)
+						.eq("bank", in.bankAccount.bank).findUnique();
 				
-				Client client = new Client(jsonNode.findPath("client"));
-				Client dbClient = Client.find.where().eq("orgNumber", client.orgNumber).findUnique();
-				
-				if(dbClient == null) {
-					in.client = client;
+				if(dbBankAccount != null) {
+					in.bankAccount = dbBankAccount;
 				}
-				else {
+				
+				// Replace client ..
+				Client dbClient = Client.find.where()
+						.eq("orgNumber", in.client.orgNumber).findUnique();
+				
+				if(dbClient != null) {
 					in.client = dbClient;
 				}
 				
-				Logger.info("************** " + in.client.name + " *************");
-				
+				in.owner = Session.getCurrentUser();
 				in.save();
 				
 				return respondTo(new Responder() {
@@ -433,7 +434,7 @@ public class Invoices extends Application {
 
 					@Override
 					public Result html() {
-						flash("success", "Invoice was created!");
+						flash("success", "Invoice " + in.title + " created!");
 						return goHome();
 					}
 
@@ -449,16 +450,11 @@ public class Invoices extends Application {
 			} catch (IOException e) {
 				flash("error", "Couldn't read file");
 				
-			// The above exceptions are not caught, why?
+			// The above exceptions are not caught when thrown, why?
 			} catch (RuntimeException e) {
 				Logger.info("Runtime failed");
 				e.printStackTrace();
 				flash("error", "Upload failed");
-				
-			} catch (ParseException e) {
-				Logger.info("Parsing file failed");
-				e.printStackTrace();
-				flash("error", "Error reading file");
 			}
 			
 		} else {
