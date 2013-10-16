@@ -4,6 +4,7 @@
 package models;
 
 import java.io.Serializable;
+import java.text.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -13,8 +14,8 @@ import play.mvc.Result;
  * @author Robin
  *
  */
-public interface IJSONParsable <T extends IJSONParsable> extends Serializable {
+public interface IJSONParsable extends Serializable {
 	
-	public boolean parseJSON(JsonNode jsonNode);
+	public void parseJSON(JsonNode jsonNode) throws ParseException;
 	
 }
