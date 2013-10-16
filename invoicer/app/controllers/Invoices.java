@@ -397,18 +397,8 @@ public class Invoices extends Application {
 			String contentType = invoice.getContentType();
 			File file = invoice.getFile();
 			
-//			"invoiceDate":"2013-10-16",
-//		      "dueDate":"2013-11-28",
-//		      "datePaid":"lol",
-//			  "client":"lol",
-//		      "bankAccount":"lol",
-//		      "starred":"lol",
-//			  "totalRate":"lol"
-//			"starred":false,
-//			"totalRate":0.0,
-//			"overdue":false,
-//			"paid":false
 			try {
+				
 				String content = Files.toString(file, Charsets.UTF_8);
 				JsonNode jsonNode = Json.parse(content);
 				
