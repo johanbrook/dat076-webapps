@@ -127,5 +127,14 @@ public class UserTest extends BaseTest {
 		assertNull(wrongDBUser);
 		
 	}
+	
+	@Test
+	public void testUserCountries() {
+		List<String> countries = User.getCountries();
+		
+		assertNotNull(countries);
+		assertFalse(countries.isEmpty());
+		assertTrue(countries.contains("United Kingdom"));
+	}
 
 }
