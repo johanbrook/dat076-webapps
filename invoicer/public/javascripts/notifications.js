@@ -44,6 +44,7 @@
 		reveal: function() {
 			this.show();
 			setTimeout($.proxy(this.hide, this), this.settings.delay);
+			return this;
 		},
 
 		show: function() {
@@ -53,6 +54,7 @@
 			});
 
 			this.element.on("click", $.proxy(this.hide, this));
+			return this;
 		},
 
 		hide: function() {
@@ -64,6 +66,7 @@
 
 			// Unbind click listener
 			this.element.off("click");
+			return this;
 		}
 	};
 
