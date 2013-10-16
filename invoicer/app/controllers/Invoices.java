@@ -15,9 +15,12 @@ import models.Client;
 import models.BankAccount;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import models.Invoice;
 import play.api.templates.Html;
@@ -379,7 +382,9 @@ public class Invoices extends Application {
 	
 	public static Result upload() {
 		
+		// Parse request body to java object
 		MultipartFormData body = request().body().asMultipartFormData();
+		
 		FilePart invoice = body.getFile("invoice");
 		
 		if (invoice != null) {
@@ -387,11 +392,19 @@ public class Invoices extends Application {
 			String contentType = invoice.getContentType();
 			File file = invoice.getFile();
 			
-			return ok("File uploaded");
+			try {
+				String content = Files.toString(file, Charsets.UTF_8);
+				return ok(content);
+			} catch (IOException e) {
+				e.printStackTrace();
+				flash("error", "Couldn't read file");    
+			}
+			
+			
 			
 		} else {
-			flash("error", "Missing file");
-			return redirect(routes.Application.index());    
+			flash("error", "Missing file");    
 		}
+		return redirect(routes.Application.index());
 	}
 }
