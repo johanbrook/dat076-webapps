@@ -52,6 +52,9 @@
 	
 	<p class="right">
 		<input type="submit" value="Add bank account" />
-		<small>or <a href="#" class="btn-cancel close">Cancel</a></small>
 	</p>
 </form>
+
+@upload_form("Upload BankAccount")(routes.BankAccounts.upload)
+
+<p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>
