@@ -44,11 +44,16 @@ public class Invoices extends Application {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
 
+	/**
+	 * GET /invoices/json 
+	 */
 	public static Result toJSON(){
 		return ok(Json.toJson(Invoice.find.all()));
 	}
 	
-	
+	/**
+	 * GET /invoices 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
 
@@ -73,17 +78,25 @@ public class Invoices extends Application {
 		});
     }
 	
+	/**
+	 * GET /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
 	}
-
+	
+	/**
+	 * GET /invoices/new 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result newInvoice() {
 		return ok(new_invoice.render(new Invoice(), form));
 	}
 	
-
+	/**
+	 * POST /invoices/
+	 */
 	public static Result create() {
 		final Form<Invoice> filledForm = form.bindFromRequest();
 
@@ -146,6 +159,9 @@ public class Invoices extends Application {
 
 	}
 	
+	/**
+	 * GET /invoices/:id/edit 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
@@ -154,6 +170,9 @@ public class Invoices extends Application {
 		return ok(edit.render(invoice, editForm));
 	}
 
+	/**
+	 * PUT /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -223,6 +242,9 @@ public class Invoices extends Application {
 		});
 	}
 	
+	/**
+	 * DELETE /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -252,6 +274,9 @@ public class Invoices extends Application {
 		}
 	}
 	
+	/**
+	 * PUT /invoices/:id/star 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result toggleStarred(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -282,6 +307,9 @@ public class Invoices extends Application {
 		return notFound();
 	}
 
+	/**
+	 * GET /invoices/starred
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result starred() {
 		final List<Invoice> starred = Invoice
@@ -306,6 +334,9 @@ public class Invoices extends Application {
 		});
 	}
 
+	/**
+	 * PUT /invoices/:id/paid 
+	 */
 	public static Result setPaid(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		// Fetch reference to Akka actor and send event
@@ -328,6 +359,9 @@ public class Invoices extends Application {
 		return notFound();
 	}
 	
+	/**
+	 * POST /invoices/:id/send 
+	 */
 	public Result sendInvoice(Long id) {
 		
 		final Invoice invoice = Invoice.find.byId(id);
@@ -370,6 +404,9 @@ public class Invoices extends Application {
 		}
 	}
 	
+	/**
+	 * POST /invoices/:id/reminder 
+	 */
 	public Result sendReminder(Long id) {
 
 		final Invoice invoice = Invoice.find.byId(id);
