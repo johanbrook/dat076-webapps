@@ -19,7 +19,7 @@ import com.google.common.io.Files;
 /**
  * @author Robin
  * 
- * Handles file parsing
+ * Handles file uploading
  * 
  * (for now only JSON files allowed, could be expanded by allowing different
  * content types below)
@@ -30,7 +30,14 @@ public class FileHandler<T> {
 	// Used to identify part of file in request
 	public final static String FILE_PART_NAME = "file";
 	
-	public static <T> T upload(Request request, Class<T> clazz) throws FileUploadException{
+	/**
+	 * Uploads and converts the file in request to the specified model
+	 * @param request The request containing the file
+	 * @param clazz
+	 * @return The converted object
+	 * @throws FileUploadException
+	 */
+	public static <T> T uploadModel(Request request, Class<T> clazz) throws FileUploadException {
 		
 		// Parse request body to java object
 		MultipartFormData body = request.body().asMultipartFormData();

@@ -402,7 +402,7 @@ public class Invoices extends Application {
 		
 		try {
 			
-			in = FileHandler.upload(request(), Invoice.class);
+			in = FileHandler.uploadModel(request(), Invoice.class);
 		
 		// Catch any errors with file upload
 		} catch (final FileUploadException e) {
