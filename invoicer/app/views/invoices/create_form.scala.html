@@ -69,18 +69,6 @@
 	</p>
 </form>
 
-@if(flash.contains("error")) {
-	    <p class="negative">
-	        @flash.get("error")
-	    </p>
-	}
-
-@form(action = routes.Invoices.upload, 'enctype -> "multipart/form-data") {
-	
-	<h3>Or upload file</h3>
-	<small>Only JSON files allowed for now!</small><br/>
-	<input type="file" name="@util.FileHandler.FILE_PART_NAME">
-	<p class="right" ><input type="submit" value="Upload invoice"></p>
-}
+@upload_form("Upload Invoice")
 
 <p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>
