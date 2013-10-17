@@ -395,7 +395,7 @@ public class Invoices extends Application {
 	 */
 	public static Result upload() {
 		
-		final Invoice in = FileUploader.uploadJSON(request(), Invoice.class, "invoice");
+		final Invoice in = FileUploader.uploadJSON(request(), new Invoice());
 		
 		if(in != null) {
 			

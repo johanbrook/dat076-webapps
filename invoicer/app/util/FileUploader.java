@@ -6,8 +6,6 @@ package util;
 import java.io.File;
 import java.io.IOException;
 
-import models.Invoice;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -24,11 +22,14 @@ import com.google.common.io.Files;
  */
 public class FileUploader<T> {
 	
-	public static <T> T uploadJSON(Request request, Class<T> t, String filePartName) {
+	public final static String FILE_PART_NAME = "file";
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T uploadJSON(Request request, T t) {
 		
 		// Parse request body to java object
 		MultipartFormData body = request.body().asMultipartFormData();
-		FilePart filePart = body.getFile(filePartName);
+		FilePart filePart = body.getFile(FILE_PART_NAME);
 		
 		// Accept only json file
 		if (filePart != null && filePart.getContentType().equals("application/json")){
@@ -40,7 +41,7 @@ public class FileUploader<T> {
 				String content = Files.toString(file, Charsets.UTF_8);
 				JsonNode jsonNode = Json.parse(content);
 				
-				return Json.fromJson(jsonNode, t);
+				return (T) Json.fromJson(jsonNode, t.getClass());
 				
 			} catch (JsonParseException e) {
 				e.printStackTrace();

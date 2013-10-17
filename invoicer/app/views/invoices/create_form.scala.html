@@ -79,10 +79,6 @@
 @form(action = routes.Invoices.upload, 'enctype -> "multipart/form-data") {
 	
 	<p>Or upload file</p>
-	<input type="file" name="invoice">
-	
-	<p>
-	    <input type="submit">
-	</p>
+	<input type="file" name="@util.FileUploader.FILE_PART_NAME"> <input type="submit">
 
 }
