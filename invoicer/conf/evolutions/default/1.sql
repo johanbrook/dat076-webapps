@@ -24,6 +24,7 @@ create table client (
   org_number                varchar(255) not null,
   contact_person            varchar(255),
   email                     varchar(255),
+  constraint uq_client_name unique (name),
   constraint uq_client_org_number unique (org_number),
   constraint pk_client primary key (id))
 ;

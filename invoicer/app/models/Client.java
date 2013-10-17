@@ -22,7 +22,7 @@ import service.Mailable;
 public class Client extends AbstractModel implements Mailable {
 	
 	@Required
-	@Column(nullable=false)
+	@Column(nullable=false, unique = true)
 	public String name;
 	
 	public String address;
