@@ -47,53 +47,27 @@ public class FileHandler<T> {
 			
 			File file = filePart.getFile();
 			
+			String content;
+			
+			try {
+				content = Files.toString(file, Charsets.UTF_8);
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+				throw new FileUploadException("Unable to convert file content to UTF_8");
+			}
+			
 			if(filePart.getContentType().equals("application/json")) {
+				model = Parser.parseJSON(content, clazz);
 				
-				try {
-					
-					String content = Files.toString(file, Charsets.UTF_8);
-					model = parseJSON(content, clazz);
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-					throw new FileUploadException("Unable to convert file content to UTF_8");
-				}
-				
+			// Could be expanded with more types
 			} else {
 				throw new FileUploadException("Only JSON files allowed");
 			}
-			
 		}
 		
 		return model;
 		
 	}
-	
-	/**
-	 * Parses a JSON string to the specified object
-	 * 
-	 * @param content The JSON string
-	 * @param clazz The object to parse the string to
-	 * @return The parsed object
-	 * 
-	 * @throws FileUploadException If parsing failed
-	 */
-	public static <T> T parseJSON(String content, Class<T> clazz) throws FileUploadException {
-		
-		try {
-			
-			JsonNode jsonNode = Json.parse(content);
-			
-			return Json.fromJson(jsonNode, clazz);
-			
-		}  catch (RuntimeException e) {
-			
-			e.printStackTrace();
-			throw new FileUploadException("Invalid JSON file");
-			
-		}
-		
-	}
-	
 
 }
