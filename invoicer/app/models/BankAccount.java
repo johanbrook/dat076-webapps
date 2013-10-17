@@ -2,6 +2,7 @@ package models;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
@@ -29,7 +31,7 @@ public class BankAccount extends AbstractModel {
 	
 	@Required
 	@Pattern(value = "([0-9]{4}-[0-9]{4})|([0-9]{1,6}(-[0-9]){1})|([0-9]{4}(-[0-9]{1})[0-9]{0,9}(-[0-9]){0,1})")
-	@Column(nullable=false)
+	@Column(nullable=false, unique=true)
 	public String accountNumber;
 
 	public String bank;
@@ -87,5 +89,4 @@ public class BankAccount extends AbstractModel {
 	public String toString() {
 		return String.valueOf(this.accountType.getName()) + " " + this.accountNumber;
 	}
-
 }

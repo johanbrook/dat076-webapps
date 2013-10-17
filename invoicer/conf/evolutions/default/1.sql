@@ -12,6 +12,7 @@ create table bank_account (
   iban                      varchar(255),
   bic                       varchar(255),
   constraint ck_bank_account_account_type check (account_type in (0,1,2)),
+  constraint uq_bank_account_account_number unique (account_number),
   constraint pk_bank_account primary key (id))
 ;
 
