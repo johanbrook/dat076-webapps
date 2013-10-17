@@ -66,7 +66,6 @@
 	
 	<p class="alignright">
 		<input type="submit" value="Add invoice" />
-		<small>or <a href="@routes.Invoices.index()" class="btn-cancel">Cancel</a></small>
 	</p>
 </form>
 
@@ -78,7 +77,10 @@
 
 @form(action = routes.Invoices.upload, 'enctype -> "multipart/form-data") {
 	
-	<p>Or upload file</p>
-	<input type="file" name="@util.FileHandler.FILE_PART_NAME"> <input type="submit">
-
+	<h3>Or upload file</h3>
+	<small>Only JSON files allowed for now!</small><br/>
+	<input type="file" name="@util.FileHandler.FILE_PART_NAME">
+	<p class="right" ><input type="submit" value="Upload invoice"></p>
 }
+
+<p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>
