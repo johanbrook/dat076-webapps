@@ -18,6 +18,11 @@ import com.google.common.io.Files;
 
 /**
  * @author Robin
+ * 
+ * Handles file uploads
+ * 
+ * (for now only JSON files allowed, could be expanded by allowing different
+ * content types below)
  *
  */
 public class FileUploader<T> {

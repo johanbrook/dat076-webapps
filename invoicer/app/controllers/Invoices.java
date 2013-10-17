@@ -392,6 +392,8 @@ public class Invoices extends Application {
 	/**
 	 * (Action called from POST to invoices/upload)
 	 * 
+	 * Upload and parse a file to an invoice
+	 * 
 	 * @return
 	 */
 	public static Result upload() {
@@ -401,7 +403,8 @@ public class Invoices extends Application {
 		try {
 			
 			in = FileUploader.uploadJSON(request(), Invoice.class);
-			
+		
+		// Catch any errors with file upload
 		} catch (final FileUploadException e) {
 		
 			return respondTo(new Responder() {
@@ -413,6 +416,7 @@ public class Invoices extends Application {
 	
 				@Override
 				public Result html() {
+					Logger.info("Upload error: " + e.getMessage());
 					flash("error", e.getMessage());
 					return redirect(controllers.routes.Invoices.newInvoice());
 				}
@@ -423,6 +427,10 @@ public class Invoices extends Application {
 				}
 			});
 		}
+		
+		/*
+		 *  Upload successfull, continue with invoice specific implementation details
+		 */
 				
 		// Replace bank account if identical found in DB (persistance error otherwise)
 		BankAccount dbBankAccount = BankAccount.find.where()
