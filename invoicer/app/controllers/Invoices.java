@@ -429,13 +429,12 @@ public class Invoices extends Application {
 		}
 		
 		/*
-		 *  Upload successfull, continue with invoice specific implementation details
+		 *  Upload successful, continue with invoice specific implementation details
 		 */
 				
 		// Replace bank account if identical found in DB (persistance error otherwise)
 		BankAccount dbBankAccount = BankAccount.find.where()
-				.eq("accountNumber", in.bankAccount.accountNumber)
-				.eq("bank", in.bankAccount.bank).findUnique();
+				.eq("accountNumber", in.bankAccount.accountNumber).findUnique();
 		
 		if(dbBankAccount != null) {
 			in.bankAccount = dbBankAccount;

@@ -31,7 +31,7 @@ public class BankAccount extends AbstractModel {
 	
 	@Required
 	@Pattern(value = "([0-9]{4}-[0-9]{4})|([0-9]{1,6}(-[0-9]){1})|([0-9]{4}(-[0-9]{1})[0-9]{0,9}(-[0-9]){0,1})")
-	@Column(nullable=false)
+	@Column(nullable=false, unique=true)
 	public String accountNumber;
 
 	public String bank;
