@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tests</title>
+  <link rel="stylesheet" media="all" href="vendor/mocha.css">
+</head>
+<body>
+  <div id="mocha"><p><a href="index.html">All tests</a></p></div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+  
+  <!-- Deps -->
+  <script src="../jquery-1.9.0.min.js"></script>
+  <script src="vendor/mocha.js"></script>
+  <script src="vendor/chai.js"></script>
+  <script src="vendor/sinon.js"></script>
+  <script src="vendor/chai-jquery.js"></script>
+  <script src="vendor/chai-spies.js"></script>
+  
+  <!-- Sources -->
+  <script src="../notifications.js"></script>
+  <script src="../util.js"></script>
+  <script src="../jquery.xhradapter.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+
+  <!-- Actual tests -->
+  <script src="tests.js"></script>
+
+  <script>
+  $(function() {
+    mocha.globals(["jQuery", "Util"]);
+    mocha.run();
+  });
+  </script>
+</body>
+</html>

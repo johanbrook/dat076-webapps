@@ -18,6 +18,12 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model.Finder;
 import service.Mailable;
 
+/**
+ * A class representing a Client.
+ * 
+ * @author Andreas Rolén
+ *
+ */
 @Entity
 public class Client extends AbstractModel implements Mailable {
 	

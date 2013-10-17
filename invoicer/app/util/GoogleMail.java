@@ -38,6 +38,7 @@ public class GoogleMail {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
+        // Sets all properties
         Properties props = System.getProperties();
         props.setProperty("mail.smtps.host", "smtp.gmail.com");
         props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
