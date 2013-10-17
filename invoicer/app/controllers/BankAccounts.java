@@ -22,13 +22,19 @@ public class BankAccounts extends Application {
 	public BankAccounts() {
 	}
 	
+	/**
+	 * GET /accounts 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
 
 		return ok(index.render(bankAccountsOfCurrentUser(), form));
 
 	}
-
+	
+	/**
+	 * GET /accounts/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 
@@ -36,6 +42,9 @@ public class BankAccounts extends Application {
 
 	}
 
+	/**
+	 * POST /accounts 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
@@ -72,6 +81,9 @@ public class BankAccounts extends Application {
 
 	}
 
+	/**
+	 * GET /accounts/:id/edit 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		BankAccount bankAccount = BankAccount.find.byId(id);
@@ -80,6 +92,9 @@ public class BankAccounts extends Application {
 		return ok(edit.render(bankAccount, editForm));
 	}
 
+	/**
+	 * POST /accounts/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		BankAccount bankAccount = BankAccount.find.byId(id);
@@ -106,6 +121,9 @@ public class BankAccounts extends Application {
 		return goHome();
 	}
 
+	/**
+	 * DELETE /accounts/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		final BankAccount bankAccount = BankAccount.find.byId(id);
