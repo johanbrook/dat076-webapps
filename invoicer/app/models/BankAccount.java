@@ -85,7 +85,7 @@ public class BankAccount extends AbstractModel {
 	}
 
 	public String toString() {
-		return String.valueOf(this.accountType) + " " + this.accountNumber;
+		return String.valueOf(this.accountType.getName()) + " " + this.accountNumber;
 	}
 
 }
