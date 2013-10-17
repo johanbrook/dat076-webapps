@@ -46,6 +46,7 @@ public class BankAccounts extends Application {
 			
 		} else {
 			final BankAccount ba = filledForm.get();
+			
 			ba.owner = Session.getCurrentUser();
 			ba.save();
 
@@ -82,11 +83,29 @@ public class BankAccounts extends Application {
 
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
-		BankAccount bankAccount = BankAccount.find.byId(id);
-		Form<BankAccount> filledForm = form.bindFromRequest();
+		final BankAccount bankAccount = BankAccount.find.byId(id);
+		final Form<BankAccount> filledForm = form.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(edit.render(bankAccount, filledForm));
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+
+				@Override
+				public Result html() {
+					flash("fail",
+							"Something went wrong when trying to update the bank account");
+					return badRequest(views.html.bankaccounts.edit.render(bankAccount,
+							filledForm));
+				}
+
+				@Override
+				public Result script() {
+					return badRequest();
+				}
+			});
 		}
 		
 		bankAccount.bank = filledForm.get().bank;
@@ -103,7 +122,24 @@ public class BankAccounts extends Application {
 
 		bankAccount.update(id);
 
-		return goHome();
+		return respondTo(new Responder() {
+			@Override
+			public Result json() {
+				setLocationHeader(bankAccount);
+				return ok(Json.toJson(bankAccount));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "Bank account " + bankAccount.accountNumber + " was updated!");
+				return redirect(controllers.routes.BankAccounts.show(bankAccount.id));
+			}
+
+			@Override
+			public Result script() {
+				return ok();
+			}
+		});
 	}
 
 	@Security.Authenticated(Secured.class)
