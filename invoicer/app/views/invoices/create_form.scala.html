@@ -53,7 +53,7 @@
 		<p>
 			<label for="account-dropdown">Bank account to use</label>
 			<select id="account-dropdown" name="bankAccount.id">
-			@for(account <- BankAccount.find.all()) {
+			@for(account <- BankAccount.getBankAccountsOfUser(Session.getCurrentUser().id)) {
 			<option value="@account.id">@account.toString()</option>	
 			}
 			</select>
