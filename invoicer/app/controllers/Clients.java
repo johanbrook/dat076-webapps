@@ -41,6 +41,7 @@ public class Clients extends Application {
 	/**
 	 * GET /clients
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result index() {
 		return ok(index.render(Client.find.all(), newForm));
 	}
@@ -48,6 +49,7 @@ public class Clients extends Application {
 	/**
 	 * POST /clients
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		Form<Client> filledForm = newForm.bindFromRequest();
 
@@ -85,6 +87,7 @@ public class Clients extends Application {
 	/**
 	 * GET /clients/:id
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return ok(show.render(Client.find.byId(id)));
 	}
@@ -92,6 +95,7 @@ public class Clients extends Application {
 	/**
 	 * GET /clients/:id/edit 
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Client client = Client.find.byId(id);
 		Form<Client> form = newForm.fill(client);
@@ -102,6 +106,7 @@ public class Clients extends Application {
 	/**
 	 * POST /clients/:id 
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		Client client = Client.find.byId(id);
 		Form<Client> form = newForm.bindFromRequest();
@@ -130,6 +135,7 @@ public class Clients extends Application {
 	/**
 	 * DELETE /clients/:id
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		// Gets the client for the given ID and all invoices set to that client.
 		final Client tmpClient = Client.find.byId(id);
