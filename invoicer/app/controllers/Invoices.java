@@ -396,52 +396,13 @@ public class Invoices extends Application {
 	 */
 	public static Result upload() {
 		
-		final Invoice in = FileUploader.uploadJSON(request(), new Invoice());
+		final Invoice in;
 		
-		if(in != null) {
+		try {
 			
-			// Replace bank account if identical found in DB
-			BankAccount dbBankAccount = BankAccount.find.where()
-					.eq("accountNumber", in.bankAccount.accountNumber)
-					.eq("bank", in.bankAccount.bank).findUnique();
+			in = FileUploader.uploadJSON(request(), Invoice.class);
 			
-			if(dbBankAccount != null) {
-				in.bankAccount = dbBankAccount;
-			}
-			
-			// Replace client ..
-			Client dbClient = Client.find.where()
-					.eq("orgNumber", in.client.orgNumber).findUnique();
-			
-			if(dbClient != null) {
-				in.client = dbClient;
-			}
-			
-			in.owner = Session.getCurrentUser();
-			in.save();
-			
-			return respondTo(new Responder() {
-	
-				@Override
-				public Result json() {
-					setLocationHeader(in);
-					return created(Json.toJson(in));
-				}
-	
-				@Override
-				public Result html() {
-					flash("success", "Invoice '" + in.title + "' created!");
-					return goHome();
-				}
-	
-				@Override
-				public Result script() {
-					return created(views.js.invoices.create.render(in));
-				}
-			});
-		}
-		
-		else {
+		} catch (final FileUploadException e) {
 		
 			return respondTo(new Responder() {
 	
@@ -452,7 +413,7 @@ public class Invoices extends Application {
 	
 				@Override
 				public Result html() {
-					flash("error", "Please select a JSON file");
+					flash("error", e.getMessage());
 					return redirect(controllers.routes.Invoices.newInvoice());
 				}
 	
@@ -462,6 +423,46 @@ public class Invoices extends Application {
 				}
 			});
 		}
+				
+		// Replace bank account if identical found in DB (persistance error otherwise)
+		BankAccount dbBankAccount = BankAccount.find.where()
+				.eq("accountNumber", in.bankAccount.accountNumber)
+				.eq("bank", in.bankAccount.bank).findUnique();
+		
+		if(dbBankAccount != null) {
+			in.bankAccount = dbBankAccount;
+		}
+		
+		// Replace client if identical found in DB (persistance error otherwise)
+		Client dbClient = Client.find.where()
+				.eq("orgNumber", in.client.orgNumber).findUnique();
+		
+		if(dbClient != null) {
+			in.client = dbClient;
+		}
+		
+		in.owner = Session.getCurrentUser();
+		in.save();
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				setLocationHeader(in);
+				return created(Json.toJson(in));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "Invoice '" + in.title + "' created!");
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return created(views.js.invoices.create.render(in));
+			}
+		});
 		
 	}
 }
