@@ -10,8 +10,8 @@ package controllers;
 
 import play.*;
 
+import util.FileHandler;
 import util.FileUploadException;
-import util.FileUploader;
 import views.html.invoices.*;
 import models.Client;
 import models.BankAccount;
@@ -402,7 +402,7 @@ public class Invoices extends Application {
 		
 		try {
 			
-			in = FileUploader.uploadJSON(request(), Invoice.class);
+			in = FileHandler.upload(request(), Invoice.class);
 		
 		// Catch any errors with file upload
 		} catch (final FileUploadException e) {
