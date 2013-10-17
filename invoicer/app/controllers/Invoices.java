@@ -44,10 +44,11 @@ public class Invoices extends Application {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
 
-	public static Result toJSON(){
-		return ok(Json.toJson(Invoice.find.all()));
-	}
 	
+	public static Result invoicesByClient(String client){
+		
+		return ok(Json.toJson(Invoice.find.where().ieq("client.name", client).findList()));
+	}
 	
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
