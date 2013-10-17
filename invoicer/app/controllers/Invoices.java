@@ -10,6 +10,7 @@ package controllers;
 
 import play.*;
 
+import util.FileUploadException;
 import util.FileUploader;
 import views.html.invoices.*;
 import models.Client;
