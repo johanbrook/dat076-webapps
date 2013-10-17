@@ -20,7 +20,9 @@ import play.mvc.Result;
 import play.mvc.Security;
 import views.html.clients.*;
 import play.libs.Json;
+import service.GMailService;
 import service.Mailer;
+import com.google.inject.Inject;
 
 /**
  * Controller class for handling the Clients.
@@ -32,6 +34,9 @@ import service.Mailer;
 public class Clients extends Application {
 
 	public static Form<Client> newForm = Form.form(Client.class);
+	
+	@Inject
+	private Mailer<Invoice> mailer;
 
 	/**
 	 * GET /clients
@@ -164,14 +169,12 @@ public class Clients extends Application {
 	/**
 	 * POST /clients/:id/send
 	 */
-	public static Result sendInvoices(Long id) {
+	public Result sendInvoices(Long id) {
 		
 		final Client client = Client.find.byId(id);
 		// Gets a list of invoices owned by the current user and is set to the client with the given ID.
 		final List<Invoice> invoiceList = Invoice.invoicesOfUser(Session.getCurrentUser().id)
 				.where().eq("client_id", client.id).findList();
-		
-		Mailer<Invoice> mailer = new Mailer<Invoice>();
 		
 		if (client != null) {
 			if (!invoiceList.isEmpty()) {
