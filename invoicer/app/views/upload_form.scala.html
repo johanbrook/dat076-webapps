@@ -1,4 +1,4 @@
-@(buttonText : String)
+@(buttonText : String)(call : play.api.mvc.Call)
 
 @import helper._
 
@@ -8,7 +8,7 @@
 	    </p>
 	}
 	
-@form(action = routes.Invoices.upload, 'enctype -> "multipart/form-data") {
+@form(action = call, 'enctype -> "multipart/form-data") {
 	
 	<h3>Or upload file</h3>
 	<small>Only JSON files allowed for now!</small><br/>
