@@ -228,12 +228,14 @@ public class BankAccounts extends Application {
 		BankAccount dbBankAccount = BankAccount.find.where()
 				.eq("accountNumber", ba.accountNumber).findUnique();
 		
+		
 		if(dbBankAccount != null) {
 			
 			return uploadError("Bank account with that account number already exist!");
 		}
 		
 		ba.id = null;
+		ba.owner = Session.getCurrentUser();
 		
 		ba.save();
 			
