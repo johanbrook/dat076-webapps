@@ -252,7 +252,7 @@ public class BankAccounts extends Application {
 
 			@Override
 			public Result html() {
-				flash("success", "Client '" + ba.accountNumber + "' added!");
+				flash("success", "Bank account '" + ba.accountNumber + "' added!");
 				return goHome();
 			}
 

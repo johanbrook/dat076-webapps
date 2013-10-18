@@ -267,9 +267,9 @@ public class Clients extends Application {
 			return uploadError(e.getMessage());
 		}
 		
-		if(client.find.where().eq("orgNumber", client.orgNumber).findUnique() != null) {
+		if(client.find.where().eq("name", client.name).findUnique() != null) {
 			
-			return uploadError("Client with that organization number already exist!");
+			return uploadError("Client with the name '" + client.name + "' already exist!");
 		}
 		
 		client.id = null;
