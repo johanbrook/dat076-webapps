@@ -80,14 +80,6 @@ public class UserTest extends BaseTest {
 	}
 	
 	@Test
-	public void testDeleteUser() {
-		this.user.delete();
-		
-		User john = User.find.where().eq("username", "johndoe").findUnique();
-		assertNull(john);
-	}
-	
-	@Test
 	public void testUserHasInvoice() {
 		
 		User userWithOneInvoice = new User("johnny", "password");
@@ -105,17 +97,6 @@ public class UserTest extends BaseTest {
 		assertEquals(1, Invoice.getInvoicesOfUser(userWithOneInvoice.id).size());
 	}
 	
-	/**
-	 * Deleting a User should also delete the User's Invoices.
-	 */
-	@Test
-	public void testDeleteUserShouldDeleteInvoices() {
-		this.user.delete();
-		
-		assertNull( Invoice.find.where().eq("title", "Test invoice").findUnique() );
-		assertNull( Invoice.find.where().eq("owner_id", this.user.id).findUnique() );
-		
-	}
 	
 	@Test
 	public void authenticateUser() {
