@@ -65,7 +65,19 @@ public class FileHandler<T> {
 			}
 			
 			if(filePart.getContentType().equals("application/json")) {
-				model = Parser.parseJSON(content, clazz);
+				
+				try {
+					
+					JsonNode jsonNode = Json.parse(content);
+					
+					model = Json.fromJson(jsonNode, clazz);
+					
+				}  catch (RuntimeException e) {
+					
+					e.printStackTrace();
+					throw new FileUploadException("Invalid JSON file");
+					
+				}
 				
 			// Could be expanded with more types
 			} else {
