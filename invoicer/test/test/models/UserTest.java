@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
+import models.BankAccount;
 import models.Invoice;
 import models.User;
 
@@ -88,16 +89,20 @@ public class UserTest extends BaseTest {
 	
 	@Test
 	public void testUserHasInvoice() {
-
-		Invoice i = new Invoice();
+		
 		User userWithOneInvoice = new User("johnny", "password");
-		userWithOneInvoice.invoices.add(i);
+		BankAccount account = new BankAccount(userWithOneInvoice, "4444-4444", BankAccount.AccountType.BG);
 		userWithOneInvoice.save();
 		
-		assertNotNull(userWithOneInvoice.invoices);
-		assertNotNull(i.owner);
-		assertEquals(userWithOneInvoice, i.owner);
-		assertEquals(1, userWithOneInvoice.invoices.size());
+		Invoice invoice = new Invoice();
+		invoice.bankAccount = account;
+		invoice.save();
+		
+		assertNotNull(account.owner);
+		assertNotNull(invoice.bankAccount);
+		
+		assertEquals(userWithOneInvoice, invoice.getOwner());
+		assertEquals(1, Invoice.getInvoicesOfUser(userWithOneInvoice.id).size());
 	}
 	
 	/**
