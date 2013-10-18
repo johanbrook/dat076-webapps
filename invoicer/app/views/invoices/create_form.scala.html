@@ -63,10 +63,12 @@
 	<p>
 		<label><input type="checkbox" name="ispaid" /> Already paid</label>
 	</p>
-
-
+	
 	<p class="alignright">
 		<input type="submit" value="Add invoice" />
-		<small>or <a href="@routes.Invoices.index()" class="btn-cancel">Cancel</a></small>
 	</p>
 </form>
+
+@upload_form("Upload Invoice")(routes.Invoices.upload)
+
+<p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>

@@ -1,12 +1,16 @@
 package controllers;
 
 import java.util.List;
+
+import play.Logger;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import models.BankAccount;
 import play.mvc.Security;
 
+import util.FileHandler;
+import util.FileUploadException;
 import views.html.bankaccounts.*;
 
 
@@ -198,6 +202,87 @@ public class BankAccounts extends Application {
 			return false;
 		}
 		return false;
+	}
+	
+	/**
+	 * (Action called from POST to bankaccounts/upload)
+	 * 
+	 * Upload and parse a file to an invoice
+	 * 
+	 * @return
+	 */
+	public static Result upload() {
+		
+		final BankAccount ba;
+		
+		try {
+			
+			ba = FileHandler.uploadModel(request(), BankAccount.class);
+		
+		// Catch any errors with file upload
+		} catch (final FileUploadException e) {
+			
+			return uploadError(e.getMessage());
+		}
+		
+		BankAccount dbBankAccount = BankAccount.find.where()
+				.eq("accountNumber", ba.accountNumber).findUnique();
+		
+		if(dbBankAccount != null) {
+			
+			return uploadError("Bank account with that account number already exist!");
+		}
+		
+		ba.id = null;
+		
+		ba.save();
+			
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				setLocationHeader(ba);
+				return created(Json.toJson(ba));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "Bank account '" + ba.accountNumber + "' added!");
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
+		
+		
+	}
+	
+	private static Result uploadError(final String message) {
+		
+		return respondTo(new Responder() {
+			
+			@Override
+			public Result json() {
+				return badRequest();
+			}
+
+			@Override
+			public Result html() {
+				Logger.info("Upload error: " + message);
+				flash("error", message);
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
+		
 	}
 
 }

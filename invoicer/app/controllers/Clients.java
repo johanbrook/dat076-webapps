@@ -12,12 +12,17 @@ import java.util.List;
 
 import com.avaje.ebean.Ebean;
 
+import controllers.Application.Responder;
+
+import models.BankAccount;
 import models.Client;
 import models.Invoice;
 import play.Logger;
 import play.data.Form;
 import play.mvc.Result;
 import play.mvc.Security;
+import util.FileHandler;
+import util.FileUploadException;
 import views.html.clients.*;
 import play.libs.Json;
 import service.GMailService;
@@ -239,5 +244,83 @@ public class Clients extends Application {
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Clients.index());
+	}
+	
+	/**
+	 * (Action called from POST to /clients/upload)
+	 * 
+	 * Upload and parse a file to a Client
+	 * 
+	 * @return
+	 */
+	public static Result upload() {
+		
+		final Client client;
+		
+		try {
+			
+			client = FileHandler.uploadModel(request(), Client.class);
+		
+		// Catch any errors with file upload
+		} catch (final FileUploadException e) {
+			
+			return uploadError(e.getMessage());
+		}
+		
+		if(client.find.where().eq("name", client.name).findUnique() != null) {
+			
+			return uploadError("Client with the name '" + client.name + "' already exist!");
+		}
+		
+		client.id = null;
+		
+		client.save();
+			
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				setLocationHeader(client);
+				return created(Json.toJson(client));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "Client '" + client.name + "' added!");
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
+		
+		
+	}
+	
+	private static Result uploadError(final String message) {
+		
+		return respondTo(new Responder() {
+			
+			@Override
+			public Result json() {
+				return badRequest();
+			}
+
+			@Override
+			public Result html() {
+				Logger.info("Upload error: " + message);
+				flash("error", message);
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
+		
 	}
 }
