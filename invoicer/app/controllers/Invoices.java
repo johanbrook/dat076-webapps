@@ -8,19 +8,44 @@
 
 package controllers;
 
+import play.*;
+
+import util.FileHandler;
+import util.FileUploadException;
+
 import views.html.invoices.*;
 import models.Client;
 import models.BankAccount;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
+
 
 import com.google.inject.Inject;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
+import controllers.routes.ref;
 
 import models.Invoice;
 import play.data.Form;
 import play.libs.*;
 import play.mvc.*;
+
 import service.GMailService;
 import service.Mailer;
+
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+
 
 import akka.actor.*;
 
@@ -43,17 +68,31 @@ public class Invoices extends Application {
 	private static List<Invoice> overdueInvoicesOfCurrentUser() {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
-
-	/**
-	 * GET /invoices/json 
-	 */
-	public static Result toJSON(){
-		return ok(Json.toJson(Invoice.find.all()));
-	}
 	
 	/**
 	 * GET /invoices 
 	 */
+	public static Result invoicesByClient(final String client){
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return ok(Json.toJson(Invoice.find.where().ieq("client.name", client).findList()));
+			}
+
+			@Override
+			public Result html() {
+				return badRequest();
+			}
+
+			@Override
+			public Result script() {
+				return noContent();
+			}
+		});
+	}
+	
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
 
@@ -61,6 +100,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result json() {
+				
 				return ok(Json.toJson(Invoice.find.all()));
 			}
 
@@ -451,5 +491,89 @@ public class Invoices extends Application {
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());
+	}
+
+	/**
+	 * (Action called from POST to invoices/upload)
+	 * 
+	 * Upload and parse a file to an invoice
+	 * 
+	 * @return
+	 */
+	public static Result upload() {
+		
+		final Invoice in;
+		
+		try {
+			
+			in = FileHandler.uploadModel(request(), Invoice.class);
+		
+		// Catch any errors with file upload
+		} catch (final FileUploadException e) {
+		
+			return respondTo(new Responder() {
+	
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+	
+				@Override
+				public Result html() {
+					Logger.info("Upload error: " + e.getMessage());
+					flash("error", e.getMessage());
+					return redirect(controllers.routes.Invoices.newInvoice());
+				}
+	
+				@Override
+				public Result script() {
+					return badRequest();
+				}
+			});
+		}
+		
+		/*
+		 *  Upload successful, continue with invoice specific implementation details
+		 */
+				
+		// Replace bank account if identical found in DB (persistance error otherwise)
+		BankAccount dbBankAccount = BankAccount.find.where()
+				.eq("accountNumber", in.bankAccount.accountNumber).findUnique();
+		
+		if(dbBankAccount != null) {
+			in.bankAccount = dbBankAccount;
+		}
+		
+		// Replace client if identical found in DB (persistance error otherwise)
+		Client dbClient = Client.find.where()
+				.eq("orgNumber", in.client.orgNumber).findUnique();
+		
+		if(dbClient != null) {
+			in.client = dbClient;
+		}
+		
+		in.owner = Session.getCurrentUser();
+		in.save();
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				setLocationHeader(in);
+				return created(Json.toJson(in));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "Invoice '" + in.title + "' created!");
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return created(views.js.invoices.create.render(in));
+			}
+		});
+		
 	}
 }

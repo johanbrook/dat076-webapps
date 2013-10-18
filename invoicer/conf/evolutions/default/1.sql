@@ -12,6 +12,7 @@ create table bank_account (
   iban                      varchar(255),
   bic                       varchar(255),
   constraint ck_bank_account_account_type check (account_type in (0,1,2)),
+  constraint uq_bank_account_account_number unique (account_number),
   constraint pk_bank_account primary key (id))
 ;
 
@@ -24,6 +25,7 @@ create table client (
   org_number                varchar(255) not null,
   contact_person            varchar(255),
   email                     varchar(255),
+  constraint uq_client_name unique (name),
   constraint uq_client_org_number unique (org_number),
   constraint pk_client primary key (id))
 ;

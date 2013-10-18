@@ -8,15 +8,22 @@
 
 package models;
 
+import java.text.ParseException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model.Finder;
+
 import service.Mailable;
+
+import play.libs.Json;
+
 
 /**
  * A class representing a Client.
@@ -28,7 +35,7 @@ import service.Mailable;
 public class Client extends AbstractModel implements Mailable {
 	
 	@Required
-	@Column(nullable=false)
+	@Column(nullable=false, unique = true)
 	public String name;
 	
 	public String address;
@@ -60,5 +67,4 @@ public class Client extends AbstractModel implements Mailable {
 	public String getReceiverAddress() {
 		return this.email;
 	}
-
 }
