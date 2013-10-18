@@ -35,7 +35,7 @@ import com.google.inject.Inject;
  * @author Andreas Rolén
  *
  */
-@Security.Authenticated(Secured.class)
+
 public class Clients extends Application {
 
 	public static Form<Client> newForm = Form.form(Client.class);
@@ -180,6 +180,7 @@ public class Clients extends Application {
 	/**
 	 * POST /clients/:id/send
 	 */
+	@Security.Authenticated(Secured.class)
 	public Result sendInvoices(Long id) {
 		
 		final Client client = Client.find.byId(id);
@@ -259,6 +260,7 @@ public class Clients extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result upload() {
 		
 		final Client client;
@@ -304,6 +306,30 @@ public class Clients extends Application {
 		});
 		
 		
+	}
+	
+	/**
+	 * GET /clients/:name/invoices 
+	 */
+	public static Result invoicesByClientName(final String client){
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return ok(Json.toJson(Invoice.find.where().ieq("client.name", client).findList()));
+			}
+
+			@Override
+			public Result html() {
+				return badRequest();
+			}
+
+			@Override
+			public Result script() {
+				return noContent();
+			}
+		});
 	}
 	
 	private static Result uploadError(final String message) {

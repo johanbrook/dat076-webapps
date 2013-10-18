@@ -66,8 +66,7 @@ POST	/clients/:id/send			@controllers.Clients.sendInvoices(id: Long)
 POST    /clients/upload             controllers.Clients.upload()
 DELETE	/clients/:id				controllers.Clients.destroy(id: Long)
 
-# TODO @Henke
-# GET	/clients/:name/invoices		controllers.Clients.clientByNameInvoices(name: String)
+GET	/clients/:name/invoices		controllers.Clients.invoicesByClientName(name: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
