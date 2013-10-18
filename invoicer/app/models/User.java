@@ -41,9 +41,6 @@ public class User extends AbstractModel {
 	public String postalCode;
 	public String country;
 	
-	@OneToMany(orphanRemoval=true, mappedBy="owner", cascade=CascadeType.ALL)
-	public List<Invoice> invoices;
-	
 	@Pattern(value = "^[0-9]{6}-[0-9]{4}$", message = "error.organizationNumberPattern")
 	public String organizationNumber;
 	

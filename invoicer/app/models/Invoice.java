@@ -44,13 +44,6 @@ public class Invoice extends AbstractModel implements Mailable {
 	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date datePaid;
 	
-	// @Required
-	// TODO: should be required, but deactivate for now due to controller problems
-	@Column(nullable=false)
-	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JsonIgnore
-	public User owner;
-	
 	@Required
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
@@ -73,16 +66,6 @@ public class Invoice extends AbstractModel implements Mailable {
 	public Invoice() {
 		// Default constructor
 		this.invoiceDate = new Date();
-	}
-	
-	public Invoice(Date invoiceDate, User owner, Client client) {
-		this.invoiceDate = invoiceDate;
-		this.owner = owner;
-		this.client = client;
-	}
-
-	public Invoice(User owner, Client client) {
-		this(new Date(), owner, client);
 	}
 
 	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
