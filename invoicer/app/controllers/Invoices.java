@@ -8,19 +8,44 @@
 
 package controllers;
 
+import play.*;
+
+import util.FileHandler;
+import util.FileUploadException;
+
 import views.html.invoices.*;
 import models.Client;
 import models.BankAccount;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
+
 
 import com.google.inject.Inject;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
+import controllers.routes.ref;
 
 import models.Invoice;
 import play.data.Form;
 import play.libs.*;
 import play.mvc.*;
+
 import service.GMailService;
 import service.Mailer;
+
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+
 
 import akka.actor.*;
 
@@ -43,8 +68,10 @@ public class Invoices extends Application {
 	private static List<Invoice> overdueInvoicesOfCurrentUser() {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
-
 	
+	/**
+	 * GET /invoices 
+	 */
 	public static Result invoicesByClient(final String client){
 		
 		return respondTo(new Responder() {
@@ -73,6 +100,7 @@ public class Invoices extends Application {
 
 			@Override
 			public Result json() {
+				
 				return ok(Json.toJson(Invoice.find.all()));
 			}
 
@@ -90,17 +118,25 @@ public class Invoices extends Application {
 		});
     }
 	
+	/**
+	 * GET /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
 	}
-
+	
+	/**
+	 * GET /invoices/new 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result newInvoice() {
 		return ok(new_invoice.render(new Invoice(), form));
 	}
 	
-
+	/**
+	 * POST /invoices/
+	 */
 	public static Result create() {
 		final Form<Invoice> filledForm = form.bindFromRequest();
 
@@ -163,6 +199,9 @@ public class Invoices extends Application {
 
 	}
 	
+	/**
+	 * GET /invoices/:id/edit 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
@@ -171,6 +210,9 @@ public class Invoices extends Application {
 		return ok(edit.render(invoice, editForm));
 	}
 
+	/**
+	 * PUT /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -240,6 +282,9 @@ public class Invoices extends Application {
 		});
 	}
 	
+	/**
+	 * DELETE /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -269,6 +314,9 @@ public class Invoices extends Application {
 		}
 	}
 	
+	/**
+	 * PUT /invoices/:id/star 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result toggleStarred(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -299,6 +347,9 @@ public class Invoices extends Application {
 		return notFound();
 	}
 
+	/**
+	 * GET /invoices/starred
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result starred() {
 		final List<Invoice> starred = Invoice
@@ -323,6 +374,9 @@ public class Invoices extends Application {
 		});
 	}
 
+	/**
+	 * PUT /invoices/:id/paid 
+	 */
 	public static Result setPaid(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		// Fetch reference to Akka actor and send event
@@ -345,6 +399,9 @@ public class Invoices extends Application {
 		return notFound();
 	}
 	
+	/**
+	 * POST /invoices/:id/send 
+	 */
 	public Result sendInvoice(Long id) {
 		
 		final Invoice invoice = Invoice.find.byId(id);
@@ -387,6 +444,9 @@ public class Invoices extends Application {
 		}
 	}
 	
+	/**
+	 * POST /invoices/:id/reminder 
+	 */
 	public Result sendReminder(Long id) {
 
 		final Invoice invoice = Invoice.find.byId(id);
@@ -431,5 +491,89 @@ public class Invoices extends Application {
 
 	private static Result goHome() {
 		return redirect(controllers.routes.Invoices.index());
+	}
+
+	/**
+	 * (Action called from POST to invoices/upload)
+	 * 
+	 * Upload and parse a file to an invoice
+	 * 
+	 * @return
+	 */
+	public static Result upload() {
+		
+		final Invoice in;
+		
+		try {
+			
+			in = FileHandler.uploadModel(request(), Invoice.class);
+		
+		// Catch any errors with file upload
+		} catch (final FileUploadException e) {
+		
+			return respondTo(new Responder() {
+	
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+	
+				@Override
+				public Result html() {
+					Logger.info("Upload error: " + e.getMessage());
+					flash("error", e.getMessage());
+					return redirect(controllers.routes.Invoices.newInvoice());
+				}
+	
+				@Override
+				public Result script() {
+					return badRequest();
+				}
+			});
+		}
+		
+		/*
+		 *  Upload successful, continue with invoice specific implementation details
+		 */
+				
+		// Replace bank account if identical found in DB (persistance error otherwise)
+		BankAccount dbBankAccount = BankAccount.find.where()
+				.eq("accountNumber", in.bankAccount.accountNumber).findUnique();
+		
+		if(dbBankAccount != null) {
+			in.bankAccount = dbBankAccount;
+		}
+		
+		// Replace client if identical found in DB (persistance error otherwise)
+		Client dbClient = Client.find.where()
+				.eq("orgNumber", in.client.orgNumber).findUnique();
+		
+		if(dbClient != null) {
+			in.client = dbClient;
+		}
+		
+		in.owner = Session.getCurrentUser();
+		in.save();
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				setLocationHeader(in);
+				return created(Json.toJson(in));
+			}
+
+			@Override
+			public Result html() {
+				flash("success", "Invoice '" + in.title + "' created!");
+				return goHome();
+			}
+
+			@Override
+			public Result script() {
+				return created(views.js.invoices.create.render(in));
+			}
+		});
+		
 	}
 }

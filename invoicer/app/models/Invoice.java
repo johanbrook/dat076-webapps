@@ -8,13 +8,18 @@
 
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import controllers.Session;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;

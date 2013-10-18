@@ -28,6 +28,7 @@ GET		/invoices					controllers.Invoices.index()
 POST	/invoices					controllers.Invoices.create()
 GET 	/invoices/new 			controllers.Invoices.newInvoice()
 GET		/invoices/starred 		controllers.Invoices.starred()
+POST    /invoices/upload            controllers.Invoices.upload()
 
 # The EventSource stream
 GET		/invoices/paid			controllers.Events.getPaid()
@@ -49,7 +50,8 @@ GET		/invoices/:client			controllers.Invoices.invoicesByClient(client: String)
 GET     /accounts      			controllers.BankAccounts.index()
 POST    /accounts      			controllers.BankAccounts.create()
 GET     /accounts/:id      		controllers.BankAccounts.show(id: Long)
-POST    /accounts/:id      		controllers.BankAccounts.update(id: Long)
+POST    /accounts/$id<[0-9]+>	controllers.BankAccounts.update(id: Long)
+POST    /accounts/upload        controllers.BankAccounts.upload()
 GET		/accounts/:id/edit		controllers.BankAccounts.edit(id: Long)
 GET		/accounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
 
@@ -59,8 +61,9 @@ GET		/clients					controllers.Clients.index()
 POST	/clients					controllers.Clients.create()
 GET		/clients/:id				controllers.Clients.show(id: Long)
 GET		/clients/:id/edit			controllers.Clients.edit(id: Long)
-POST	/clients/:id				controllers.Clients.update(id: Long)
+POST	/clients/$id<[0-9]+>        controllers.Clients.update(id: Long)
 POST	/clients/:id/send			@controllers.Clients.sendInvoices(id: Long)
+POST    /clients/upload             controllers.Clients.upload()
 DELETE	/clients/:id				controllers.Clients.destroy(id: Long)
 
 # TODO @Henke
