@@ -22,8 +22,7 @@
 	</ul>
 	}	
 	
-	<form action="@routes.Invoices.update(invoice.id)" method="post" data-remote="true">
-		<input type="hidden" name="_method" value="PUT" />
+	<form action="@routes.Invoices.update(invoice.id)" method="post" data-method="put" data-remote="true">
 		
 		<p>
 			<label for="title">Title</label>
