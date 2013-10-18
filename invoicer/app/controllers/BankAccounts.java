@@ -38,7 +38,7 @@ public class BankAccounts extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
-		if (filledForm.hasErrors() || !validate(filledForm)) {
+		if (filledForm.hasErrors() || !validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
 
 			flash("error", "There were errors in your form.");
 			return badRequest(index.render(BankAccount.find.all(), filledForm));
@@ -113,7 +113,7 @@ public class BankAccounts extends Application {
 		
 		// Validates in controller because annotation values in model can not change
 		// during runtime
-		if (validate(filledForm)) {
+		if (validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
 			bankAccount.accountNumber = filledForm.get().accountNumber;
 			bankAccount.accountType = filledForm.get().accountType;
 		}
@@ -179,22 +179,21 @@ public class BankAccounts extends Application {
 	}
 
 	// Method to validate account type with the account number
-	private static boolean validate(Form<BankAccount> filledForm) {
-		String aNumber = filledForm.get().accountNumber;
-		switch (filledForm.get().accountType) {
+	private static boolean validate(BankAccount.AccountType accountType, String accountNumber) {
+		switch (accountType) {
 		case PG:
-			if (aNumber.matches("[0-9]{1,6}-[0-9]{1}")) {
+			if (accountNumber.matches("[0-9]{1,6}-[0-9]{1}")) {
 				
 				return true;
 			}
 			break;
 		case BG:
-			if (aNumber.matches("[0-9]{4}-[0-9]{4}")) {
+			if (accountNumber.matches("[0-9]{4}-[0-9]{4}")) {
 				return true;
 			}
 			break;
 		case BUSINESSACCOUNT:
-			if (aNumber.matches("[0-9]{4}(-[0-9]{0,1})[0-9]{0,9}(-[0-9]){0,1}")) {
+			if (accountNumber.matches("[0-9]{4}(-[0-9]{0,1})[0-9]{0,9}(-[0-9]){0,1}")) {
 				return true;
 			}
 			break;
@@ -232,6 +231,10 @@ public class BankAccounts extends Application {
 		if(dbBankAccount != null) {
 			
 			return uploadError("Bank account with that account number already exist!");
+		}
+		
+		else if(!validate(ba.accountType, ba.accountNumber)) {
+			return uploadError("The account number does not match the account type!");
 		}
 		
 		ba.id = null;
