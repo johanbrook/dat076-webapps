@@ -6,6 +6,7 @@ package util;
 import java.io.File;
 import java.io.IOException;
 
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;

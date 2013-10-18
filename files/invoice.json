@@ -1,14 +1,11 @@
 {"title":"Json Invoice",
-
 "invoiceDate":"2012-09-10",
-
 "dueDate":"2013-09-30",
-
 "datePaid":"2013-10-10",
 
 "client":
 	{"id":1,
-	"name":"Chalmerso",
+	"name":"Chalmers",
 	"address":"Teknologgarden 2",
 	"postalCode":"412 58",
 	"country":"Sweden",
