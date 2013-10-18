@@ -41,7 +41,7 @@
 		var dataType = "script", method, url, data;
 
 		if(element.is("form")) {
-			method = element.find("[name='_method']").val() || element.attr("method");
+			method = element.data("method") || element.attr("method");
 			url = element.attr("action");
 			data = element.serializeArray();
 		}
