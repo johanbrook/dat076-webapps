@@ -47,13 +47,14 @@ public class BankAccounts extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
-		if (filledForm.hasErrors() || !validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
+		final BankAccount ba = filledForm.get();
+		
+		if (filledForm.hasErrors() || !validate(ba.accountType, ba.accountNumber)) {
 
 			flash("error", "There were errors in your form.");
 			return badRequest(index.render(BankAccount.find.all(), filledForm));
 			
 		} else {
-			final BankAccount ba = filledForm.get();
 			
 			ba.owner = Session.getCurrentUser();
 			ba.save();
