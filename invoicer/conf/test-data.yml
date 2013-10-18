@@ -58,7 +58,7 @@
 - !!models.Invoice
     title: Test invoice
     client: *chalmers
-    dueDate: 2013-09-30
+    dueDate: 2015-09-30
     totalRate: 100.10
     bankAccount: *account
     

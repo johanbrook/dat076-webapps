@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import test.BaseTest;
+import util.DateOverlapException;
 
 public class InvoiceTest extends BaseTest {
 	
@@ -65,10 +66,10 @@ public class InvoiceTest extends BaseTest {
 		assertNotNull(i.invoiceDate);
 	}
 	
-	@Test(expected = javax.persistence.PersistenceException.class)
+	@Test(expected = DateOverlapException.class)
 	public void testInvoiceDueDateShouldBeAfterDate() {
 		Invoice i = new Invoice();
-		i.dueDate = new Date(System.currentTimeMillis() - 1000);
+		i.dueDate = DateTime.now().minusMonths(5).toDate();
 		
 		i.save();
 	}

@@ -14,7 +14,6 @@ import javax.persistence.*;
 
 import org.joda.time.DateTime;
 
-import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -22,6 +21,7 @@ import play.data.validation.Constraints.Required;
 import play.data.format.*;
 import service.Mailable;
 import util.CustomDateSerializer;
+import util.DateOverlapException;
 
 @Entity
 public class Invoice extends AbstractModel implements Mailable {
@@ -65,9 +65,14 @@ public class Invoice extends AbstractModel implements Mailable {
 	// Finder object
 	public static Finder<Long, Invoice> find = new Finder<Long, Invoice>(Long.class, Invoice.class);
 	
+	/**
+	 * Create new invoice with invoice date set to current date and
+	 * due date set to a month from now.
+	 */
 	public Invoice() {
 		// Default constructor
 		this.invoiceDate = new Date();
+		this.dueDate = DateTime.now().plusMonths(1).toDate();
 	}
 
 	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
@@ -126,5 +131,22 @@ public class Invoice extends AbstractModel implements Mailable {
 	@JsonIgnore
 	public String getReceiverAddress() {
 		return this.client.email;
+	}
+	
+	/*
+	 * Override Model#save() in order to ensure that the due date
+	 * is before the invoice date before persisting.
+	 * 
+	 * @see play.db.ebean.Model#save()
+	 * @throws DateOverlapException If the due date is before the invoice date
+	 */
+	@Override
+	public void save() {
+		if(this.invoiceDate.compareTo(this.dueDate) > 0) {
+			throw new DateOverlapException(this.invoiceDate, this.dueDate);
+		}
+		else {
+			super.save();
+		}
 	}
 }
