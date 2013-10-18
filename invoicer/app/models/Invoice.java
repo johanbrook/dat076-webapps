@@ -13,6 +13,8 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
+
+import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -69,10 +71,11 @@ public class Invoice extends AbstractModel implements Mailable {
 	}
 
 	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
-		return find.where().like("owner", String.valueOf(userId)).orderBy("dueDate");
+		return Invoice.find.fetch("bankAccount").where().eq("owner_id", userId.toString()).query();
 	}
 	
 	public static List<Invoice> getInvoicesOfUser(Long userId) {
+		
 		return invoicesOfUser(userId).findList();
 	}
 
