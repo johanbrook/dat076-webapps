@@ -10,6 +10,8 @@ package test.controllers;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,17 +19,30 @@ import java.util.Map;
 import models.Client;
 import models.Invoice;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.avaje.ebean.Ebean;
 import com.google.common.collect.ImmutableMap;
 
+import play.Logger;
 import play.data.Form;
 import play.libs.Yaml;
 import play.mvc.Result;
+import play.test.FakeApplication;
+import play.test.Helpers;
+import play.test.TestServer;
 import static play.test.Helpers.*;
 import test.BaseTest;
+import util.FileHandler;
 
 public class ClientsTest extends BaseTest {
 
@@ -131,6 +146,62 @@ public class ClientsTest extends BaseTest {
 
 		assertNull(Client.find.byId(invoiceId));
 		assertNull(tmpInvoice);
+	}
+	
+	@Test
+	public void testUpload() {
+		
+		/*
+		 * No support in play for MultipartFormData, therefore instead use
+		 * apache DefaultHttpCLient to send request.
+		 * 
+		 * Need server to listen to port in order for this to work
+		 */
+		FakeApplication application = Helpers.fakeApplication(Helpers.inMemoryDatabase()); 
+	    TestServer testServer = testServer(9001, application); 
+	
+	    running(testServer, new Runnable() { 
+	
+	            @Override 
+	            public void run() { 
+	            	
+	            	assertNull(Client.find.where().eq("NAME", "JSON Client").findUnique());
+	            	
+	            	HttpClient httpclient = new DefaultHttpClient();
+	        	    HttpPost httppost = new HttpPost("http://localhost:9001/clients/upload");
+
+	        	    FileBody jsonFile = new FileBody(new File(
+	        	    		TEST_FILE_FOLDER + "clientTest.json"), "application/json");
+
+	        	    MultipartEntity reqEntity = new MultipartEntity();
+	        	    reqEntity.addPart(FileHandler.FILE_PART_NAME, jsonFile);
+
+	        	    httppost.setEntity(reqEntity);
+
+	        	    HttpResponse response;
+	        	    
+	        	    try {
+	        	        response = httpclient.execute(httppost);
+	        	        HttpEntity resEntity = response.getEntity();
+	        	        
+	        	        List<Client> list = Client.find.all();
+	        	        for(Client c : list) {
+	        	        
+	        	        	Logger.info(c.name);
+	        	        }
+	        	        
+	        	        assertNotNull(Client.find.where().eq("NAME", "JSON Client").findUnique());
+	        	        assertEquals(response.getStatusLine().getStatusCode(), 200);
+	        	        
+	        	    } catch (ClientProtocolException e) {
+	        	        e.printStackTrace();
+	        		} catch (IOException e) {
+	        		        e.printStackTrace();
+	        		}
+	            } 
+	    }); 
+	    
+	    Helpers.stop(testServer);
 	}
 
 }

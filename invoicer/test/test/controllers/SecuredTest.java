@@ -40,7 +40,6 @@ public class SecuredTest extends BaseTest {
 	        fakeRequest().withSession("userId", super.userId).withHeader(ACCEPT, "text/html"));
 	    
 	    assertEquals(200, status(result));
-	    assertEquals("/users/show", header(LOCATION, result));
 	}
 	
 	/*
