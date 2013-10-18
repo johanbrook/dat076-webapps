@@ -113,12 +113,30 @@ public class Clients extends Application {
 	 */
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
-		Client client = Client.find.byId(id);
-		Form<Client> form = newForm.bindFromRequest();
+		final Client client = Client.find.byId(id);
+		final Form<Client> form = newForm.bindFromRequest();
 
 		if (form.hasErrors()) {
-			flash("fail", "The form has errors.");
-			return badRequest(index.render(Client.find.all(), newForm));
+			
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result script() {
+					return ok(views.js.clients.update.render(client, form));
+				}
+				
+				@Override
+				public Result json() {
+					return badRequest();
+				}
+				
+				@Override
+				public Result html() {
+					flash("fail", "The form has errors.");
+					return badRequest(edit.render(client, form));
+				}
+			});
+
 		} else {
 			client.name = form.get().name;
 			client.address = form.get().address;
@@ -130,10 +148,26 @@ public class Clients extends Application {
 
 			client.update(id);
 
-			flash("success", "The Client: " + client.name
-					+ " was successfully updated");
+			return respondTo(new Responder() {
+				
+				@Override
+				public Result script() {
+					return ok(views.js.clients.update.render(client, form));
+				}
+				
+				@Override
+				public Result json() {
+					return noContent();
+				}
+				
+				@Override
+				public Result html() {
+					flash("success", "The Client: " + client.name
+							+ " was successfully updated");
 
-			return goHome();
+					return goHome();
+				}
+			});
 		}
 	}
 
