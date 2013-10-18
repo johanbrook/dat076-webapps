@@ -22,8 +22,7 @@
 	</ul>
 	}	
 	
-	@form(routes.Clients.update(client.id)) {
-		<input type="hidden" name="_method" value="PUT" />
+	<form action="@routes.Clients.update(client.id)" data-remote="true" data-method="put">
 		
 		<p>
 			<label for="name">Name</label>
@@ -67,5 +66,5 @@
 		<p class="back">
 			<a href="@routes.Clients.show(client.id)">← Back to client</a>
 		</p>
-	}
+	</form>
 }

@@ -49,13 +49,14 @@
 			method = element.data("method");
 			url = element.attr("href");
 			data = element.data("params") || null;
-			dataType = element.data("type") || "script";
 		}
 
-		options = {
+		dataType = element.data("type");
+
+		var options = {
 			type: method || "GET", 
 			data: data, 
-			dataType: dataType,
+			dataType: dataType || "script",
 
 			success: function(data, status, xhr) {
 				element.trigger("ajax:success", [data, status, xhr]);

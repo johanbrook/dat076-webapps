@@ -4,5 +4,4 @@
 	Util.showError("Your form contains errors!");
 } else {
 	Util.showSuccess("Your invoice was updated!");
-	$("main h1:first").text("Editing @invoice.title");
 }
