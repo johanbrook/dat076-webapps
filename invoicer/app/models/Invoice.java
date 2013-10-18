@@ -87,6 +87,10 @@ public class Invoice extends AbstractModel implements Mailable {
 		return Invoice.find.where().eq("client_id", client.id).findList();
 	}
 	
+	public User getOwner() {
+		return this.bankAccount.owner;
+	}
+	
 	public boolean wasPaidOnTime() {
 		return this.isPaid() && !this.isOverdue(this.datePaid);
 	}

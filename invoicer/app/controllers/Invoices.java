@@ -129,7 +129,6 @@ public class Invoices extends Application {
 		} else {
 			final Invoice in = filledForm.get();
 
-			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId(Long.parseLong(Form.form()
 					.bindFromRequest().get("client.id")));
 

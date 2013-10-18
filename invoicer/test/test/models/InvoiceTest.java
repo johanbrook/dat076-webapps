@@ -54,11 +54,6 @@ public class InvoiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void testInvoiceShouldHaveOwner() {
-		assertNotNull(this.invoice.owner);
-	}
-	
-	@Test
 	public void testInvoiceShouldHaveClient() {
 		assertNotNull(this.invoice.client);
 	}
@@ -134,7 +129,7 @@ public class InvoiceTest extends BaseTest {
 		
 		assertNotNull(invoices);
 		assertTrue(invoices.contains(testInvoice));
-		assertTrue(invoices.get(0).owner.equals(user));
+		assertTrue(invoices.get(0).getOwner().equals(user));
 	}
 	
 	@Test

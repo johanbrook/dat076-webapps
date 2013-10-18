@@ -1,3 +1,13 @@
+# Users
+
+- &john !!models.User
+  username: johndoe
+  password: secret
+  
+- &robin !!models.User
+  username: robindough
+  password: secret
+
 # BankAccounts
 
 - &account !!models.BankAccount
@@ -6,6 +16,7 @@
   accountType: BG
   iban: SE0004563215864902
   bic: SWEDSESS
+  owner: *john
 
 # Clients
 
@@ -32,17 +43,7 @@
   country: sweden
   orgNumber: 111111-2222
   contactPerson: karin markides
-  
 
-# Users
-
-- &john !!models.User
-  username: johndoe
-  password: secret
-  
-- &robin !!models.User
-  username: robindough
-  password: secret
 
 # Invoices
 
@@ -71,7 +72,6 @@
    
 - !!models.Invoice
    title: Invoice was not paid on time
-   owner: *john
    client: *chalmers
    dueDate: 2013-09-30
    datePaid: 2013-10-02
