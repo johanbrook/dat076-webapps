@@ -206,6 +206,8 @@ public class InvoicesTest extends BaseTest {
 	@Test
 	public void testUpload() {
 		
+		//TODO: Session needs to be set somehow to auth the method call
+		
 		/*
 		 * No support in play for MultipartFormData, therefore instead use
 		 * apache DefaultHttpCLient to send request.

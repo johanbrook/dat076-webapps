@@ -67,8 +67,6 @@ public class FileHandler<T> {
 					
 					model = Json.fromJson(jsonNode, clazz);
 					
-					Logger.info(content);
-					
 				} catch (IOException e) {
 					
 					e.printStackTrace();

@@ -151,6 +151,8 @@ public class ClientsTest extends BaseTest {
 	@Test
 	public void testUpload() {
 		
+		//TODO: Session needs to be set somehow to auth the method call
+		
 		/*
 		 * No support in play for MultipartFormData, therefore instead use
 		 * apache DefaultHttpCLient to send request.
@@ -185,10 +187,6 @@ public class ClientsTest extends BaseTest {
 	        	        HttpEntity resEntity = response.getEntity();
 	        	        
 	        	        List<Client> list = Client.find.all();
-	        	        for(Client c : list) {
-	        	        
-	        	        	Logger.info(c.name);
-	        	        }
 	        	        
 	        	        assertNotNull(Client.find.where().eq("NAME", "JSON Client").findUnique());
 	        	        assertEquals(response.getStatusLine().getStatusCode(), 200);
