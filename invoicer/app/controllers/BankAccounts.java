@@ -1,15 +1,10 @@
 package controllers;
 
 import java.util.List;
-
-import controllers.Application.Responder;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import models.BankAccount;
-import models.Client;
-import models.Invoice;
-import models.BankAccount.AccountType;
 import play.mvc.Security;
 
 import views.html.bankaccounts.*;
