@@ -8,6 +8,11 @@ import play.api.templates.Template1;
 import play.libs.Json;
 import play.mvc.*;
 
+/**
+ * Application controller.
+ * 
+ * @author Johan
+ */
 public abstract class Application extends Controller {
 	
 	public static Result index() {
