@@ -10,6 +10,7 @@ package controllers;
 
 import play.*;
 
+import util.DateOverlapException;
 import util.FileHandler;
 import util.FileUploadException;
 
@@ -151,10 +152,8 @@ public class Invoices extends Application {
 
 				@Override
 				public Result html() {
-					flash("error", "There were errors in your form.");
-					return badRequest(index.render(invoicesOfCurrentUser(),
-							paidInvoicesOfCurrentUser(),
-							overdueInvoicesOfCurrentUser()));
+					flash("fail", "There were errors in your form.");
+					return badRequest(new_invoice.render(filledForm.get(), filledForm));
 				}
 
 				@Override
@@ -173,7 +172,13 @@ public class Invoices extends Application {
 
 			in.setPaid(Form.form().bindFromRequest().get("ispaid") != null);
 
-			in.save();
+			try {
+				in.save();
+			}
+			catch(DateOverlapException ex) {
+				flash("fail", "Due date can't be before invoice date!");
+				return badRequest(new_invoice.render(in, filledForm));
+			}
 
 			return respondTo(new Responder() {
 
@@ -520,7 +525,7 @@ public class Invoices extends Application {
 				@Override
 				public Result html() {
 					Logger.info("Upload error: " + e.getMessage());
-					flash("error", e.getMessage());
+					flash("fail", e.getMessage());
 					return redirect(controllers.routes.Invoices.newInvoice());
 				}
 	
