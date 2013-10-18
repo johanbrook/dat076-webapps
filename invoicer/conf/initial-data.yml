@@ -52,13 +52,12 @@
   accountType: PG
   iban: SE0004563215864902
   bic: SWEDSESS
-  owner: *johan
+  owner: *henke
 
 # Invoices
 
 - !!models.Invoice
   title: Test invoice
-  owner: *johan
   client: *chalmers
   dueDate: 2013-09-30
   invoiceDate: 2013-09-01
@@ -68,7 +67,6 @@
 
 - !!models.Invoice
   title: Test invoice 2
-  owner: *henke
   client: *chalmers
   dueDate: 2013-10-30
   totalRate: 5000
@@ -76,7 +74,6 @@
 
 - !!models.Invoice
   title: Test invoice 3
-  owner: *johan
   client: *chalmers
   invoiceDate: 2013-08-01
   dueDate: 2013-08-31
@@ -87,7 +84,6 @@
 
 - !!models.Invoice
   title: Test invoice 4
-  owner: *johan
   client: *pripps
   invoiceDate: 2013-10-01
   dueDate: 2013-10-30
@@ -97,7 +93,6 @@
 
 - !!models.Invoice
   title: Test invoice 5
-  owner: *johan
   client: *pripps
   invoiceDate: 2013-09-01
   dueDate: 2013-10-30
@@ -106,7 +101,6 @@
 
 - !!models.Invoice
   title: Test invoice 6
-  owner: *johan
   client: *pripps
   invoiceDate: 2013-10-01
   dueDate: 2013-10-30

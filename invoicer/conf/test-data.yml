@@ -48,7 +48,6 @@
 
 - !!models.Invoice
     title: Test client destroy
-    owner: *john
     client: *invoiceClient
     dueDate: 2013-09-30
     starred: true
@@ -57,7 +56,6 @@
 
 - !!models.Invoice
     title: Test invoice
-    owner: *john
     client: *chalmers
     dueDate: 2013-09-30
     totalRate: 100.10
@@ -82,7 +80,6 @@
 
 - !!models.Invoice
   title: Test invoice 2
-  owner: *robin
   dueDate: 2013-09-30
   starred: true
   totalRate: 900
@@ -90,7 +87,6 @@
 
 - !!models.Invoice
   title: Invoice was paid on time 2
-  owner: *robin
   dueDate: 2013-09-30
   datePaid: 2013-09-28
   totalRate: 495.50
@@ -98,7 +94,6 @@
 
 - !!models.Invoice
   title: Invoice was not paid on time 2
-  owner: *robin
   dueDate: 2013-09-30
   datePaid: 2013-10-02
   bankAccount: *account
