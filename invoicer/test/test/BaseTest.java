@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
+import static play.test.Helpers.testServer;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,17 +21,21 @@ import org.mindrot.jbcrypt.BCrypt;
 import play.libs.Yaml;
 import play.test.FakeApplication;
 import play.test.Helpers;
+import play.test.TestServer;
 
 public class BaseTest {
 	
 	public static FakeApplication app;
 	public static String createDdl = "";
 	public static String dropDdl = "";
+	public final static String TEST_FILE_FOLDER = "test/files/";
 	public String userId;
 
 	@BeforeClass
 	public static void startApp() throws IOException {
+		
 		app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
+		
 		Helpers.start(app); 
 		
 		String evolutions = FileUtils.readFileToString(app.getWrappedApplication().getFile("conf/evolutions/default/1.sql"));

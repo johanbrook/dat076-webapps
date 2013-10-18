@@ -1,0 +1,26 @@
+{"title":"Json Invoice",
+"invoiceDate":"2012-09-10",
+"dueDate":"2013-09-30",
+"datePaid":"2013-10-10",
+
+"client":
+	{"id":1,
+	"name":"Chalmers",
+	"address":"Teknologgarden 2",
+	"postalCode":"412 58",
+	"country":"Sweden",
+	"orgNumber":"556479-5598",
+	"contactPerson":"Karin Markides",
+	"email":"andreasrolen93@gmail.com"},
+	
+"bankAccount":
+	{"id":1,
+	"accountType":"BG",
+	"accountNumber":"1234-5678",
+	"bank":"Swedbank",
+	"iban":"SE0004563215864902",
+	"bic":"SWEDSESS"},
+	
+"starred":false,
+"totalRate":0.0
+}
