@@ -101,24 +101,25 @@ public class BankAccounts extends Application {
 		final BankAccount bankAccount = BankAccount.find.byId(id);
 		final Form<BankAccount> filledForm = form.bindFromRequest();
 
-		if (filledForm.hasErrors()) {
+		if (filledForm.hasErrors()|| !validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
+		
 			return respondTo(new Responder() {
 				@Override
 				public Result json() {
+					System.out.println("JSON");
 					return badRequest();
 				}
 
 				@Override
 				public Result html() {
-					flash("fail",
-							"Something went wrong when trying to update the bank account");
 					return badRequest(views.html.bankaccounts.edit.render(bankAccount,
 							filledForm));
 				}
 
 				@Override
 				public Result script() {
-					return badRequest();
+					Logger.info("FEL!!");
+					return ok(views.js.bankaccounts.update.render(bankAccount, filledForm, false));
 				}
 			});
 		}
@@ -152,7 +153,8 @@ public class BankAccounts extends Application {
 
 			@Override
 			public Result script() {
-				return ok();
+				Logger.info("RÄTT!!");
+				return ok(views.js.bankaccounts.update.render(bankAccount, filledForm, true));
 			}
 		});
 	}

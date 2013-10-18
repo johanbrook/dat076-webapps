@@ -1,6 +1,6 @@
-@(bankAccount : BankAccount, editForm: Form[BankAccount])
+@(bankAccount : BankAccount, editForm: Form[BankAccount], validation: Boolean)
 
-@if(editForm.hasErrors()) {
+@if(editForm.hasErrors()|| !validation) {
 	Util.showError("Your form contains errors!");
 } else {
 	Util.showSuccess("Your account was updated!");

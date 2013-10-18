@@ -1,4 +1,4 @@
-@( bankAccount: BankAccount, editForm: Form[BankAccount] )
+ @( bankAccount: BankAccount, editForm: Form[BankAccount] )
 @import helper._
 
 @main("Edit bank account") {
@@ -20,8 +20,9 @@
 		}
 	</ul>
 	}	
-	
-	@form(routes.BankAccounts.update(bankAccount.id)) {  
+	 
+	<form action="@routes.BankAccounts.update(bankAccount.id)" method="post" data-remote="true" data-method="PUT">
+		<!--  <input type="hidden" name="_method" value="PUT" /> -->
 
 		<p>
 			<label for="acc-nr">Account number</label>
@@ -52,5 +53,5 @@
 		<p>
 			<input type="submit" value="Update" />
 		</p>
-	}
+	</form>
 }

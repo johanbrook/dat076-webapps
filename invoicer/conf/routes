@@ -43,15 +43,12 @@ HEAD		/invoices/:id/paid 	controllers.Invoices.setPaid(id: Long)
 DELETE	/invoices/:id				controllers.Invoices.destroy(id: Long)
 PUT		/invoices/:id/star		controllers.Invoices.toggleStarred(id: Long)
 
-# TODO @Henke
-GET		/invoices/:client			controllers.Invoices.invoicesByClient(client: String)
-
 # Bank Accounts
 
 GET     /accounts      			controllers.BankAccounts.index()
 POST    /accounts      			controllers.BankAccounts.create()
 GET     /accounts/:id      		controllers.BankAccounts.show(id: Long)
-POST    /accounts/$id<[0-9]+>	controllers.BankAccounts.update(id: Long)
+PUT    /accounts/$id<[0-9]+>	controllers.BankAccounts.update(id: Long)
 POST    /accounts/upload        controllers.BankAccounts.upload()
 GET		/accounts/:id/edit		controllers.BankAccounts.edit(id: Long)
 GET		/accounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
