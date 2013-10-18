@@ -551,7 +551,6 @@ public class Invoices extends Application {
 			in.client = dbClient;
 		}
 		
-		in.owner = Session.getCurrentUser();
 		in.save();
 		
 		return respondTo(new Responder() {
