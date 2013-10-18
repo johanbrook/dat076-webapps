@@ -70,29 +70,6 @@ public class Invoices extends Application {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
 	
-	/**
-	 * GET /invoices 
-	 */
-	public static Result invoicesByClient(final String client){
-		
-		return respondTo(new Responder() {
-
-			@Override
-			public Result json() {
-				return ok(Json.toJson(Invoice.find.where().ieq("client.name", client).findList()));
-			}
-
-			@Override
-			public Result html() {
-				return badRequest();
-			}
-
-			@Override
-			public Result script() {
-				return noContent();
-			}
-		});
-	}
 	
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
