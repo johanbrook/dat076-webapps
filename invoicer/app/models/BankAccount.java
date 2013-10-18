@@ -37,27 +37,7 @@ public class BankAccount extends AbstractModel {
 
 	@Pattern(value = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)")
 	public String bic;
-
-	public enum AccountType{
-		PG("PG"),
-		BG("BG"),
-		BUSINESSACCOUNT("Business Account");
-		
-		private String name;
-		
-		private AccountType(String name){
-			this.name = name;
-		}
-		
-		public String getName(){
-			return name;
-		}
-		
-	}
-
-	// Finder object
-	public static Model.Finder<Long, BankAccount> find = new Model.Finder<Long, BankAccount>(Long.class, BankAccount.class);
-
+	
 	public BankAccount(User owner, String accountNumber, AccountType accountType) {
 		this.owner = owner;
 		this.accountNumber = accountNumber;
@@ -73,6 +53,26 @@ public class BankAccount extends AbstractModel {
 		this.iban = iban;
 		this.bic = bic;
 	}
+
+	public enum AccountType{
+		PG("PG"),
+		BG("BG"),
+		BUSINESSACCOUNT("Business Account");
+		
+		private String name;
+		
+		AccountType(String name){
+			this.name = name;
+		}
+		
+		public String getName(){
+			return name;
+		}
+		
+	}
+	
+	// Finder object
+	public static Model.Finder<Long, BankAccount> find = new Model.Finder<Long, BankAccount>(Long.class, BankAccount.class);
 	
 	public static com.avaje.ebean.Query<BankAccount> bankAccountsOfUser(Long userId) {
 		return find.where().like("owner", String.valueOf(userId)).orderBy("accountType");
