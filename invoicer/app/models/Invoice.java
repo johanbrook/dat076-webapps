@@ -15,6 +15,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.joda.time.DateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -25,6 +26,7 @@ import play.data.validation.Constraints.Required;
 import play.data.format.*;
 import service.Mailable;
 import util.CustomDateSerializer;
+import util.DateOverlapException;
 
 @Entity
 public class Invoice extends AbstractModel implements Mailable {
@@ -49,13 +51,6 @@ public class Invoice extends AbstractModel implements Mailable {
 	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date datePaid;
 	
-	// @Required
-	// TODO: should be required, but deactivate for now due to controller problems
-	@Column(nullable=false)
-	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JsonIgnore
-	public User owner;
-	
 	@Required
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	public Client client;
@@ -75,26 +70,22 @@ public class Invoice extends AbstractModel implements Mailable {
 	// Finder object
 	public static Finder<Long, Invoice> find = new Finder<Long, Invoice>(Long.class, Invoice.class);
 	
+	/**
+	 * Create new invoice with invoice date set to current date and
+	 * due date set to a month from now.
+	 */
 	public Invoice() {
 		// Default constructor
 		this.invoiceDate = new Date();
-	}
-	
-	public Invoice(Date invoiceDate, User owner, Client client) {
-		this.invoiceDate = invoiceDate;
-		this.owner = owner;
-		this.client = client;
-	}
-
-	public Invoice(User owner, Client client) {
-		this(new Date(), owner, client);
+		this.dueDate = DateTime.now().plusMonths(1).toDate();
 	}
 
 	public static com.avaje.ebean.Query<Invoice> invoicesOfUser(Long userId) {
-		return find.where().like("owner", String.valueOf(userId)).orderBy("dueDate");
+		return Invoice.find.fetch("bankAccount").where().eq("owner_id", userId.toString()).query();
 	}
 	
 	public static List<Invoice> getInvoicesOfUser(Long userId) {
+		
 		return invoicesOfUser(userId).findList();
 	}
 
@@ -107,6 +98,10 @@ public class Invoice extends AbstractModel implements Mailable {
 	
 	public static List<Invoice> getInvoicesOfClient(Client client) {
 		return Invoice.find.where().eq("client_id", client.id).findList();
+	}
+	
+	public User getOwner() {
+		return this.bankAccount.owner;
 	}
 	
 	public boolean wasPaidOnTime() {
@@ -141,5 +136,22 @@ public class Invoice extends AbstractModel implements Mailable {
 	@JsonIgnore
 	public String getReceiverAddress() {
 		return this.client.email;
+	}
+	
+	/*
+	 * Override Model#save() in order to ensure that the due date
+	 * is before the invoice date before persisting.
+	 * 
+	 * @see play.db.ebean.Model#save()
+	 * @throws DateOverlapException If the due date is before the invoice date
+	 */
+	@Override
+	public void save() {
+		if(this.invoiceDate.compareTo(this.dueDate) > 0) {
+			throw new DateOverlapException(this.invoiceDate, this.dueDate);
+		}
+		else {
+			super.save();
+		}
 	}
 }

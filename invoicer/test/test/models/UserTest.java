@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
+import models.BankAccount;
 import models.Invoice;
 import models.User;
 
@@ -79,38 +80,23 @@ public class UserTest extends BaseTest {
 	}
 	
 	@Test
-	public void testDeleteUser() {
-		this.user.delete();
-		
-		User john = User.find.where().eq("username", "johndoe").findUnique();
-		assertNull(john);
-	}
-	
-	@Test
 	public void testUserHasInvoice() {
-
-		Invoice i = new Invoice();
+		
 		User userWithOneInvoice = new User("johnny", "password");
-		userWithOneInvoice.invoices.add(i);
+		BankAccount account = new BankAccount(userWithOneInvoice, "4444-4444", BankAccount.AccountType.BG);
 		userWithOneInvoice.save();
 		
-		assertNotNull(userWithOneInvoice.invoices);
-		assertNotNull(i.owner);
-		assertEquals(userWithOneInvoice, i.owner);
-		assertEquals(1, userWithOneInvoice.invoices.size());
+		Invoice invoice = new Invoice();
+		invoice.bankAccount = account;
+		invoice.save();
+		
+		assertNotNull(account.owner);
+		assertNotNull(invoice.bankAccount);
+		
+		assertEquals(userWithOneInvoice, invoice.getOwner());
+		assertEquals(1, Invoice.getInvoicesOfUser(userWithOneInvoice.id).size());
 	}
 	
-	/**
-	 * Deleting a User should also delete the User's Invoices.
-	 */
-	@Test
-	public void testDeleteUserShouldDeleteInvoices() {
-		this.user.delete();
-		
-		assertNull( Invoice.find.where().eq("title", "Test invoice").findUnique() );
-		assertNull( Invoice.find.where().eq("owner_id", this.user.id).findUnique() );
-		
-	}
 	
 	@Test
 	public void authenticateUser() {

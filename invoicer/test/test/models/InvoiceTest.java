@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import test.BaseTest;
+import util.DateOverlapException;
 
 public class InvoiceTest extends BaseTest {
 	
@@ -54,11 +55,6 @@ public class InvoiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void testInvoiceShouldHaveOwner() {
-		assertNotNull(this.invoice.owner);
-	}
-	
-	@Test
 	public void testInvoiceShouldHaveClient() {
 		assertNotNull(this.invoice.client);
 	}
@@ -70,10 +66,10 @@ public class InvoiceTest extends BaseTest {
 		assertNotNull(i.invoiceDate);
 	}
 	
-	@Test(expected = javax.persistence.PersistenceException.class)
+	@Test(expected = DateOverlapException.class)
 	public void testInvoiceDueDateShouldBeAfterDate() {
 		Invoice i = new Invoice();
-		i.dueDate = new Date(System.currentTimeMillis() - 1000);
+		i.dueDate = DateTime.now().minusMonths(5).toDate();
 		
 		i.save();
 	}
@@ -134,7 +130,7 @@ public class InvoiceTest extends BaseTest {
 		
 		assertNotNull(invoices);
 		assertTrue(invoices.contains(testInvoice));
-		assertTrue(invoices.get(0).owner.equals(user));
+		assertTrue(invoices.get(0).getOwner().equals(user));
 	}
 	
 	@Test

@@ -166,7 +166,10 @@ public class InvoicesTest extends BaseTest {
 
 	@Test
 	public void testEventSetPaid() {
-		Invoice unPaidInvoice = Invoice.find.where().isNull("datePaid").findList().get(0);
+		// Find unpaid invoice
+		Invoice unPaidInvoice = Invoice.find.where().eq("title", "Test invoice").findUnique();
+		
+		assertNull(unPaidInvoice.datePaid);
 
 		Result paid = callAction(
 					controllers.routes.ref.Invoices.setPaid(unPaidInvoice.id),
