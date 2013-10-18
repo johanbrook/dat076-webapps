@@ -38,7 +38,7 @@
 		Do the actual XHR.
 	 */
 	function handleRemote(element) {
-		var dataType = "script", method, url, data;
+		var dataType, method, url, data;
 
 		if(element.is("form")) {
 			method = element.data("method") || element.attr("method");
@@ -49,7 +49,7 @@
 			method = element.data("method");
 			url = element.attr("href");
 			data = element.data("params") || null;
-			dataType = element.data("type");
+			dataType = element.data("type") || "script";
 		}
 
 		options = {

@@ -36,7 +36,6 @@ create table invoice (
   invoice_date              timestamp not null,
   due_date                  timestamp,
   date_paid                 timestamp,
-  owner_id                  bigint,
   client_id                 bigint,
   bank_account_id           bigint,
   starred                   boolean,
@@ -67,12 +66,10 @@ create sequence user_seq;
 
 alter table bank_account add constraint fk_bank_account_owner_1 foreign key (owner_id) references user (id) on delete restrict on update restrict;
 create index ix_bank_account_owner_1 on bank_account (owner_id);
-alter table invoice add constraint fk_invoice_owner_2 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_invoice_owner_2 on invoice (owner_id);
-alter table invoice add constraint fk_invoice_client_3 foreign key (client_id) references client (id) on delete restrict on update restrict;
-create index ix_invoice_client_3 on invoice (client_id);
-alter table invoice add constraint fk_invoice_bankAccount_4 foreign key (bank_account_id) references bank_account (id) on delete restrict on update restrict;
-create index ix_invoice_bankAccount_4 on invoice (bank_account_id);
+alter table invoice add constraint fk_invoice_client_2 foreign key (client_id) references client (id) on delete restrict on update restrict;
+create index ix_invoice_client_2 on invoice (client_id);
+alter table invoice add constraint fk_invoice_bankAccount_3 foreign key (bank_account_id) references bank_account (id) on delete restrict on update restrict;
+create index ix_invoice_bankAccount_3 on invoice (bank_account_id);
 
 
 

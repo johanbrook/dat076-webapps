@@ -29,6 +29,11 @@
 			        @flash.get("success")
 			    </p>
 			}
+			@if(flash.contains("fail")) {
+			    <p id="flash-message" class="negative">
+			        @flash.get("fail")
+			    </p>
+			}
 
 			@content
 		</main>

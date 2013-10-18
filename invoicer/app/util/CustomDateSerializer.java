@@ -1,6 +1,9 @@
 /**
 *	CustomDateSerializer.java
 *
+*	Used for correctly serializing Joda DateTime instances
+*	when writing as JSON.
+*
 *	@author Johan Brook
 *	@copyright (c) 2013 Johan Brook
 *	@license MIT

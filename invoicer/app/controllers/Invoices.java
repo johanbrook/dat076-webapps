@@ -10,6 +10,7 @@ package controllers;
 
 import play.*;
 
+import util.DateOverlapException;
 import util.FileHandler;
 import util.FileUploadException;
 
@@ -68,8 +69,10 @@ public class Invoices extends Application {
 	private static List<Invoice> overdueInvoicesOfCurrentUser() {
 		return Invoice.getOverdueInvoicesOfUser(Session.getCurrentUser().id);
 	}
-
 	
+	/**
+	 * GET /invoices 
+	 */
 	public static Result invoicesByClient(final String client){
 		
 		return respondTo(new Responder() {
@@ -116,17 +119,25 @@ public class Invoices extends Application {
 		});
     }
 	
+	/**
+	 * GET /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result show(Long id) {
 		return respondTo(Invoice.find.byId(id), show.ref(), null);
 	}
-
+	
+	/**
+	 * GET /invoices/new 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result newInvoice() {
 		return ok(new_invoice.render(new Invoice(), form));
 	}
 	
-
+	/**
+	 * POST /invoices/
+	 */
 	public static Result create() {
 		final Form<Invoice> filledForm = form.bindFromRequest();
 
@@ -141,10 +152,8 @@ public class Invoices extends Application {
 
 				@Override
 				public Result html() {
-					flash("error", "There were errors in your form.");
-					return badRequest(index.render(invoicesOfCurrentUser(),
-							paidInvoicesOfCurrentUser(),
-							overdueInvoicesOfCurrentUser()));
+					flash("fail", "There were errors in your form.");
+					return badRequest(new_invoice.render(filledForm.get(), filledForm));
 				}
 
 				@Override
@@ -155,7 +164,6 @@ public class Invoices extends Application {
 		} else {
 			final Invoice in = filledForm.get();
 
-			in.owner = Session.getCurrentUser();
 			in.client = Client.find.byId(Long.parseLong(Form.form()
 					.bindFromRequest().get("client.id")));
 
@@ -164,7 +172,13 @@ public class Invoices extends Application {
 
 			in.setPaid(Form.form().bindFromRequest().get("ispaid") != null);
 
-			in.save();
+			try {
+				in.save();
+			}
+			catch(DateOverlapException ex) {
+				flash("fail", "Due date can't be before invoice date!");
+				return badRequest(new_invoice.render(in, filledForm));
+			}
 
 			return respondTo(new Responder() {
 
@@ -189,6 +203,9 @@ public class Invoices extends Application {
 
 	}
 	
+	/**
+	 * GET /invoices/:id/edit 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result edit(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
@@ -197,6 +214,9 @@ public class Invoices extends Application {
 		return ok(edit.render(invoice, editForm));
 	}
 
+	/**
+	 * PUT /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result update(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -266,6 +286,9 @@ public class Invoices extends Application {
 		});
 	}
 	
+	/**
+	 * DELETE /invoices/:id 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result destroy(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -295,6 +318,9 @@ public class Invoices extends Application {
 		}
 	}
 	
+	/**
+	 * PUT /invoices/:id/star 
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result toggleStarred(Long id) {
 		final Invoice invoice = Invoice.find.byId(id);
@@ -325,6 +351,9 @@ public class Invoices extends Application {
 		return notFound();
 	}
 
+	/**
+	 * GET /invoices/starred
+	 */
 	@Security.Authenticated(Secured.class)
 	public static Result starred() {
 		final List<Invoice> starred = Invoice
@@ -349,6 +378,9 @@ public class Invoices extends Application {
 		});
 	}
 
+	/**
+	 * PUT /invoices/:id/paid 
+	 */
 	public static Result setPaid(Long id) {
 		Invoice invoice = Invoice.find.byId(id);
 		// Fetch reference to Akka actor and send event
@@ -371,6 +403,9 @@ public class Invoices extends Application {
 		return notFound();
 	}
 	
+	/**
+	 * POST /invoices/:id/send 
+	 */
 	public Result sendInvoice(Long id) {
 		
 		final Invoice invoice = Invoice.find.byId(id);
@@ -413,6 +448,9 @@ public class Invoices extends Application {
 		}
 	}
 	
+	/**
+	 * POST /invoices/:id/reminder 
+	 */
 	public Result sendReminder(Long id) {
 
 		final Invoice invoice = Invoice.find.byId(id);
@@ -487,7 +525,7 @@ public class Invoices extends Application {
 				@Override
 				public Result html() {
 					Logger.info("Upload error: " + e.getMessage());
-					flash("error", e.getMessage());
+					flash("fail", e.getMessage());
 					return redirect(controllers.routes.Invoices.newInvoice());
 				}
 	
@@ -518,7 +556,6 @@ public class Invoices extends Application {
 			in.client = dbClient;
 		}
 		
-		in.owner = Session.getCurrentUser();
 		in.save();
 		
 		return respondTo(new Responder() {
