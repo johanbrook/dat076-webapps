@@ -104,11 +104,17 @@ public class BankAccountsTest extends BaseTest {
 	@Test
 	public void testUpload() {
 		
-		//TODO: Session needs to be set somehow to auth the method call
+		/*
+		 * TODO: Pass along session with fake request when Play allows to add
+		 * MultipartFormData to fakeRequest.
+		/*
 		
 		/*
 		 * No support in play for MultipartFormData, therefore instead use
 		 * apache DefaultHttpCLient to send request.
+		 *
+		 * Observe! Need to remove @Security.Authenticated(Secured.class)
+		 * from BankAccounts controller to test this
 		 * 
 		 * Need server to listen to port in order for this to work
 		 */

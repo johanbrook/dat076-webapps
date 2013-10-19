@@ -37,7 +37,7 @@ public class SecuredTest extends BaseTest {
 		// Calls a secured page with Session attribute set
 	    Result result = callAction(
 	        controllers.routes.ref.Users.show(),
-	        fakeRequest().withSession("userId", super.userId).withHeader(ACCEPT, "text/html"));
+	        fakeRequest().withSession("userId", super.userId));
 	    
 	    assertEquals(200, status(result));
 	}
