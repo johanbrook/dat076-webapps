@@ -10,21 +10,44 @@ package test.controllers;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 import models.Invoice;
 import models.User;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 
 import controllers.Events;
+import play.Logger;
+import play.libs.Json;
 import play.mvc.*;
+import play.test.FakeApplication;
+import play.test.Helpers;
+import play.test.TestServer;
 import static play.test.Helpers.*;
 
 import akka.actor.Props;
 
 import test.BaseTest;
+import util.FileHandler;
 
 public class InvoicesTest extends BaseTest {
 
@@ -178,6 +201,58 @@ public class InvoicesTest extends BaseTest {
 				);
 
 		assertEquals(OK, status(paid));
+	}
+	
+	@Test
+	public void testUpload() {
+		
+		//TODO: Session needs to be set somehow to auth the method call
+		
+		/*
+		 * No support in play for MultipartFormData, therefore instead use
+		 * apache DefaultHttpCLient to send request.
+		 * 
+		 * Need server to listen to port in order for this to work
+		 */
+		FakeApplication application = Helpers.fakeApplication(Helpers.inMemoryDatabase());
+	    TestServer testServer = testServer(9001, application);
+	
+	    running(testServer, new Runnable() { 
+	
+	            @Override 
+	            public void run() { 
+	            	
+	            	assertNull(Invoice.find.where().eq("title", "Json Invoice").findUnique());
+	            	
+	            	HttpClient httpclient = new DefaultHttpClient();
+	        	    HttpPost httppost = new HttpPost("http://localhost:9001/invoices/upload");
+
+	        	    FileBody jsonFile = new FileBody(new File(
+	        	    		TEST_FILE_FOLDER + "invoiceTest.json"), "application/json");
+
+	        	    MultipartEntity reqEntity = new MultipartEntity();
+	        	    reqEntity.addPart(FileHandler.FILE_PART_NAME, jsonFile);
+
+	        	    httppost.setEntity(reqEntity);
+
+	        	    HttpResponse response;
+	        	    
+	        	    try {
+	        	        response = httpclient.execute(httppost);
+	        	        HttpEntity resEntity = response.getEntity();
+	        	        
+	        	        assertNotNull(Invoice.find.where().eq("title", "Json Invoice").findUnique());
+	        	        assertEquals(response.getStatusLine().getStatusCode(), 200);
+	        	        
+	        	    } catch (ClientProtocolException e) {
+	        	        e.printStackTrace();
+	        		} catch (IOException e) {
+	        		        e.printStackTrace();
+	        		}
+	            } 
+	    }); 
+	    
+	    Helpers.stop(testServer);
 	}
 }
 
