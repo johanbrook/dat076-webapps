@@ -46,6 +46,7 @@ import service.Mailer;
 
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Security.Authenticated;
 
 
 import akka.actor.*;
@@ -479,6 +480,7 @@ public class Invoices extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result upload() {
 		
 		final Invoice in;

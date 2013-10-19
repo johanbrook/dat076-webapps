@@ -231,6 +231,7 @@ public class BankAccounts extends Application {
 	 * 
 	 * @return
 	 */
+	@Security.Authenticated(Secured.class)
 	public static Result upload() {
 		
 		final BankAccount ba;
