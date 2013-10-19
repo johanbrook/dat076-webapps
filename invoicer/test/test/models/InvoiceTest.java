@@ -13,9 +13,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
-import models.Client;
-import models.Invoice;
-import models.User;
+import models.*;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -149,6 +147,22 @@ public class InvoiceTest extends BaseTest {
 		newInvoice.toggleStarred();
 
 		assertTrue(newInvoice.starred);
+	}
+
+	@Test
+	public void testSetClientFromId() {
+		Long id = Client.find.all().get(0).id;
+		newInvoice.setClientFromId(id);
+
+		assertNotNull(newInvoice.client);
+	}
+
+	@Test
+	public void testSetAccountFromId() {
+		Long id = BankAccount.find.all().get(0).id;
+		newInvoice.setBankAccountFromId(id);
+
+		assertNotNull(newInvoice.bankAccount);
 	}
 
 }

@@ -223,15 +223,13 @@ public class Invoices extends Application {
 		}
 
 		/*
-		 * TODO: this doesn't work for now.
-		 * 
-		 * See:
-		 * http://stackoverflow.com/questions/19177077/how-to-properly-update
-		 * -a-model-with-nested-models-in-play-framework-2-2-0
+			Tedious updating of references ..
 		 */
-
-		// invoice.client.id = filledForm.get().client.id;
-		// invoice.bankAccount.id = filledForm.get().bankAccount.id;
+		Long clientId = filledForm.get().client.id;
+		Long accountId = filledForm.get().bankAccount.id;
+		
+		invoice.setBankAccountFromId(accountId);
+		invoice.setClientFromId(clientId);
 
 		if (filledForm.get().title != null)
 			invoice.title = filledForm.get().title;
