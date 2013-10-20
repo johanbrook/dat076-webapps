@@ -34,29 +34,10 @@ public class Users extends Application {
 	
 	
 	/**
-	 * (Action called from GET to /user)
-	 * 
-	 * 
-	 * @return
+	 * (Action called from GET to /signup)
 	 */
-	public static Result index() {
-		return respondTo(new Responder() {
-
-			@Override
-			public Result json() {
-				return badRequest();
-			}
-
-			@Override
-			public Result html() {
-				return ok(index.render(form));
-			}
-
-			@Override
-			public Result script() {
-				return badRequest();
-			}
-		});
+	public static Result newUser() {
+		return ok(index.render(form));
 	}
 	
 	/**

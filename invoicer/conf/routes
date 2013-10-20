@@ -16,7 +16,7 @@ GET     /logout                     controllers.Session.destroy()
 
 # User pages
 
-GET     /user                       controllers.Users.index()
+GET     /signup                       controllers.Users.newUser()
 POST    /user                       controllers.Users.create()
 GET		/me 		                controllers.Users.show()
 GET     /me/edit                  controllers.Users.edit()

@@ -30,8 +30,8 @@ import controllers.Session;
 public class UsersTest extends BaseTest {
 	
 	@Test
-	public void testIndex() {
-		Result index = callAction(controllers.routes.ref.Users.index(), fakeRequest().withHeader(ACCEPT, "text/html"));
+	public void testNewUser() {
+		Result index = callAction(controllers.routes.ref.Users.newUser(), fakeRequest().withHeader(ACCEPT, "text/html"));
 		assertEquals(200, status(index));
 	}
 	
