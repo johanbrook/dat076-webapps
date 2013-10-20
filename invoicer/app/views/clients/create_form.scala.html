@@ -16,7 +16,8 @@
 </ul>
 }
 
-<form action="@routes.Clients.create()" class="create-form" method="post" data-remote="true">
+<form action="@routes.Clients.create()" class="create-form" method="post">
+
 	<div class="table">	
 		<p>
 			<label for="title">Name</label>
@@ -63,7 +64,3 @@
 		<input type="submit" value="Add client" />
 	</p>
 </form>
-
-@upload_form("Upload Client")(routes.Clients.upload)
-
-<p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>

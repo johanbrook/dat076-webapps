@@ -1,0 +1,18 @@
+@(addForm: Form[Client])
+@import helper._
+@import com.github.nscala_time.time.Imports._
+
+@main("Add client") {
+
+	<p class="back back-clients">
+		<a href="@routes.Clients.index()">← All Clients</a>
+	</p>
+
+	<h1>Create new client</h1>
+	
+	@create_form(addForm)
+
+	<p class="right">
+		or <a href="@routes.Clients.newFromImport()">Upload from JSON</a> instead.
+	</p>
+}

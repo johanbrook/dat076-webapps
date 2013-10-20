@@ -4,8 +4,6 @@
 
 <form action="@routes.Invoices.create()" method="post"class="create-form group">
 
-	<h1>Create new invoice</h1>
-
 	@if(addForm.hasErrors()){
 	<h3>Errors</h3>
 	<ul class="negative">
@@ -69,6 +67,4 @@
 	</p>
 </form>
 
-@upload_form("Upload Invoice")(routes.Invoices.upload)
 
-<p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>

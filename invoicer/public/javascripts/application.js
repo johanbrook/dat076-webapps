@@ -15,8 +15,8 @@ function updateNewInvoiceTitle() {
 
 $(function() {
 
-	$("#add-client-btn").formExpand(".form-container");
-	$("#add-bankaccount-btn").formExpand(".form-container");
+	//$("#add-client-btn").formExpand(".form-container");
+	//$("#add-bankaccount-btn").formExpand(".form-container");
 
 	// Unbind the auto-generating listener when user starts
 	// writing a custom title.

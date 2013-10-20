@@ -1,0 +1,38 @@
+/* =MODALS
+---------------------------------------- */
+
+.modal {
+	display: none;
+	position: fixed;
+	top: 20%;
+	left: 50%;
+	z-index: 1000;
+	@include border-radius(3px);
+
+	background-color: #fff;
+	padding: 1em;
+	box-shadow: rgba(#000, 0.6) 0 2px 10px;
+	border: 1px solid #d8d8d8;
+	text-align: center;
+
+	p:last-of-type {
+		margin-bottom: 0;
+	}
+
+}
+
+#add-client-modal,
+#add-invoice-modal {
+	width: 460px;
+	margin-left: -230px;
+}
+
+.modal-backdrop {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(#000, .8);
+	z-index: 999;
+}

@@ -54,14 +54,30 @@ public class Clients extends Application {
 	}
 
 	/**
+	 * GET /clients/new
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result newClient() {
+		return ok(new_client.render(newForm));
+	}	
+
+	/**
+	 * GET /clients/import
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result newFromImport() {
+		return ok(new_client_upload.render());
+	}	
+
+	/**
 	 * POST /clients
 	 */
 	@Security.Authenticated(Secured.class)
 	public static Result create() {
-		Form<Client> filledForm = newForm.bindFromRequest();
+		final Form<Client> filledForm = newForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(index.render(Client.find.all(), filledForm));
+			return badRequest(new_client.render(filledForm));
 
 		} else {
 			final Client client = filledForm.get();
@@ -71,7 +87,7 @@ public class Clients extends Application {
 			}
 			catch(PersistenceException ex) {
 				flash("fail", "Error saving client. Perhaps duplicate of existing?");
-				return ok(index.render(Client.find.all(), newForm));
+				return ok(new_client.render(filledForm));
 			}
 			
 			return respondTo(new Responder() {
@@ -387,7 +403,7 @@ public class Clients extends Application {
 			@Override
 			public Result html() {
 				Logger.info("Upload error: " + message);
-				flash("error", message);
+				flash("fail", message);
 				return goHome();
 			}
 

@@ -110,8 +110,16 @@ public class Invoices extends Application {
 	 */
 	@Security.Authenticated(Secured.class)
 	public static Result newInvoice() {
-		return ok(new_invoice.render(new Invoice(), form));
+		return ok(new_invoice.render(form));
 	}
+
+	/**
+	 * GET /invoices/import
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result newFromImport() {
+		return ok(new_invoice_upload.render());
+	}	
 	
 	/**
 	 * POST /invoices/
@@ -131,7 +139,7 @@ public class Invoices extends Application {
 				@Override
 				public Result html() {
 					flash("fail", "There were errors in your form.");
-					return badRequest(new_invoice.render(filledForm.get(), filledForm));
+					return badRequest(new_invoice.render(filledForm));
 				}
 
 				@Override
@@ -155,7 +163,7 @@ public class Invoices extends Application {
 			}
 			catch(DateOverlapException ex) {
 				flash("fail", "Due date can't be before invoice date!");
-				return badRequest(new_invoice.render(in, filledForm));
+				return badRequest(new_invoice.render(filledForm));
 			}
 
 			return respondTo(new Responder() {
@@ -503,7 +511,7 @@ public class Invoices extends Application {
 				public Result html() {
 					Logger.info("Upload error: " + e.getMessage());
 					flash("fail", e.getMessage());
-					return redirect(controllers.routes.Invoices.newInvoice());
+					return redirect(controllers.routes.Invoices.newFromImport());
 				}
 	
 				@Override

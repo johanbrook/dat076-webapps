@@ -1,10 +1,16 @@
-@(invoice: Invoice, newForm: Form[Invoice])
+@(newForm: Form[Invoice])
 
 @main("Add invoice") {
 
 	<p class="back back-invoices">
 		<a href="@routes.Invoices.index()">← All invoices</a>
 	</p>
+
+	<h1>Create new invoice</h1>
 	
 	@create_form(newForm)
+
+	<p class="right">
+		or <a href="@routes.Invoices.newFromImport()">Upload from JSON</a> instead.
+	</p>
 }

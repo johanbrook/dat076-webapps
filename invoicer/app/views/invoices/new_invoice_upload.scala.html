@@ -1,0 +1,14 @@
+@main("Add invoice from JSON") {
+	
+	<p class="back back-invoices">
+		<a href="@routes.Invoices.index()">← All invoices</a>
+	</p>
+
+	<h2>Upload invoice file</h2>
+
+	@upload_form("Upload Invoice")(routes.Invoices.upload)
+
+	<p class="right">
+		or <a href="@routes.Invoices.newInvoice()">Upload from scratch</a> instead.
+	</p>
+}

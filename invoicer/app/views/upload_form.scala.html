@@ -9,9 +9,9 @@
 	}
 	
 @form(action = call, 'enctype -> "multipart/form-data") {
-	
-	<h3>Or upload file</h3>
-	<small>Only JSON files allowed for now!</small><br/>
+
 	<input type="file" name="@util.FileHandler.FILE_PART_NAME">
+	<p><small>Only JSON files allowed for now!</small></p>
+
 	<p class="right" ><input type="submit" value="@buttonText"></p>
 }
