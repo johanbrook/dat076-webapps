@@ -762,11 +762,13 @@ label[for] {
   border-spacing: 2px;
 }
 .create-form .dates > p,
-.create-form .password > p {
+.create-form .split > p,
+.create-form .full > p {
   width: 50%;
 }
 .create-form .dates > p input,
-.create-form .password > p input {
+.create-form .split > p input,
+.create-form .full > p input {
   width: 100%;
 }
 .create-form .submit {
@@ -1114,4 +1116,11 @@ body.login form .fields input[name="password"] {
 body.login form input[type="text"],
 body.login form input[type="password"] {
   font-size: 1.125em;
+}
+
+/*  =SIGNUP PAGE
+----------------------------------------------------------------------*/
+
+#signup {
+  width: 100%;
 }
