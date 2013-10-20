@@ -51,7 +51,6 @@ GET     /accounts/:id      		controllers.BankAccounts.show(id: Long)
 PUT    /accounts/$id<[0-9]+>	controllers.BankAccounts.update(id: Long)
 POST    /accounts/upload        controllers.BankAccounts.upload()
 GET		/accounts/:id/edit		controllers.BankAccounts.edit(id: Long)
-GET		/accounts/:id/delete	controllers.BankAccounts.destroy(id: Long)
 
 # Clients
 
