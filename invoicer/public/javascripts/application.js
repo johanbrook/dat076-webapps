@@ -1,3 +1,29 @@
+/**
+ * jQuery plugin for attaching an alternate text when clicking
+ * the button specified. Used for 'Send e-mail' buttons.
+ */
+$.fn.dynamicButtons = function(options) {
+	var defaults = {
+		activeTextAttribute: 'active-text',
+		activeClass: 'sending'
+	};
+	var settings = $.extend({}, defaults, options);
+
+	return this.each(function() {
+		var $this = $(this),
+				original = $this.text(),
+				alt = $this.data(settings.activeTextAttribute);
+
+		$this.on("click", function() {
+			$this.text(alt).addClass(settings.activeClass).attr("disabled", true);
+		});
+		// Change back to original text on success
+		$this.on("ajax:success", function() {
+			$this.text(original).removeClass(settings.activeClass).attr("disabled", false);
+		});
+	});
+};
+
 function autoGenerateInvoiceTitle(data) {
 	return data.date.replace(/-/g, "")+"-"+data.client.toLowerCase();
 }
@@ -15,8 +41,8 @@ function updateNewInvoiceTitle() {
 
 $(function() {
 
-	//$("#add-client-btn").formExpand(".form-container");
-	//$("#add-bankaccount-btn").formExpand(".form-container");
+	// Attach dynamic text plugin
+	$(".dynamic-btn-text").dynamicButtons();
 
 	// Unbind the auto-generating listener when user starts
 	// writing a custom title.
@@ -38,4 +64,3 @@ $(function() {
 		self.hide();
 	}
 });
-

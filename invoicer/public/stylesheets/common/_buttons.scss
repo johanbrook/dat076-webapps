@@ -12,6 +12,7 @@ input[type="submit"]{
 	display: inline-block;
 	padding: .2em .5em;
 	background-color: #fff;
+	text-align: center;
 	
 	border: 1px solid lighten($color, 10%);
 	color: $color;
@@ -21,6 +22,11 @@ input[type="submit"]{
 	&:hover {
 		color: #333;
 		border-color: #333;
+	}
+
+	&[disabled] {
+		border-color: #aaa;
+		color: #aaa;
 	}
 }
 
@@ -49,4 +55,9 @@ input[type="submit"]{
 .btn-cancel {
 	color: $grey;
 	@include transition(none);
+}
+
+/* Have set width on dynamic buttons */
+.dynamic-btn-text {
+	min-width: 150px;
 }

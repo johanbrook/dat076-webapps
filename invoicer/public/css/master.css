@@ -627,6 +627,7 @@ input[type="submit"] {
   display: inline-block;
   padding: .2em .5em;
   background-color: #fff;
+  text-align: center;
   border: 1px solid #2b97db;
   color: #1f7bb5;
   -webkit-border-radius: 3px;
@@ -642,6 +643,13 @@ input[type="button"]:hover,
 input[type="submit"]:hover {
   color: #333;
   border-color: #333;
+}
+.btn[disabled], [disabled].btn-dangerous,
+button[disabled],
+input[type="button"][disabled],
+input[type="submit"][disabled] {
+  border-color: #aaa;
+  color: #aaa;
 }
 
 .btn-accent,
@@ -667,6 +675,11 @@ input[type="submit"] {
   -moz-transition: none;
   -o-transition: none;
   transition: none;
+}
+
+/* Have set width on dynamic buttons */
+.dynamic-btn-text {
+  min-width: 150px;
 }
 
 /*	=ELEMENT SETUP

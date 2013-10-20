@@ -11,10 +11,12 @@
 		
 		@if(!Invoice.getInvoicesOfClient(client).isEmpty()) {	
 		<a
+			id="send-invoices-btn"
 			title="Send all invoices of this client with e-mail" 
 			data-method="post"
 			data-remote="true"
-			class="btn alignright"
+			data-active-text="Sending ..."
+			class="btn alignright dynamic-btn-text"
 			style="margin-right: 5px"
 			href="@routes.Clients.sendInvoices(client.id)">Send Invoices</a>
 		</a>
