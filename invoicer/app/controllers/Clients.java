@@ -14,6 +14,8 @@ import com.avaje.ebean.Ebean;
 
 import controllers.Application.Responder;
 
+import javax.persistence.*;
+
 import models.BankAccount;
 import models.Client;
 import models.Invoice;
@@ -63,7 +65,14 @@ public class Clients extends Application {
 
 		} else {
 			final Client client = filledForm.get();
-			client.save();
+			
+			try {
+				client.save();
+			}
+			catch(PersistenceException ex) {
+				flash("fail", "Error saving client. Perhaps duplicate of existing?");
+				return ok(index.render(Client.find.all(), newForm));
+			}
 			
 			return respondTo(new Responder() {
 
