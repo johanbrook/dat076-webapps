@@ -753,17 +753,20 @@ label[for] {
 }
 
 .create-form #title,
-.create-form #invoice-total {
+.create-form #invoice-total,
+.create-form .full {
   width: 100%;
   font-size: 1.2em;
 }
 .create-form .dates {
   border-spacing: 2px;
 }
-.create-form .dates > p {
+.create-form .dates > p,
+.create-form .password > p {
   width: 50%;
 }
-.create-form .dates > p input {
+.create-form .dates > p input,
+.create-form .password > p input {
   width: 100%;
 }
 .create-form .submit {

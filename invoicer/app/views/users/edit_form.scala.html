@@ -18,38 +18,36 @@
     </p>
 }
 
-@helper.form(routes.Users.update) {
-
-	<fieldset>
-	    <legend>Account information</legend>
+<form action="@routes.Users.update()" method="post"class="create-form group">
 	    
-	    <p><label for="username">Username</label><input required type="text" name="username" value="@Session.getCurrentUser().username" readonly><span class="negative">
+	    <p><label for="username">Username</label><input required type="text" class="full" name="username" value="@Session.getCurrentUser().username" readonly><span class="negative">
 	    	@if(editForm.error("username") != null) {
 				@Messages( editForm.error("username").message() )
 			}</span></p>
-		<p><label for="oldPassword">Old password</label><input type="password" name="oldPassword" placeholder="Old password"><span class="negative">
+
+		<p><label for="oldPassword">Old password</label><input type="password" class="full" name="oldPassword" placeholder="Old password"><span class="negative">
 	    	@if(editForm.error("oldPassword") != null) {
 				@Messages( editForm.error("oldPassword").message() )
 			}</span></p>
-	    <p><label for="newPassword">New Password</label><input type="password" name="newPassword" placeholder="New password"><span class="negative">
-	    	@if(editForm.error("newPassword") != null) {
-				@Messages( editForm.error("newPassword").message() )
-			}</span></p>
-		<p><label for="repeatNewPassword">Repeat new password</label><input type="password" name="newRepeatedPassword" placeholder="Repeat new password"><span class="negative">
-			@if(editForm.error("newRepeatedPassword") != null) {
-				@Messages( editForm.error("newRepeatedPassword").message() )
-			}</span></p>
-	    
-	</fieldset>
-	
-	<fieldset>
-		
-	    <legend>Personal information</legend>
-	    
-	    <p><label for="name">Name</label><input type="text" name="name" value="@Session.getCurrentUser().name"></p>
-	    <p><label for="address">Address</label><textarea rows="2" name="address">@Session.getCurrentUser().address</textarea></p>
-	    <p><label for="postalCode">Postal code</label><input type="text" name="postalCode" value="@Session.getCurrentUser().postalCode"></p>
-	    <p><label for="organizationNumber">Organization number</label><input type="text" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber">
+
+		<div class="table">
+		    <p><label for="newPassword">New Password</label><input type="password" class="full" name="newPassword" placeholder="New password"><span class="negative">
+		    	@if(editForm.error("newPassword") != null) {
+					@Messages( editForm.error("newPassword").message() )
+				}</span></p>
+			<p><label for="repeatNewPassword">Repeat new password</label><input type="password" class="full" name="newRepeatedPassword" placeholder="Repeat new password"><span class="negative">
+				@if(editForm.error("newRepeatedPassword") != null) {
+					@Messages( editForm.error("newRepeatedPassword").message() )
+				}</span></p>
+	    </div>
+
+		<br/ class="clear">
+    	<p><label for="name">Name</label><input type="text" class="full" name="name" value="@Session.getCurrentUser().name" placeholder="ex. Rob Schneider"></p>
+
+    	<p><label for="address">Address</label><textarea rows="2" class="full" name="address">@Session.getCurrentUser().address</textarea></p>
+    	<p><label for="postalCode">Postal code</label><input type="text" class="full"name="postalCode" value="@Session.getCurrentUser().postalCode" placeholder="ex. 12345-6789"></p>
+
+	    <p><label for="organizationNumber">Organization number</label><input type="text" class="full" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber" placeholder="XXXXXX-XXXX">
 	    	<span class="negative">
 	        	@if(editForm.error("organizationNumber") != null) {
 					@Messages( editForm.error("organizationNumber").message(), editForm.error("organizationNumber").arguments() )
@@ -67,8 +65,6 @@
 				}
 			}
 		</select>
-	    
-	</fieldset>
 	
 	<p>
 		<small>
@@ -77,4 +73,4 @@
 			<a href="@routes.Users.show()" class="btn-cancel close">Cancel</a>
 		</small>
 	</p>
-}
+</form>
