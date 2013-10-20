@@ -14,64 +14,86 @@
 </p>
 }
 
-@helper.form(routes.Users.create) {
+<div class="form-container">
+	<form action="@routes.Users.create()" method="post" class="create-form group">
 
-	<fieldset>
-	    <legend>Account information</legend>
-	    
-	    <p><input required type="text" name="username" placeholder="Username"><span class="negative"> *
+	    <p>
+	    	<label for="username">Username<span class="negative"> *</span></label>
+	    	<input required type="text" name="username" placeholder="Username" class="full"><span class="negative">
 	    	@if(signupForm.error("username") != null) {
 				@Messages( signupForm.error("username").message() )
-			}</span></p>
-	    <p><input required type="password" name="password" placeholder="Password"><span class="negative"> *
-	    	@if(signupForm.error("password") != null) {
-				@Messages( signupForm.error("password").message() )
-			}</span></p>
-		<p><input required type="password" name="repeatPassword" placeholder="Repeat password"><span class="negative"> *
-			@if(signupForm.error("repeatPassword") != null) {
-				@Messages( signupForm.error("repeatPassword").message() )
-			}</span></p>
+			}</span>
+		</p>
+
+		<div class="table split">
+		    <p>
+		    	<label for="password">Password<span class="negative"> *</span></label>
+		    	<input required type="password" name="password" class="full" placeholder="Password"><span class="negative">
+		    	@if(signupForm.error("password") != null) {
+
+					@Messages( signupForm.error("password").message() )
+				}</span>
+			</p>
+
+			<p>
+				<label for="repeatPassword">Repeat Password<span class="negative"> *</span></label>
+				<input required type="password" name="repeatPassword" class="full" placeholder="Repeat password"><span class="negative">
+				@if(signupForm.error("repeatPassword") != null) {
+					@Messages( signupForm.error("repeatPassword").message() )
+				}</span>
+			</p>
+		</div>
 	    
-	</fieldset>
-	
-	<fieldset>
+	    <p>
+	    	<label for="name">Name</label>
+	    	<input type="text" name="name" class="full" placeholder="ex. Johnny Dough">
+	    </p>
+
+	    <p>
+	    	<label for="address">Address</label>
+	    	<textarea rows="2" name="address" class="full" placeholder="ex. Dough Road 14"></textarea>
+	    </p>
 		
-	    <legend>Personal information</legend>
+	    <p>
+	    	<label for="postalCode">Postal Code</label>
+	    	<input type="text" name="postalCode" class="full" placeholder="ex. 12345-6789">
+	    </p>
+		    <p>
+		    	<label for="organizationNumber">Organization Number</label>
+		    	<input type="text" name="organizationNumber" class="full" placeholder="ex. 123456-1234">
+		    	<span class="negative">
+		        	@if(signupForm.error("organizationNumber") != null) {
+						@Messages( signupForm.error("organizationNumber").message(), signupForm.error("organizationNumber").arguments() )
+					}
+				</span>
+			</p>
+		</div>
 	    
-	    <p><input type="text" name="name" placeholder="Your full name"></p>
-	    <p><textarea rows="2" name="address" placeholder="Address"></textarea></p>
-	    <p><input type="text" name="postalCode" placeholder="Postal Code"></p>
-	    <p><input type="text" name="organizationNumber" placeholder="Organization number">
-	    	<span class="negative">
-	        	@if(signupForm.error("organizationNumber") != null) {
-					@Messages( signupForm.error("organizationNumber").message(), signupForm.error("organizationNumber").arguments() )
+	    <p>
+		    <select name="country">
+		    	<option value="default">Select a country</option>
+				@for(country <- User.getCountries()) {
+					<option value="@country">@country</option>	
 				}
-			</span></p>
+			</select>
+		</p>
 	    
-	    
-	    <select name="country">
-	    	<option value="default">Select a country</option>
-			@for(country <- User.getCountries()) {
-				<option value="@country">@country</option>	
-			}
-		</select>
-	    
-	</fieldset>
-	
-	<fieldset>
-	    <input type="checkbox" required name="accept" value="true">You accept the terms and conditions (if we had such :P)
-	    <span class="negative"> *</br>
-	    	@if(signupForm.error("accept") != null) {
-					@Messages( signupForm.error("accept").message() )
-				}
-	    </span>
-	</fieldset>
-	
-	<p>
-		<small>
-			<button type="submit">Signup</button>
-			 or 
-			<a href="@routes.Session.newSession()" class="btn-cancel close">Cancel</a>
-		</small>
-	</p>
-}
+	    <p>
+	    	<input type="checkbox" required name="accept" value="true">You accept the terms and conditions (if we had such :P)
+	    	<span class="negative"> *</br>
+	    		@if(signupForm.error("accept") != null) {
+						@Messages( signupForm.error("accept").message() )
+					}
+	    	</span>
+	    </p>
+		
+		
+		<p>
+			<small>
+				<button type="submit">Signup</button>
+				 or 
+				<a href="@routes.Session.newSession()" class="btn-cancel close">Cancel</a>
+			</small>
+		</p>
+	</form>
+</div>

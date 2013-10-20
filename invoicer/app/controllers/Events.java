@@ -23,6 +23,9 @@ public class Events extends Controller {
 
 	public final static ActorRef actorInstance = InvoiceActor.instance;
 	
+	/*
+		GET /invoices/stream/paid
+	*/
 	public static Result getPaid() {
 		return ok(new EventSource() {
 			public void onConnected() {

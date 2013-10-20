@@ -29,10 +29,11 @@ POST	/invoices					controllers.Invoices.create()
 GET 	/invoices/new 			controllers.Invoices.newInvoice()
 GET 	/invoices/import			controllers.Invoices.newFromImport()
 GET		/invoices/starred 		controllers.Invoices.starred()
+GET 	/invoices/paid 				controllers.Invoices.paid()
 POST    /invoices/upload            controllers.Invoices.upload()
 
 # The EventSource stream
-GET		/invoices/paid			controllers.Events.getPaid()
+GET		/invoices/stream/paid			controllers.Events.getPaid()
 
 GET		/invoices/:id/edit			controllers.Invoices.edit(id: Long)
 GET		/invoices/:id				controllers.Invoices.show(id: Long)

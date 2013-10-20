@@ -363,6 +363,31 @@ public class Invoices extends Application {
 	}
 
 	/**
+	 * GET /invoices/paid
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result paid() {
+		final List<Invoice> paid = paidInvoicesOfCurrentUser();
+
+		return respondTo(new Responder() {
+			@Override
+			public Result json() {
+				return ok(Json.toJson(paid));
+			}
+
+			@Override
+			public Result html() {
+				return ok(index.render(paid, null, null));
+			}
+
+			@Override
+			public Result script() {
+				return noContent();
+			}
+		});
+	}
+
+	/**
 	 * PUT /invoices/:id/paid 
 	 */
 	public static Result setPaid(Long id) {
