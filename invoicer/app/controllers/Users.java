@@ -20,6 +20,8 @@ import play.mvc.Security;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.avaje.ebean.Ebean;
+
 import controllers.Application.Responder;
 
 import views.html.users.*;
@@ -299,7 +301,9 @@ public class Users extends Application {
 		final User user = form.get();
 		
 		user.id = Session.getCurrentUser().id;
-		user.update();
+		
+		// Use Ebean.update to persist null fields
+		Ebean.update(user, userMap.keySet());
 		
 		session("userId", String.valueOf(user.id));
 		Logger.info("*** User '" + user.username + "' edited ***");
