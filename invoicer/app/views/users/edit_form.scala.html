@@ -22,21 +22,25 @@
 	    
 	    <p><label for="username">Username</label><input required type="text" class="full" name="username" value="@Session.getCurrentUser().username" readonly><span class="negative">
 	    	@if(editForm.error("username") != null) {
+	    		<br/>
 				@Messages( editForm.error("username").message() )
 			}</span></p>
 
 		<p><label for="oldPassword">Old password</label><input type="password" class="full" name="oldPassword" placeholder="Old password"><span class="negative">
 	    	@if(editForm.error("oldPassword") != null) {
+	    		<br/>
 				@Messages( editForm.error("oldPassword").message() )
 			}</span></p>
 
 		<div class="table">
 		    <p><label for="newPassword">New Password</label><input type="password" class="full" name="newPassword" placeholder="New password"><span class="negative">
 		    	@if(editForm.error("newPassword") != null) {
+		    		<br/>
 					@Messages( editForm.error("newPassword").message() )
 				}</span></p>
 			<p><label for="repeatNewPassword">Repeat new password</label><input type="password" class="full" name="newRepeatedPassword" placeholder="Repeat new password"><span class="negative">
 				@if(editForm.error("newRepeatedPassword") != null) {
+					<br/>
 					@Messages( editForm.error("newRepeatedPassword").message() )
 				}</span></p>
 	    </div>
@@ -50,6 +54,7 @@
 	    <p><label for="organizationNumber">Organization number</label><input type="text" class="full" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber" placeholder="XXXXXX-XXXX">
 	    	<span class="negative">
 	        	@if(editForm.error("organizationNumber") != null) {
+	        		<br/>
 					@Messages( editForm.error("organizationNumber").message(), editForm.error("organizationNumber").arguments() )
 				}
 			</span></p>
