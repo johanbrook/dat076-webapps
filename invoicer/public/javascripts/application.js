@@ -50,10 +50,10 @@ $(function() {
 		$(".create-form").find("input, select").off("change");
 	});
 	
-	if($("#title").length && $("#invoice-date").length)
+	if($("#client-dropdown").length && $("#invoice-date").length)
 		updateNewInvoiceTitle();
 
-	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
+	$(".create-form").find("#client-dropdown, #invoice-date").on("change", updateNewInvoiceTitle);
 
 	// Check if there are notice messages on the page
 	// in order to show them with our own system:
@@ -67,6 +67,5 @@ $(function() {
 	$("#acc-type").on("change", function(){
 		var format = $(this).find(":selected").data("format");
 		$("#acc-nr").attr("placeholder", format);
-		console.log(format);
 	});
 });
