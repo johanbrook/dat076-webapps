@@ -1,0 +1,16 @@
+@(addForm: Form[BankAccount])
+
+@main("Add account") {
+
+	<p class="back back-accounts">
+		<a href="@routes.BankAccounts.index()">← All Accounts</a>
+	</p>
+
+	<h1>Create new bank account</h1>
+	
+	@create_form(addForm)
+
+	<p class="right">
+		or <a href="@routes.BankAccounts.newFromImport()">Upload from JSON</a> instead.
+	</p>
+}

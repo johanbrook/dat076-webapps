@@ -49,6 +49,17 @@
 			</p>
 		</div>
 
+		<div id="add-account-modal" class="modal" role="dialog" aria-hidden="true">
+			<p>
+				<strong>Would you like to create a new bank account from scratch or upload an existing one?</strong>
+			</p>
+
+			<p>
+				<a class="btn" href="@routes.BankAccounts.newAccount()">New Bank Account</a> 
+				<a class="btn" href="@routes.BankAccounts.newFromImport()">New Bank Account from JSON</a>
+			</p>
+		</div>
+
 		<div id="add-invoice-modal" class="modal" role="dialog" aria-hidden="true">
 			<p>
 				<strong>Would you like to create a new invoice from scratch or upload an existing one?</strong>

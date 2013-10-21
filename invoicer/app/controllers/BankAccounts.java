@@ -30,6 +30,24 @@ public class BankAccounts extends Application {
 		return ok(index.render(bankAccountsOfCurrentUser(), form));
 
 	}
+
+	/**
+	 * GET /accounts/new
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result newAccount() {
+
+		return ok(new_account.render(form));
+	}
+
+	/**
+	 * GET /accounts/import
+	 */
+	@Security.Authenticated(Secured.class)
+	public static Result newFromImport() {
+
+		return ok(new_account_upload.render());
+	}
 	
 	/**
 	 * GET /accounts/:id 
