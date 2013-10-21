@@ -56,8 +56,8 @@ public class BankAccount extends AbstractModel {
 	}
 
 	public enum AccountType{
-		PG("PG", "XXXX-XXXX"),
-		BG("BG", "XXXXXX-X"),
+		PG("PG", "XXXXXX-X"),
+		BG("BG", "XXXX-XXXX"),
 		BUSINESSACCOUNT("Business Account", "XXXX-X XXXXXXXX-X");
 		
 		private String name;
