@@ -612,9 +612,32 @@ GET   /invoices/:id  controllers.Invoices.show(id: Long)</code></pre>
 			</section>
 			<section>
 			    <h2>Imports with file uploading</h2>
+				    <br>
+				    <div>Jackson JSON library</div>
+				    <div>JSON < - > POJO</div>
+			    	<div>Full databinding for Java bean classes</div>
+			    	<br>
+			    	<div>Expandable to more allow more file types (XML, PDF ...)</div>
 			</section>
+
 			<section>
-			    <h2>Action composition and authentication</h2>
+			    <h2>Authentication<br>by action composition</h2>
+			    Annotate sensitive actions:
+			<pre style="font-size:24px"><code>@Security.Authenticated(Secured.class)
+public static Result index() {
+    // ...</code></pre>
+    			Block unauthorized calls:
+    			<pre style="font-size:24px"><code>public class Secured
+	extends Authenticator {
+    
+	@Override
+	public String getUsername(Context ctx) {
+	    // ...
+
+	@Override
+	public Result onUnauthorized(Context ctx) {
+	    // ...
+	</code></pre>
 			</section>
 			<section>
 			    <h2>
