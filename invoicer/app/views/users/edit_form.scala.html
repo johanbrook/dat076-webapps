@@ -51,7 +51,8 @@
     	<p><label for="address">Address</label><textarea rows="2" class="full" name="address">@Session.getCurrentUser().address</textarea></p>
     	<p><label for="postalCode">Postal code</label><input type="text" class="full"name="postalCode" value="@Session.getCurrentUser().postalCode" placeholder="ex. 12345-6789"></p>
 
-	    <p><label for="organizationNumber">Organization number</label><input type="text" class="full" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber" placeholder="XXXXXX-XXXX">
+	    <p><label for="organizationNumber">Organization number</label>
+	    	<input type="text" class="full" name="organizationNumber" value="@Session.getCurrentUser().organizationNumber" placeholder="XXXXXX-XXXX">
 	    	<span class="negative">
 	        	@if(editForm.error("organizationNumber") != null) {
 	        		<br/>

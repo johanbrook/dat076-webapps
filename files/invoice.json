@@ -4,22 +4,25 @@
 "datePaid":"2013-10-10",
 
 "client":
-	{"id":1,
-	"name":"Chalmers",
-	"address":"Teknologgarden 2",
-	"postalCode":"412 58",
-	"country":"Sweden",
-	"orgNumber":"556479-5598",
-	"contactPerson":"Karin Markides",
-	"email":"andreasrolen93@gmail.com"},
+	{	"id":1,
+		"name":"JSON Client",
+		"address":"JSON Garden 2",
+		"postalCode":"412 58",
+		"country":"JSwedenON",
+		"orgNumber":"222222-5598",
+		"contactPerson":"Karin MarkideJSON",
+		"email":"andreaJSONrolen93@gmail.com"
+	},
 	
 "bankAccount":
-	{"id":1,
-	"accountType":"BG",
-	"accountNumber":"1234-5678",
-	"bank":"Swedbank",
-	"iban":"SE0004563215864902",
-	"bic":"SWEDSESS"},
+	{
+		"id":1,
+		"accountType":"BG",
+		"accountNumber":"1338-1339",
+		"bank":"JSON Bank",
+		"iban":"SE0004563215864922",
+		"bic":"SWEDSESS"
+	},
 	
 "starred":false,
 "totalRate":0.0

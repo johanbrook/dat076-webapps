@@ -18,6 +18,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import play.data.validation.Constraints.Pattern;
+import play.data.validation.Constraints.Required;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.avaje.ebean.Ebean;
@@ -200,6 +203,7 @@ public class Users extends Application {
 	public static Result update() {
 		
 		final Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
+
 		Map<String, String> userMap = filledForm.data();
 		
 		// Input needed key-value pair
@@ -316,10 +320,12 @@ public class Users extends Application {
      * @author Robin
      */
     public static class UserEditForm {
+    	@Required
     	public String username;
     	public String name;
     	public String address;
     	public String postalCode;
+    	@Pattern(value = "^[0-9]{6}-[0-9]{4}$", message = "error.organizationNumberPattern")
     	public String organizationNumber;
     	public String oldPassword;
     	public String newPassword;
