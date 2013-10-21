@@ -95,8 +95,8 @@ public class BankAccounts extends Application {
 				ba.save();
 			}
 			catch(PersistenceException ex) {
-				flash("fail", "Error saving bank account. Perhaps duplicate of existing?");
-				return ok(create_form.render(filledForm));
+				flash("fail", "Error saving account. Perhaps duplicate of existing?");
+				return ok(new_account.render(filledForm));
 			}
 
 			return respondTo(new Responder() {
@@ -109,7 +109,7 @@ public class BankAccounts extends Application {
 				@Override
 				public Result html() {
 					flash("success", "Bank account " + ba.accountNumber + " was added!");
-					return redirect(controllers.routes.BankAccounts.show(ba.id));
+					return redirect(controllers.routes.BankAccounts.index());
 				}
 
 				@Override
