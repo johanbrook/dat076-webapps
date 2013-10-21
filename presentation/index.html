@@ -211,7 +211,7 @@
 
 Invoice invoiceWithId = Invoice.find.byId(2);
 
-Invoice invoice = Invoice.find.where().eq("title", "Test");</code></pre>
+Invoice invoice = Invoice.find.where().eq("title", "Test").findUnique();</code></pre>
 			</div>
 			</section>
 			<section>
@@ -398,7 +398,7 @@ GET   /invoices/:id  controllers.Invoices.show(id: Long)</code></pre>
 			Use respondTo to decide response from controller action:</div>
 			<div>
 			<pre><code>protected static Result respondTo(Responder respond) {</code><code>  String types = request().acceptedTypes().toString();</code><code>  if(types.indexOf("application/json") != -1){</code><code>	return respond.json();
-			  }&nbsp;</code><code>  else if(types.indexOf("text/script") != -1 || types.indexOf("application/javascript") != -1) {</code><code>    <span>return respond.script();</span></code><code>  } else {</code><code>    return respond.html();<br></code><code>  }</code><code>}</code></pre>
+			  }&nbsp;</code><code>  else if(types.indexOf("text/script") != -1 || types.indexOf("application/javascript") != -1) {</code><code>    return respond.script();</span></code><code>  } else {</code><code>    return respond.html();</code><code>  }</code><code>}</code></pre>
 			</div>
 			</section>
 			<section>
