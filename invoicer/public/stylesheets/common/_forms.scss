@@ -45,7 +45,8 @@ label {
 
 .create-form {
 	#title,
-	#invoice-total {
+	#invoice-total,
+	.full {
 		width: 100%;
 		font-size: 1.2em;
 	}
@@ -53,7 +54,8 @@ label {
 	.dates {
 		border-spacing: 2px;
 	}
-	.dates > p {
+	.dates > p,
+	.split > p {
 		width: 50%;
 
 		input {
