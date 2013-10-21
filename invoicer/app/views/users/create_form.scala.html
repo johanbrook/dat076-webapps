@@ -27,7 +27,7 @@
 
 	    <p>
 	    	<label for="username">Username<span class="negative"> *</span></label>
-	    	<input required type="text" name="username" placeholder="Username" class="full"><span class="negative">
+	    	<input required type="text" name="username" placeholder="Username" value="@signupForm.field("username").value()" class="full"><span class="negative">
 	    	@if(signupForm.error("username") != null) {
 				@Messages( signupForm.error("username").message() )
 			}</span>
@@ -54,21 +54,21 @@
 	    
 	    <p>
 	    	<label for="name">Name</label>
-	    	<input type="text" name="name" class="full" placeholder="ex. Johnny Dough">
+	    	<input type="text" name="name" class="full" placeholder="ex. Johnny Dough" value="@signupForm.field("name").value()">
 	    </p>
 
 	    <p>
 	    	<label for="address">Address</label>
-	    	<textarea rows="2" name="address" class="full" placeholder="ex. Dough Road 14"></textarea>
+	    	<textarea rows="2" name="address" class="full" placeholder="ex. Dough Road 14">@signupForm.field("address").value()</textarea>
 	    </p>
 		
 	    <p>
 	    	<label for="postalCode">Postal Code</label>
-	    	<input type="text" name="postalCode" class="full" placeholder="ex. 12345-6789">
+	    	<input type="text" name="postalCode" class="full" placeholder="ex. 12345-6789" value="@signupForm.field("postalCode").value()">
 	    </p>
 		    <p>
 		    	<label for="organizationNumber">Organization Number</label>
-		    	<input type="text" name="organizationNumber" class="full" placeholder="ex. 123456-1234">
+		    	<input type="text" name="organizationNumber" class="full" placeholder="ex. 123456-1234" value="@signupForm.field("organizationNumber").value()">
 		    	<span class="negative">
 		        	@if(signupForm.error("organizationNumber") != null) {
 						@Messages( signupForm.error("organizationNumber").message(), signupForm.error("organizationNumber").arguments() )
@@ -81,7 +81,11 @@
 		    <select name="country">
 		    	<option value="default">Select a country</option>
 				@for(country <- User.getCountries()) {
-					<option value="@country">@country</option>	
+					@if(signupForm.field("country").value() == country){
+						<option value="@country" selected="selected">@country</option>
+					} else {
+						<option value="@country">@country</option>
+					}
 				}
 			</select>
 		</p>
