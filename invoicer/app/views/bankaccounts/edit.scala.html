@@ -4,7 +4,8 @@
 @main("Edit bank account") {
 	<h1>Editing <small>@bankAccount.toString() (@bankAccount.bank)</small></h1>
 	<p class="back">
-		<a href="@routes.BankAccounts.show(bankAccount.id)">← Back to account</a>
+		<a href="@routes.BankAccounts.show(bankAccount.id)">← Back to account</a> ·
+		<a href="@routes.BankAccounts.index()">View all accounts</a>
 	</p>
 
 	@if(editForm.hasErrors()){
