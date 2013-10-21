@@ -34,9 +34,9 @@ public class FileHandler<T> {
 	/**
 	 * Uploads and converts the file in request to the specified model
 	 * @param request The request containing the file
-	 * @param clazz
+	 * @param clazz The class to convert the JSON file to
 	 * @return The converted object
-	 * @throws FileUploadException
+	 * @throws FileUploadException If upload fails
 	 */
 	public static <T> T uploadModel(Request request, Class<T> clazz) throws FileUploadException {
 		
