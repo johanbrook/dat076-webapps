@@ -5,7 +5,8 @@
 	<h1>Editing client <small>@client.name</small></h1>
 
 	<p class="back">
-		<a href="@routes.Clients.show(client.id)">← Back to client</a>
+		<a href="@routes.Clients.show(client.id)">← Back to client</a> ·
+		<a href="@routes.Clients.index()">View all clients</a>
 	</p>
 	
 	@if(editForm.hasErrors()){
