@@ -1,0 +1,14 @@
+@main("Add account from JSON") {
+	
+	<p class="back back-accounts">
+		<a href="@routes.BankAccounts.index()">← All accounts</a>
+	</p>
+
+	<h2>Upload bank account file</h2>
+
+	@upload_form("Upload Account")(routes.BankAccounts.upload)
+
+	<p class="right">
+		or <a href="@routes.BankAccounts.newAccount()">Upload from scratch</a> instead.
+	</p>
+}
