@@ -56,18 +56,23 @@ public class BankAccount extends AbstractModel {
 	}
 
 	public enum AccountType{
-		PG("PG"),
-		BG("BG"),
-		BUSINESSACCOUNT("Business Account");
+		PG("PG", "XXXX-XXXX"),
+		BG("BG", "XXXXXX-X"),
+		BUSINESSACCOUNT("Business Account", "XXXX-X XXXXXXXX-X");
 		
 		private String name;
+		private String format;
 		
-		AccountType(String name){
+		AccountType(String name, String format){
 			this.name = name;
+			this.format = format;
 		}
 		
 		public String getName(){
 			return name;
+		}
+		public String getFormat(){
+			return format;
 		}
 		
 	}
