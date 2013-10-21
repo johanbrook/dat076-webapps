@@ -754,6 +754,36 @@ textarea:focus {
   border-color: #bbb;
   color: #4a4f52;
 }
+input[type="text"][disabled], input[type="text"][readonly],
+input[type="email"][disabled],
+input[type="email"][readonly],
+input[type="password"][disabled],
+input[type="password"][readonly],
+input[type="url"][disabled],
+input[type="url"][readonly],
+input[type="number"][disabled],
+input[type="number"][readonly],
+input[type="date"][disabled],
+input[type="date"][readonly],
+textarea[disabled],
+textarea[readonly] {
+  background-color: #f7f7f7;
+}
+input[type="text"][disabled]:focus, input[type="text"][readonly]:focus,
+input[type="email"][disabled]:focus,
+input[type="email"][readonly]:focus,
+input[type="password"][disabled]:focus,
+input[type="password"][readonly]:focus,
+input[type="url"][disabled]:focus,
+input[type="url"][readonly]:focus,
+input[type="number"][disabled]:focus,
+input[type="number"][readonly]:focus,
+input[type="date"][disabled]:focus,
+input[type="date"][readonly]:focus,
+textarea[disabled]:focus,
+textarea[readonly]:focus {
+  border-color: #ddd;
+}
 
 label {
   font-size: 0.8125em;
