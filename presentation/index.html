@@ -623,11 +623,11 @@ GET   /invoices/:id  controllers.Invoices.show(id: Long)</code></pre>
 			<section>
 			    <h2>Authentication<br>by action composition</h2>
 			    Annotate sensitive actions:
-			<pre style="font-size:24px"><code>@Security.Authenticated(Secured.class)
+			<pre style="font-size:20px"><code>@Security.Authenticated(Secured.class)
 public static Result index() {
     // ...</code></pre>
     			Block unauthorized calls:
-    			<pre style="font-size:24px"><code>public class Secured
+    			<pre style="font-size:20px"><code>public class Secured
 	extends Authenticator {
     
 	@Override
@@ -638,6 +638,7 @@ public static Result index() {
 	public Result onUnauthorized(Context ctx) {
 	    // ...
 	</code></pre>
+			Hashing passwords with jBCrypt
 			</section>
 			<section>
 			    <h2>
