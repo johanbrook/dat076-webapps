@@ -72,6 +72,9 @@ public class Invoices extends Application {
 	}
 	
 	
+	/**
+	*	GET /invoices
+	*/
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
 

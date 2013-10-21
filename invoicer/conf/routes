@@ -49,6 +49,8 @@ PUT		/invoices/:id/star		controllers.Invoices.toggleStarred(id: Long)
 
 GET     /accounts      			controllers.BankAccounts.index()
 POST    /accounts      			controllers.BankAccounts.create()
+GET 		/accounts/new 			controllers.BankAccounts.newAccount()
+GET 		/accounts/import 		controllers.BankAccounts.newFromImport()
 GET     /accounts/:id      		controllers.BankAccounts.show(id: Long)
 PUT    /accounts/$id<[0-9]+>	controllers.BankAccounts.update(id: Long)
 POST    /accounts/upload        controllers.BankAccounts.upload()

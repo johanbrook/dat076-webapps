@@ -1,7 +1,7 @@
 @(bankAccounts: List[BankAccount], addForm: Form[BankAccount])
 @import helper._
 
-@main("BankAccounts") {
+@main("Bank Accounts") {
 	
 	<div class="form-container" @if(!addForm.hasErrors()) {hidden}>
 		@create_form(addForm)
@@ -9,7 +9,7 @@
 
 	<header>
 		<h2 class="alignleft">Bank Accounts <span class="bubble">@bankAccounts.size()</span></h2>
-		<a class="alignright btn" href="#" id="add-bankaccount-btn">Add Account</a>
+		<a class="alignright btn" href="#add-account-modal" data-toggle="modal" id="add-bankaccount-btn">Add Account</a>
 		<br class="clear" />
 	</header>	
 

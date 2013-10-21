@@ -16,7 +16,7 @@
 </ul>
 }
 
-<form action="@routes.BankAccounts.create()" class="create-form" method="post" data-remote="true">
+<form action="@routes.BankAccounts.create()" class="create-form" method="post">
 
 	<div class="table">
 		<p>
@@ -54,7 +54,3 @@
 		<input type="submit" value="Add bank account" />
 	</p>
 </form>
-
-@upload_form("Upload BankAccount")(routes.BankAccounts.upload)
-
-<p class="center"><small>or <a href="#" class="btn-cancel close">Cancel</a></small></p>
