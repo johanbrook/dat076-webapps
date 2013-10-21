@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import play.Logger;
 import play.data.Form;
 import play.libs.Json;
@@ -65,35 +67,54 @@ public class BankAccounts extends Application {
 	@Security.Authenticated(Secured.class)
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
-		final BankAccount ba = filledForm.get();
 
-		if (filledForm.hasErrors() || !validate(ba.accountType, ba.accountNumber)) {
-
-			flash("error", "There were errors in your form.");
-			return badRequest(index.render(BankAccount.find.all(), filledForm));
-
-		} else {
-
-			ba.owner = Session.getCurrentUser();
-			ba.save();
-
+		if (filledForm.hasErrors()|| !validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
+			
 			return respondTo(new Responder() {
-
 				@Override
 				public Result json() {
-					setLocationHeader(ba);
-					return created(Json.toJson(ba));
+					System.out.println("JSON");
+					return badRequest();
 				}
 
 				@Override
 				public Result html() {
-					flash("success", "Bank account was created!");
-					return goHome();
+					flash("fail", "There were errors in your form.");
+					return badRequest(views.html.bankaccounts.new_account.render(filledForm));
 				}
 
 				@Override
 				public Result script() {
-					return created(views.js.bankaccounts.create.render(ba));
+					return badRequest();
+				}
+			});
+		} else {
+			final BankAccount ba = filledForm.get();
+			ba.owner = Session.getCurrentUser();
+			try {
+				ba.save();
+			}
+			catch(PersistenceException ex) {
+				flash("fail", "Error saving bank account. Perhaps duplicate of existing?");
+				return ok(create_form.render(filledForm));
+			}
+
+			return respondTo(new Responder() {
+				@Override
+				public Result json() {
+					setLocationHeader(ba);
+					return ok(Json.toJson(ba));
+				}
+
+				@Override
+				public Result html() {
+					flash("success", "Bank account " + ba.accountNumber + " was added!");
+					return redirect(controllers.routes.BankAccounts.show(ba.id));
+				}
+
+				@Override
+				public Result script() {
+					return ok(views.js.bankaccounts.create.render(ba, filledForm, true));
 				}
 			});
 		}
