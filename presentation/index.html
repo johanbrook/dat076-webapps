@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Invoicer Presentation</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="core/css/reveal.min.css">
+		<link rel="stylesheet" href="core/css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="core/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="core/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="core/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+			    <section>
+			        <h1>
+			            <br>
+			        </h1>
+			<h1>Invoicer</h1>
+			<div>Web Applications (DAT076)</div>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>"Because everybody likes sending invoices"</div>
+			</section>
+			<section>
+			    <h2>
+			        <br>
+			    </h2>
+			<h2>What?</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<span style="text-align: left;">A CRUD app for managing invoices and clients</span>
+			<br>
+			<span style="text-align: left;">
+			    <br>
+			    </span>
+			</div>
+			<div>
+			<span style="text-align: left;">Keep track of paid and overdue invoices</span>
+			    <br>
+			    <span style="text-align: left;">
+			        <br>
+			    </span>
+			</div>
+			<div>
+			    <span style="text-align: left;">Send invoices via e-mail to clients</span>
+			</div>
+			<div>
+			<div style="text-align: left;">
+			<br>
+			</div>
+			<span style="text-align: left;">Get instantly notified when an invoice was paid</span>
+			<br>
+			</div>
+			</section>
+			<section>
+			    <h2>
+			        <br>
+			    </h2>
+			<h2>Technical features</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<ul>
+			<li>Built with Play framework</li>
+			<li>RESTful</li>
+			<li>Authentication</li>
+			<li>JSON API</li>
+			<li>Unobstrusive Javascript XHR adapter</li>
+			<li>Companion "client interface" JSF based app</li>
+			<li>Server-Sent Events</li>
+			</ul>
+			</div>
+			</section>
+			<section data-background-color="rgba( 22, 152, 213, 0.6 )">
+			<h1>
+			<span style="font-weight: normal;">
+			    <i>Demo!</i>
+			</span>
+			</h1>
+			</section>
+			<section>
+			    <h2>Play framework</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<img src="http://www.playframework.com/assets/images/logos/normal.png" style="width: 329.99860413295784px; height: 108.95495475214655px; max-height: none; max-width: none;">
+			<br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<u>playframework.com</u>
+			<br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<span style="font-size: 29.634899139404297px; font-style: normal; font-variant: normal;">MVC</span>
+			</div>
+			<div>
+			<span style="font-size: 29.634899139404297px; font-style: normal; font-variant: normal;">Templating</span>
+			<br>
+			</div>
+			<div>Intuitive HTTP routing</div>
+			<div>Real-time compatible</div>
+			<div>... much more</div>
+			</section>
+			<section data-background-color="rgba( 255, 255, 255, 0.9 )">
+			    <h2>
+			        <font color="#000000">A request life cycle</font>
+			    </h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/122114/App_Diagram.png">
+			    <br>
+			</div>
+			</section>
+			    <section>
+			        <section>
+			            <h2>The Model</h2>
+			<div>
+			            <br>
+			        </div>
+			<div>
+			<ul>
+			<li>Invoice</li>
+			<li>Client</li>
+			<li>Bank Account</li>
+			<li>User</li>
+			</ul>
+			<div style="text-align: center;">
+			        <br>
+			    </div>
+			<div style="text-align: center;">
+			    <br>
+			</div>
+			<div style="text-align: center;">Ebean ORM for persistence</div>
+			<div style="text-align: center;">
+			<br>
+			</div>
+			<div style="text-align: center;">Quite simple and straight-forward, to be honest :)</div>
+			<div style="text-align: left;">
+			</div>
+			</div>
+			</section>
+			<section>
+			    <h2>
+			        <br>
+			    </h2>
+			<h2>Querying</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<pre><code><font style="font-size: 24px;">List&lt;Invoice&gt; invoices = Invoice.find.all();</font></code><code><span style="font-size: 23.70792007446289px;"><br></span></code><code><span style="font-size: 23.70792007446289px;">Invoice invoiceWithId = Invoice.find.byId(2);</span></code><code><span style="font-size: 23.70792007446289px;"><br></span></code><code><span style="font-size: 23.70792007446289px;">Invoice invoice = Invoice.find.where().eq("title", "Test");</span></code></pre>
+			</div>
+			</section>
+			<section>
+			    <h2>
+			    <br>
+			</h2>
+			<h2>Persistence</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<pre><code><font style="font-size: 24px;">Invoice invoice = Invoice.find.all().get(0);</font></code><code><font style="font-size: 24px;"><br></font></code><code><span style="font-size: 23.70792007446289px;">invoice.client = new Client("Johan", "900720-1919");</span></code><code><span style="font-size: 23.70792007446289px;">invoice.save();</span></code></pre>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			        <h2>Controllers</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>The glue between the HTTP request and the model and the views</div>
+			<div>
+			    <br>
+			</div>
+			<div>Usually contains ordinary CRUD operations</div>
+			<div>
+			<br>
+			</div>
+			<div>RESTful:</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<ul>
+			<li>index</li>
+			<li>show</li>
+			<li>new</li>
+			<li>create</li>
+			<li>update</li>
+			<li>delete</li>
+			</ul>
+			</div>
+			</section>
+			<section>
+			<h2>A typical controller</h2>
+			<div>
+			    <br>
+			</div>
+			<div>The index action:</div>
+			<div>
+			<pre><code><font style="font-size: 24px;">public class Invoices extends Application {
+			 &nbsp;</font></code><code><font style="font-size: 24px;">  public static Result index() {</font></code><code><font style="font-size: 24px;">    return ok(Invoice.find.all());  </font></code><code><font style="font-size: 24px;">  }</font></code><code><font style="font-size: 24px;">}</font></code></pre>
+			</div>
+
+			<br>
+			<div>More advanced with content negotiation,</div>
+			<div>form handling, and file uploading.</div>
+			</section>
+			<section>
+			<h2>The HTTP router</h2>
+			<div>
+			    <br>
+			</div>
+			<div>Routes HTTP methods and URLs to suitable controller action</div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<pre><code><font style="font-size: 24px;">METHOD   &lt;URL&gt;    controllers.Controller.action()</font></code></pre>
+			</div>
+			<div>
+			    <br>
+			</div>
+			<div>Real:</div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<pre><code><font style="font-size: 18px;"><font>GET		/invoices </font>controllers.Invoices.index()</font></code><code><font style="font-size: 18px;">POST	/invoices		  controllers.Invoices.create()<br></font></code><code><font><font style="font-size: 18px;">GET		/invoices/:id	  controllers.Invoices.show(id: Long)</font><span style="font-size: 23.70792007446289px;"><br></span></font></code></pre>
+			<div>
+			<br>
+			</div>
+
+			    Clean, centralized and intuitive mapping</div>
+
+			</section>
+			</section>
+			<section>
+			    <section>
+			        <h2>The Views</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>Views are separate from the model and controller</div>
+			<div>
+			<br>
+			</div>
+			<div>May be HTML, JSON or even Javascript</div>
+			<div>
+			<br>
+			</div>
+			<div>Rendered using Scala as template language</div>
+			<div>
+			<br>
+			</div>
+			<div>Organized in packages according to their controller,</div>
+			<div>and named after their controller action</div>
+			</section>
+			<section>
+			    <h2>Example index view</h2>
+			<div>
+			    <br>
+			</div>
+			<div>Controller action (Invoices#index):</div>
+			<div>
+			<pre><code>public static Result index() {</code><code>  return ok(index.render( Invoice.find.all() ));</code><code>}</code></pre>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>View (invoices/index.scala.html):</div>
+			<div>
+			<pre><code>@(invoices : List[Invoice])     // Notice the type safety</code><code><br></code><code>&lt;h1&gt;Invoices&lt;/h1&gt;</code><code>@if( !invoices.isEmpty() ) {</code><code>&lt;ul&gt;</code><code>  @for(invoice &lt;- invoices) {</code><code>    &lt;li&gt;@invoice.title, @invoice.client.name&lt;/li&gt;</code><code>  }</code><code>&lt;/ul&gt;</code><code>}</code></pre>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			        <h2>
+			            <br>
+			        </h2>
+			<h2>Content negotiation</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			    <br>
+			</div>
+			<div>Serve different content types depending on request header</div>
+			<div>
+			<br>
+			</div>
+			<div>Not built-in into Play, had to roll our own</div>
+			<div>
+			<br>
+			</div>
+			<div>Came up with a "Responder" pattern</div>
+			</section>
+			<section>
+			<h2>Responder pattern</h2>
+			<div>
+			    <br>
+			</div>
+			<div style="text-align: left; ">Supported types specified in interface:</div>
+			<div>
+			<pre><code>public interface Responder {</code><code>		public Result html();
+
+					public Result json();
+
+					public Result script();
+			}</code></pre>
+
+			Use respondTo to decide response from controller action:</div>
+			<div>
+			<pre><code>protected static Result respondTo(Responder respond) {</code><code>  String types = request().acceptedTypes().toString();</code><code>  if(types.indexOf("application/json") != -1){</code><code>	return respond.json();
+			  }&nbsp;</code><code>  else if(types.indexOf("text/script") != -1 || types.indexOf("application/javascript") != -1) {</code><code>    <span>return respond.script();</span></code><code>  } else {</code><code>    return respond.html();<br></code><code>  }</code><code>}</code></pre>
+			</div>
+			</section>
+			<section>
+			    <h2>Controller response</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<pre><code>public static Result index() {</code><code>  return respondTo(new Responder() {</code><code>    @Override</code><code>    public Result json() {</code><code>      return ok(Json.toJson(Invoice.find.all()));</code><code>    }</code><code>    @Override</code><code>    public Result html() {</code><code>      return ok(index.render( Invoice.find.all() ));</code><code>    }</code><code>    @Override</code><code>    public Result script() {</code><code>      return ok(views.js.invoices.index.render( Invoice.find.all() ));</code><code>    }</code><code>  }</code><code>}</code></pre>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			        <h2>The Javascript XHR adapter</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>When talking with XHR to the server, a client-side middle-layer<br>
+			</div>
+			<div>is usually built.</div>
+			<div>
+			    <br>
+			</div>
+			<div>Needs maintenance to keep in sync with server API.</div>
+			<div>
+			<br>
+			</div>
+			<div>Instead we used a concept where an adapter will</div>
+			<div>catch events and call a specified server endpoint</div>
+			<div>over XHR with a request type.</div>
+			<div>
+			<br>
+			</div>
+			<div>Unobstrusive, "just works"</div>
+			</section>
+			<section>
+			    <h2>How to use</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			    <br>
+			</div>
+			<div>Use regular link elements with a data-remote="true" attribute:</div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<pre><code> &lt;a href="&lt;URL&gt;" data-remote="true" data-method="&lt;METHOD&gt;"&gt;Example&lt;/a&gt;</code></pre>
+			<div>
+			<br>
+			</div>
+			<div>
+			    <span>
+			        <br>
+			</span>
+			</div>
+			<div>
+			    <span>Possible to specify:</span>
+			</div>
+			</div>
+			<div>
+			    <ul>
+			<li>HTTP method: GET | POST | PUT | DELETE</li>
+			        <li>Request type: script | JSON</li>
+			    </ul>
+			<div style="text-align: left;">
+			        <br>
+			</div>
+			</div>
+			<div style="text-align: left;">
+			    <br>
+			</div>
+
+			</section>
+			<section>
+			    <h2>Sample use: Delete an invoice</h2>
+			<div>
+			    <br>
+			</div>
+			<div>Markup:</div>
+			<div>
+			    <font style="font-size: 18px;">
+			    <span style="color: rgb(220, 220, 220); font-family: monospace; font-style: normal; font-variant: normal; text-align: left; white-space: pre-wrap; background-color: rgb(63, 63, 63);"> &lt;a href="/invoices/10" data-remote="true" data-method="delete"&gt;Delete invoice&lt;/a&gt;</span>
+			</font>
+			</div>
+
+			<div>
+			    <br>
+			</div>
+			<div>Controller action:</div>
+			<div>
+			<pre><code>public static Result destroy(Long id) {</code><code>  final Invoice invoice = Invoice.find.byId(id);</code><code>  if(invoice != null) {</code><code>    invoice.delete();</code><code>    return respondTo(new Responder() {</code><code>      // ...</code><code>      @Override</code><code>      public Result script() {</code><code>        return ok(views.js.invoices.destroy.render(invoice));</code><code>      }</code><code>    }</code><code>  }</code><code>}</code></pre>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			        <h2>
+			<span style="font-size: 53.805px; font-weight: bold;">Cont. Javascript responses</span>
+			        <br>
+			</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			    <br>
+			</div>
+			<div>Don't just render HTML and JSON: Javascript is available as well</div>
+			<div>
+			<br>
+			</div>
+			<div>Possible to inject server code into Javascript files</div>
+			<div>
+			<br>
+			</div>
+			<div>Re-use server templates and inject in front-end: no need</div>
+			<div>for client-side rendering</div>
+			</section>
+			<section>
+			<h2>Cont. Sample use from last slides</h2>
+			<div>
+			    <br>
+			</div>
+			<div>In controller action:</div>
+			<div>
+			<pre><code>// ...</code><code>@Override</code><code>public Result script() {</code><code>  <span>return ok(views.js.invoices.destroy.render(invoice));</span></code><code>}</code></pre>
+			</div>
+
+			<div>
+			    In JS template:</div>
+			<div>
+			<pre><code>@(invoice : Invoice)</code><code><br></code><code>$("#invoice-@invoice.id").remove();<br></code><code><br></code><code>Util.showNotice("The invoice was removed forever and ever");<br></code></pre>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			        <h2>Real-time updates with<br>Server-Sent Events</h2>
+			<div>
+			        <br>
+			        </div>
+			<div>Wikipedia:</div>
+			<div>
+			<i>”Server-sent events is a technology for where a browser gets automatic updates from a server via HTTP connection”</i>
+			        <br>
+			</div>
+			<div>
+			        <i>
+			        <br>
+			    </i>
+			</div>
+			<div>In Javascript, listen to a server endpoint for messages.</div>
+			<div>
+			<br>
+			</div>
+			<div>On the server, push messages with an <i>Actor</i>&nbsp;on certain events</div>
+			<div>
+			<br>
+			</div>
+			<div>
+			<div style="font-size: 29.634899139404297px; font-style: normal; font-variant: normal;">Using&nbsp;<i>Akka</i>&nbsp;(<u>http://akka.io</u>) actors</div>
+			</div>
+			</section>
+			<section>
+			    <h2>Our use case:<br>Get notified on paid invoices</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<b>
+			<br>
+			</b>
+			</div>
+			<div>
+			<b>Idea:</b>
+			<br>When a request is made to an invoice endpoint, push it to listening browsers and update UI.</div>
+			<div>
+			<br>
+			</div>
+			<div>Use EventSource JS API on client-side in main app</div>
+			<div>
+			<br>
+			</div>
+			<div>Send JSON serialized Invoice as data in the stream</div>
+			</section>
+			<section>
+			    <h2>Client-side use</h2>
+			<div>
+			    <br>
+			</div>
+			<div>Data from "e.data" below:</div>
+			<div>
+			<pre><code><span style="font-family: monospace;">data: {"id": 1, "title": "Test invoice", ... }</span><br></code></pre>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>Javascript:</div>
+			<div>
+			<pre><code>if (!!window.EventSource) {</code><code>  var source = new EventSource("@routes.Events.getPaid()");</code><code><br></code><code>  source.addEventListener('message', function(e) {</code><code>    var json = JSON.parse(e.data);</code><code>    Util.showSuccess("Invoice paid: " + json.title);</code><code>    $(".invoice-list").find("#invoice-"+json.id).addClass("invoice-paid");<br></code><code>  }</code><code>}</code></pre>
+			</div>
+
+			<div>
+			    That's all there is!</div>
+			</section>
+			<section>
+			    <h2>The imaginary "client interface"</h2>
+			</section>
+			</section>
+			<section>
+			    <h2>Imports with file uploading</h2>
+			</section>
+			<section>
+			    <h2>
+			<span style="font-size: 53.805px; font-weight: bold;">Mailing and Dependency Injection</span>
+			    <br>
+			</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			<br>
+			</div>
+			<div>The app can send e-mails to clients with<br>whole invoices or reminders.</div>
+			<div>
+			<br>
+			</div>
+			<div>We're using Google's open Gmail SMTP servers.</div>
+			<div>
+			<br>
+			</div>
+			<div>The mailers are injected in the controllers<br>with Dependency Injection, using<br>Google's Guice DI framework.</div>
+			</section>
+			<section>
+			<h2>
+			<i>Questions?</i>
+			</h2>
+			</section>
+			<section>
+			<h2>Thank you!</h2>
+			</section>
+			</div>
+
+		</div>
+
+		<script src="core/lib/js/head.min.js"></script>
+		<script src="core/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'core/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'core/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'core/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'core/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'core/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'core/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

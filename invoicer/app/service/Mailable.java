@@ -13,5 +13,8 @@ package service;
 
 public interface Mailable {
 	
+	/**
+	 * The receiving address.
+	 */
 	public String getReceiverAddress();
 }

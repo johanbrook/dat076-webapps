@@ -1,6 +1,8 @@
 /**
 *	Events.java
 *
+* Controller for streaming events
+*
 *	@author Johan Brook
 *	@copyright (c) 2013 Johan Brook
 *	@license MIT
@@ -16,9 +18,6 @@ import java.util.*;
 import models.Invoice;
 import com.fasterxml.jackson.databind.JsonNode;
 
-/**
- * Responsible for streaming events.
- */
 public class Events extends Controller {
 
 	public final static ActorRef actorInstance = InvoiceActor.instance;
