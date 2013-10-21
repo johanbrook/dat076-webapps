@@ -527,26 +527,7 @@ public class Invoices extends Application {
 		
 		// Catch any errors with file upload
 		} catch (final FileUploadException e) {
-		
-			return respondTo(new Responder() {
-	
-				@Override
-				public Result json() {
-					return badRequest();
-				}
-	
-				@Override
-				public Result html() {
-					Logger.info("Upload error: " + e.getMessage());
-					flash("fail", e.getMessage());
-					return redirect(controllers.routes.Invoices.newFromImport());
-				}
-	
-				@Override
-				public Result script() {
-					return badRequest();
-				}
-			});
+			return uploadError(e.getMessage());
 		}
 		
 		/*
@@ -561,12 +542,20 @@ public class Invoices extends Application {
 			in.bankAccount = dbBankAccount;
 		}
 		
+		else {
+			return uploadError("Bank account with account number " + in.bankAccount.accountNumber + " doesn't exist!");
+		}
+		
 		// Replace client if identical found in DB (persistance error otherwise)
 		Client dbClient = Client.find.where()
 				.eq("orgNumber", in.client.orgNumber).findUnique();
 		
 		if(dbClient != null) {
 			in.client = dbClient;
+		}
+		
+		else {
+			return uploadError("Client with organization number " + in.client.orgNumber + " doesn't exist!");
 		}
 		
 		in.save();
@@ -591,5 +580,30 @@ public class Invoices extends Application {
 			}
 		});
 		
+	}
+		
+	private static Result uploadError(final String message) {
+		
+		Logger.info("Upload error: " + message);
+		
+		return respondTo(new Responder() {
+
+			@Override
+			public Result json() {
+				return badRequest();
+			}
+
+			@Override
+			public Result html() {
+				
+				flash("fail", message);
+				return redirect(controllers.routes.Invoices.newFromImport());
+			}
+
+			@Override
+			public Result script() {
+				return badRequest();
+			}
+		});
 	}
 }
