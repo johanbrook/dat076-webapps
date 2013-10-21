@@ -20,8 +20,8 @@
 
 	<div class="table">
 		<p>
-			<label for="account-number">Account number</label>
-			<input type="text" id="account-number" name="accountNumber" />
+			<label for="acc-nr">Account number</label>
+			<input type="text" id="acc-nr" name="accountNumber" />
 		</p>
 
 		<p>
@@ -42,10 +42,10 @@
 	</div>
 
 	<p>
-		<label for="account-type-dropdown">Account type</label>
-		<select id="account-type-dropdown" name="accountType">
+		<label for="acc-type">Account type</label>
+		<select id="acc-type" name="accountType">
 		@for(accountType <- BankAccount.AccountType.values) {
-		<option value="@accountType.toString()">@accountType.getName()</option>	
+		<option data-format="@accountType.getFormat()" value="@accountType.toString()">@accountType.getName()</option>	
 		}
 		</select>
 	</p>

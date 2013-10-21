@@ -45,7 +45,7 @@
 			<label for="acc-type">Account type</label>
 			<select name="accountType" id="acc-type">
 				@for(t <- BankAccount.AccountType.values) {
-				<option value="@t.toString()" @if(t.toString().equals(bankAccount.accountType.toString())) {selected}>@t.getName()</option>
+				<option data-format="@t.getFormat()" value="@t.toString()" @if(t.toString().equals(bankAccount.accountType.toString())) {selected}>@t.getName()</option>
 				}
 			</select>	
 		</p>

@@ -49,8 +49,9 @@ $(function() {
 	$("#title").on("input", function() {
 		$(".create-form").find("input, select").off("change");
 	});
-
-	updateNewInvoiceTitle();
+	
+	if($("#title").length && $("#invoice-date").length)
+		updateNewInvoiceTitle();
 
 	$(".create-form").find("input:not(#title), select").on("change", updateNewInvoiceTitle);
 
@@ -63,4 +64,9 @@ $(function() {
 		Util[method](self.text());
 		self.hide();
 	}
+	$("#acc-type").on("change", function(){
+		var format = $(this).find(":selected").data("format");
+		$("#acc-nr").attr("placeholder", format);
+		console.log(format);
+	});
 });
