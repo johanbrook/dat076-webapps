@@ -20,7 +20,7 @@ public class BankAccounts extends Application {
 
 	public BankAccounts() {
 	}
-	
+
 	/**
 	 * GET /accounts 
 	 */
@@ -48,7 +48,7 @@ public class BankAccounts extends Application {
 
 		return ok(new_account_upload.render());
 	}
-	
+
 	/**
 	 * GET /accounts/:id 
 	 */
@@ -66,14 +66,14 @@ public class BankAccounts extends Application {
 	public static Result create() {
 		final Form<BankAccount> filledForm = form.bindFromRequest();
 		final BankAccount ba = filledForm.get();
-		
+
 		if (filledForm.hasErrors() || !validate(ba.accountType, ba.accountNumber)) {
 
 			flash("error", "There were errors in your form.");
 			return badRequest(index.render(BankAccount.find.all(), filledForm));
-			
+
 		} else {
-			
+
 			ba.owner = Session.getCurrentUser();
 			ba.save();
 
@@ -90,7 +90,7 @@ public class BankAccounts extends Application {
 					flash("success", "Bank account was created!");
 					return goHome();
 				}
-				
+
 				@Override
 				public Result script() {
 					return created(views.js.bankaccounts.create.render(ba));
@@ -119,8 +119,10 @@ public class BankAccounts extends Application {
 		final BankAccount bankAccount = BankAccount.find.byId(id);
 		final Form<BankAccount> filledForm = form.bindFromRequest();
 
+		// Validates if account type/account number matches in controller because 
+		// annotation values in model can not change during runtime
 		if (filledForm.hasErrors()|| !validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
-		
+
 			return respondTo(new Responder() {
 				@Override
 				public Result json() {
@@ -141,18 +143,12 @@ public class BankAccounts extends Application {
 				}
 			});
 		}
-		
+
 		bankAccount.bank = filledForm.get().bank;
 		bankAccount.iban = filledForm.get().iban;
 		bankAccount.bic = filledForm.get().bic;
-		
-		// Validates in controller because annotation values in model can not change
-		// during runtime
-		if (validate(filledForm.get().accountType, filledForm.get().accountNumber)) {
-			bankAccount.accountNumber = filledForm.get().accountNumber;
-			bankAccount.accountType = filledForm.get().accountType;
-		}
-		
+		bankAccount.accountNumber = filledForm.get().accountNumber;
+		bankAccount.accountType = filledForm.get().accountType;
 
 		bankAccount.update(id);
 
@@ -186,7 +182,7 @@ public class BankAccounts extends Application {
 
 		if (bankAccount != null) {
 			bankAccount.delete();
-			
+
 			return respondTo(new Responder() {
 				@Override
 				public Result json() {
@@ -208,7 +204,7 @@ public class BankAccounts extends Application {
 			return notFound(show.render(bankAccount));
 		}
 	}
-	
+
 	private static List<BankAccount> bankAccountsOfCurrentUser() {
 		return BankAccount.getBankAccountsOfUser(Session.getCurrentUser().id);
 	}
@@ -222,7 +218,7 @@ public class BankAccounts extends Application {
 		switch (accountType) {
 		case PG:
 			if (accountNumber.matches("[0-9]{1,6}-[0-9]{1}")) {
-				
+
 				return true;
 			}
 			break;
@@ -241,7 +237,7 @@ public class BankAccounts extends Application {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * (Action called from POST to bankaccounts/upload)
 	 * 
@@ -251,38 +247,38 @@ public class BankAccounts extends Application {
 	 */
 	@Security.Authenticated(Secured.class)
 	public static Result upload() {
-		
+
 		final BankAccount ba;
-		
+
 		try {
-			
+
 			ba = FileHandler.uploadModel(request(), BankAccount.class);
-		
-		// Catch any errors with file upload
+
+			// Catch any errors with file upload
 		} catch (final FileUploadException e) {
-			
+
 			return uploadError(e.getMessage());
 		}
-		
+
 		BankAccount dbBankAccount = BankAccount.find.where()
 				.eq("accountNumber", ba.accountNumber).findUnique();
-		
-		
+
+
 		if(dbBankAccount != null) {
-			
+
 			return uploadError("Bank account with that account number already exist!");
 		}
-		
+
 		else if(!validate(ba.accountType, ba.accountNumber)) {
 			return uploadError("The account number does not match the account type!");
 		}
-		
+
 		ba.id = null;
 		ba.owner = Session.getCurrentUser();
-		
+
 		ba.save();
-			
-		
+
+
 		return respondTo(new Responder() {
 
 			@Override
@@ -302,14 +298,14 @@ public class BankAccounts extends Application {
 				return badRequest();
 			}
 		});
-		
-		
+
+
 	}
-	
+
 	private static Result uploadError(final String message) {
-		
+
 		return respondTo(new Responder() {
-			
+
 			@Override
 			public Result json() {
 				return badRequest();
@@ -327,7 +323,7 @@ public class BankAccounts extends Application {
 				return badRequest();
 			}
 		});
-		
+
 	}
 
 }
