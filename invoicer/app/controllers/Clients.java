@@ -404,7 +404,7 @@ public class Clients extends Application {
 			public Result html() {
 				Logger.info("Upload error: " + message);
 				flash("fail", message);
-				return goHome();
+				return redirect(routes.Clients.newFromImport());
 			}
 
 			@Override
