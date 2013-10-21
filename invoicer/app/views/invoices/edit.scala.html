@@ -5,7 +5,8 @@
 	<h1>Editing invoice <small>@invoice.title</small></h1>
 
 	<p class="back">
-		<a href="@routes.Invoices.show(invoice.id)">← Back to invoice</a>
+		<a href="@routes.Invoices.show(invoice.id)">← Back to invoice</a> ·
+		<a href="@routes.Invoices.index()">View all invoices</a>
 	</p>
 	
 	@if(editForm.hasErrors()){
