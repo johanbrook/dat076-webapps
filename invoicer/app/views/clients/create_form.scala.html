@@ -20,11 +20,11 @@
 
 	<div class="table">	
 		<p>
-			<label for="title">Name</label>
+			<label for="title">Name<span class="negative">*</span></label>
 			<input type="text" id="name" name="name" required /></p>
 
 		<p>
-			<label for="title">Organization Number</label>
+			<label for="title">Organization Number<span class="negative">*</span></label>
 			<input type="text" id="orgNumber" name="orgNumber" placeholder="XXXXXX-XXXX" pattern="^[0-9]{6}-[0-9]{4}$" required /></p>
 
 	</div>
@@ -50,12 +50,11 @@
 	</div>
 
 	<p>
-		<label for="client-country">Country</label>
-		 <select id="client-country" name="country">
-	            	<option value="default">Select a country</option>
-					@for(country <- User.getCountries()) {
-						<option value="@country">@country</option>	
-					}
+		 <select name="country">
+		    	<option value="">Select a country</option>
+				@for(country <- User.getCountries()) {
+					<option value="@country">@country</option>	
+				}
 			</select>
 	</p>
 	

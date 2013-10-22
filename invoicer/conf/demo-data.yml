@@ -1,0 +1,26 @@
+# Users
+
+- &henke !!models.User
+  username: henke
+  password: secret
+
+- &johan !!models.User
+  username: johan
+  password: secret
+
+- &robin !!models.User
+  username: robin
+  password: secret
+
+- &rolen !!models.User
+  username: rolen
+  password: secret
+
+# Clients
+
+# BankAccounts
+
+
+# Invoices
+
+

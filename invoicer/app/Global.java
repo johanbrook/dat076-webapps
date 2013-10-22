@@ -46,7 +46,7 @@ public class Global extends GlobalSettings {
 		injector = Guice.createInjector();
 		
 		if(Invoice.find.findRowCount() == 0) {
-			Ebean.save((List) Yaml.load("initial-data.yml"));
+			Ebean.save((List) Yaml.load("demo-data.yml"));
 			
 			// TODO: Input hashed passwords directly in yaml file?
 			List<User> users = User.find.all();
