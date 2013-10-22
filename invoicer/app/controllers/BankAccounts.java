@@ -311,7 +311,7 @@ public class BankAccounts extends Application {
 			@Override
 			public Result html() {
 				flash("success", "Bank account '" + ba.accountNumber + "' added!");
-				return goHome();
+				return redirect(controllers.routes.BankAccounts.index());
 			}
 
 			@Override
@@ -336,7 +336,7 @@ public class BankAccounts extends Application {
 			public Result html() {
 				Logger.info("Upload error: " + message);
 				flash("error", message);
-				return goHome();
+				return redirect(routes.BankAccounts.newFromImport());
 			}
 
 			@Override

@@ -4,7 +4,8 @@
 @main("Edit bank account") {
 	<h1>Editing <small>@bankAccount.toString() (@bankAccount.bank)</small></h1>
 	<p class="back">
-		<a href="@routes.BankAccounts.show(bankAccount.id)">← Back to account</a>
+		<a href="@routes.BankAccounts.show(bankAccount.id)">← Back to account</a> ·
+		<a href="@routes.BankAccounts.index()">View all accounts</a>
 	</p>
 
 	@if(editForm.hasErrors()){
@@ -45,7 +46,7 @@
 			<label for="acc-type">Account type</label>
 			<select name="accountType" id="acc-type">
 				@for(t <- BankAccount.AccountType.values) {
-				<option value="@t.toString()" @if(t.toString().equals(bankAccount.accountType.toString())) {selected}>@t.getName()</option>
+				<option data-format="@t.getFormat()" value="@t.toString()" @if(t.toString().equals(bankAccount.accountType.toString())) {selected}>@t.getName()</option>
 				}
 			</select>	
 		</p>

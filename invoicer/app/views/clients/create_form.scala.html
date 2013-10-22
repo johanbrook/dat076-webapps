@@ -21,11 +21,11 @@
 	<div class="table">	
 		<p>
 			<label for="title">Name</label>
-			<input type="text" id="name" name="name" /></p>
+			<input type="text" id="name" name="name" required /></p>
 
 		<p>
 			<label for="title">Organization Number</label>
-			<input type="text" id="orgNumber" name="orgNumber" placeholder="XXXXXX-XXXX" /></p>
+			<input type="text" id="orgNumber" name="orgNumber" placeholder="XXXXXX-XXXX" pattern="^[0-9]{6}-[0-9]{4}$" required /></p>
 
 	</div>
 		
@@ -46,8 +46,7 @@
 			
 		<p>
 			<label for="title">E-Mail</label>
-			<input type="text" id="email" name="email" placeholder="example[at]gmail.com" /></p>
-
+			<input type="email" id="email" name="email" placeholder="example[at]gmail.com" /></p>
 	</div>
 
 	<p>

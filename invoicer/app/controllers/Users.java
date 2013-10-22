@@ -18,6 +18,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import play.data.validation.Constraints.Pattern;
+import play.data.validation.Constraints.Required;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.avaje.ebean.Ebean;
@@ -96,16 +99,26 @@ public class Users extends Application {
 			});
 		}
 		
-		// Form valid, create user
-		final User user = filledForm.get();
+		// Form valid
 		
-		// set country to null if no country was chosen
-		if(filledForm.field("country").value().equals("default")) {
-			user.country = null;
+		// Change values in the map in order to save null values
+		Map<String, String> userMap = filledForm.data();
+		
+		for(String field : userMap.keySet()) {
+			if(userMap.get(field).equals("")) {
+				userMap.put(field, null);
+			}
 		}
 		
-		// Hash the password with jBCrypt and save to database
-		user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+		// Set country to null if no country was chosen
+		if(filledForm.field("country").value().equals("default")) {
+			userMap.put("country", null);
+		}
+		
+		// Hash the password with jBCrypt
+		userMap.put("password", BCrypt.hashpw(userMap.get("password"), BCrypt.gensalt()));
+		
+		final User user = form.bind(userMap).get();
 		user.save();
 		
 		session("userId", String.valueOf(user.id));
@@ -189,8 +202,6 @@ public class Users extends Application {
 		});
 	}
 	
-	
-	// TODO: Use id in action for users or just always use the one stored in session?
 	/**
 	 * (Action called from POST to /user/edit)
 	 * 
@@ -200,6 +211,7 @@ public class Users extends Application {
 	public static Result update() {
 		
 		final Form<UserEditForm> filledForm = Form.form(UserEditForm.class).bindFromRequest();
+
 		Map<String, String> userMap = filledForm.data();
 		
 		// Input needed key-value pair
@@ -224,7 +236,7 @@ public class Users extends Application {
 					filledForm.reject("newRepeatedPassword", "Passwords don't match");
 				}
 		    	
-		    	// Successfull password change
+		    	// Successful password change
 		    	else {
 		    	
 		        	// Insert hashed password key-value pair
@@ -316,10 +328,12 @@ public class Users extends Application {
      * @author Robin
      */
     public static class UserEditForm {
+    	@Required
     	public String username;
     	public String name;
     	public String address;
     	public String postalCode;
+    	@Pattern(value = "^[0-9]{6}-[0-9]{4}$", message = "error.organizationNumberPattern")
     	public String organizationNumber;
     	public String oldPassword;
     	public String newPassword;
