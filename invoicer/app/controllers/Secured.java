@@ -23,17 +23,22 @@ public class Secured extends Authenticator {
 	@Override
     public String getUsername(Context ctx) {
 		
-		try {
-			String username = User.find.byId(
-					Long.parseLong(ctx.session().get("userId"))).username;
 			
-			
-			return username;
-			
-		} catch (NumberFormatException e) {
-			Logger.info("User Id not set or unvalid in session");
-			return null;
-		}
+			try {
+				String username = User.find.byId(Long.parseLong(
+						ctx.session().get("userId"))).username;
+				
+				return username;
+				
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+		
+		
+		Logger.info("User Id not set or unvalid in session");
+		return null;
     }
 	
 	/*
