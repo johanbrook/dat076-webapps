@@ -98,7 +98,7 @@ Tests reside in the `tests` package. Run with:
 
 ### Javascript tests
 
-The JS tests are built with [Mocha](http://visionmedia.github.io/mocha/) and [Chai JS](http://chaijs.com/). Navigate to `http://localhost:9000/assets/javascripts/test/index.html` in your browser to boot up the test runner.
+The JS tests are built with [Mocha](http://mochajs.org/) and [Chai JS](http://chaijs.com/). Navigate to `http://localhost:9000/assets/javascripts/test/index.html` in your browser to boot up the test runner.
 
 ## Dependencies
 
